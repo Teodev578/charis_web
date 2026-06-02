@@ -17,7 +17,7 @@
 /* Thème Sombre (Dark) - L'inversion stricte selon tes codes exacts */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #130717;       /* Le fond sombre du moodboard dark */
+    --bg-color: #161616;       /* Le fond sombre du moodboard dark */
     --bg-surface: #212131;     /* Le bloc de surface gris foncé "Charis Web" */
     --text-main: #F7F5F2;      /* Le texte clair (qui était le fond du light) */
     --text-muted: rgba(247, 245, 242, 0.65);
