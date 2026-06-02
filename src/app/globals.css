@@ -1,8 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
-  --bg-color: #ffffff;
-  --text-main: #000000;
-  --text-muted: #666666;
-  --border-color: #e5e5e5;
+  /* Identité Église (Immuable) */
+  --primary-amber: #FBC906;   /* Couleur primaire */
+  --secondary-purple: #572269; /* Couleur secondaire */
+  --accent-cinnabar: #FE3434;  /* Couleur tertiaire */
+
+  /* Thème Clair (Light) - Tiré exactement de ton moodboard light */
+  --bg-color: #F7F5F2;         
+  --bg-surface: #E1E0E1;       /* Le bloc gris à droite "Charis Web" */
+  --text-main: #130717;        /* Le texte sombre (qui devient le fond du dark) */
+  --text-muted: rgba(19, 7, 23, 0.65);
+  --border-color: rgba(19, 7, 23, 0.15);
+}
+
+/* Thème Sombre (Dark) - L'inversion stricte selon tes codes exacts */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #130717;       /* Le fond sombre du moodboard dark */
+    --bg-surface: #212131;     /* Le bloc de surface gris foncé "Charis Web" */
+    --text-main: #F7F5F2;      /* Le texte clair (qui était le fond du light) */
+    --text-muted: rgba(247, 245, 242, 0.65);
+    --border-color: rgba(247, 245, 242, 0.15);
+  }
 }
 
 * {
@@ -12,84 +32,125 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "DM Sans", sans-serif; /* Ta typo secondaire pour tout le corps */
   background-color: var(--bg-color);
   color: var(--text-main);
   padding: 2rem 4rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Header */
 .header {
+  display: block;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--text-main); /* Ligne forte style affiche suisse */
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  font-size: 0.9rem;
-  font-weight: 600;
 }
 
 .header-nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   color: var(--text-muted);
 }
 
-/* Gros Titre */
+.header-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Gros Titre (Inter Bold) */
 .hero-title {
-  font-size: 11vw;
-  /* S'adapte à la largeur de l'écran */
-  font-weight: 900;
-  letter-spacing: -3px;
-  text-transform: uppercase;
-  margin: 2rem 0;
-  line-height: 1;
+  font-family: "Inter", sans-serif; /* Ta typo primaire */
+  font-size: 10vw;
+  font-weight: 700; /* Bold */
+  letter-spacing: -0.03em; /* Resserrement des lettres typique du style suisse */
+  text-transform: none; /* Respecte la casse "Charis Nation." */
+  margin: 3rem 0;
+  line-height: 0.95;
+  color: var(--text-main);
+}
+
+/* La touche chirurgicale du point rouge */
+.hero-title::after {
+  content: ".";
+  color: var(--accent-cinnabar);
 }
 
 /* Ligne d'un message */
 .message-item {
   display: flex;
   align-items: center;
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   border-bottom: 1px solid var(--border-color);
 }
 
 .message-number {
-  font-weight: bold;
-  width: 50px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  width: 60px;
   font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .message-image {
-  width: 120px;
-  height: 120px;
-  background-color: #f0f0f0;
-  margin-right: 2rem;
+  width: 140px;
+  height: 90px;
+  background-color: var(--bg-surface);
+  margin-right: 2.5rem;
   object-fit: cover;
+  border-radius: 0px; /* Rigueur géométrique sans arrondis */
 }
 
 .message-title {
   flex-grow: 1;
-  font-size: 1.2rem;
-  font-weight: bold;
-  max-width: 400px;
+  font-family: "Inter", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+}
+
+/* Le point rouge automatique après chaque titre de message */
+.message-title::after {
+  content: ".";
+  color: var(--accent-cinnabar);
 }
 
 .message-meta {
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   align-items: center;
 }
 
+/* Bouton d'action structurellement lourd */
 .message-action {
-  font-weight: bold;
-  color: var(--text-main);
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  background-color: var(--primary-amber); /* Utilisation du Bright Amber */
+  color: #130717; /* Assure la lisibilité maximale sur le jaune */
+  padding: 0.75rem 1.5rem;
   text-decoration: none;
   text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .message-action:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  /* Élévation solide via l'ombre sans flou, teintée avec le pourpre de l'église */
+  box-shadow: 4px 4px 0px 0px var(--secondary-purple);
+  transform: translate(-2px, -2px);
 }
