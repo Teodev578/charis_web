@@ -1,27 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
-  /* Identité Église (Immuable) */
-  --primary-amber: #FBC906;   /* Couleur primaire */
-  --secondary-purple: #572269; /* Couleur secondaire */
-  --accent-cinnabar: #FE3434;  /* Couleur tertiaire */
+  /* Theme Colors - Matched to mockup */
+  --bg-color: #F8F7F4;
+  --bg-surface: #EAE8E4;
+  --bg-surface-hover: #E2E0DC;
+  --text-main: #130717;
+  --text-muted: #706E6B;
+  --primary-accent: #130717;
+  --primary-accent-white: #FFFFFF;
+  --border-color: rgba(19, 7, 23, 0.08);
+  --player-bg: #E2E1DF;
+  --heart-active: #FE3434;
 
-  /* Thème Clair (Light) - Tiré exactement de ton moodboard light */
-  --bg-color: #F7F5F2;         
-  --bg-surface: #E1E0E1;       /* Le bloc gris à droite "Charis Web" */
-  --text-main: #130717;        /* Le texte sombre (qui devient le fond du dark) */
-  --text-muted: rgba(19, 7, 23, 0.65);
-  --border-color: rgba(19, 7, 23, 0.15);
+  /* Brand Palette */
+  --brand-purple: #572269;
+  --brand-yellow: #FBC906;
 }
 
-/* Thème Sombre (Dark) - L'inversion stricte selon tes codes exacts */
+/* Optional Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #161616;       /* Le fond sombre du moodboard dark */
-    --bg-surface: #212131;     /* Le bloc de surface gris foncé "Charis Web" */
-    --text-main: #F7F5F2;      /* Le texte clair (qui était le fond du light) */
-    --text-muted: rgba(247, 245, 242, 0.65);
-    --border-color: rgba(247, 245, 242, 0.15);
+    --bg-color: #121212;
+    --bg-surface: #1E1E1F;
+    --bg-surface-hover: #29292A;
+    --text-main: #F8F7F4;
+    --text-muted: #A09E9B;
+    --primary-accent: #F8F7F4;
+    --primary-accent-white: #121212;
+    --border-color: rgba(248, 247, 244, 0.08);
+    --player-bg: #1A1A1B;
   }
 }
 
@@ -29,128 +37,623 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: "DM Sans", sans-serif; /* Ta typo secondaire pour tout le corps */
+  font-family: "Inter", "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  padding: 2rem 4rem;
+  min-height: 100vh;
+  padding-bottom: 90px; /* Space for sticky bottom player */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Header */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem 1rem 2.5rem 1rem;
+  }
+}
+
+/* Typography & General */
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0 1rem 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+h2 .arrow-icon {
+  transition: transform 0.2s ease;
+}
+
+h2:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* --- Header Component --- */
 .header {
-  display: block;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--text-main); /* Ligne forte style affiche suisse */
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
 }
 
-.header-nav {
-  display: flex;
-  gap: 2rem;
-  color: var(--text-muted);
-}
-
-.header-nav a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Gros Titre (Inter Bold) */
-.hero-title {
-  font-family: "Inter", sans-serif; /* Ta typo primaire */
-  font-size: 10vw;
-  font-weight: 700; /* Bold */
-  letter-spacing: -0.03em; /* Resserrement des lettres typique du style suisse */
-  text-transform: none; /* Respecte la casse "Charis Nation." */
-  margin: 3rem 0;
-  line-height: 0.95;
-  color: var(--text-main);
-}
-
-/* La touche chirurgicale du point rouge */
-.hero-title::after {
-  content: ".";
-  color: var(--accent-cinnabar);
-}
-
-/* Ligne d'un message */
-.message-item {
+.profile-section {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border-color);
+  gap: 0.75rem;
 }
 
-.message-number {
-  font-family: "Inter", sans-serif;
-  font-weight: 700;
-  width: 60px;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.message-image {
-  width: 140px;
-  height: 90px;
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background-color: var(--bg-surface);
-  margin-right: 2.5rem;
-  object-fit: cover;
-  border-radius: 0px; /* Rigueur géométrique sans arrondis */
-}
-
-.message-title {
-  flex-grow: 1;
-  font-family: "Inter", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text-main);
-}
-
-/* Le point rouge automatique après chaque titre de message */
-.message-title::after {
-  content: ".";
-  color: var(--accent-cinnabar);
-}
-
-.message-meta {
   display: flex;
-  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  font-size: 1.2rem;
+  border: 1px solid var(--border-color);
+}
+
+.user-greeting {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+
+.user-greeting span {
+  font-size: 0.8rem;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.search-section {
+  flex-grow: 1;
+  max-width: 500px;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 0.75rem 1.25rem 0.75rem 2.75rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-bar:focus {
+  background-color: var(--bg-color);
+  border-color: var(--text-main);
+  box-shadow: 0 0 0 3px rgba(19, 7, 23, 0.05);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  display: flex;
   align-items: center;
 }
 
-/* Bouton d'action structurellement lourd */
-.message-action {
-  font-family: "Inter", sans-serif;
-  font-weight: 700;
-  background-color: var(--primary-amber); /* Utilisation du Bright Amber */
-  color: #130717; /* Assure la lisibilité maximale sur le jaune */
-  padding: 0.75rem 1.5rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.message-action:hover {
-  text-decoration: none;
-  /* Élévation solide via l'ombre sans flou, teintée avec le pourpre de l'église */
-  box-shadow: 4px 4px 0px 0px var(--secondary-purple);
-  transform: translate(-2px, -2px);
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-btn.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .search-section {
+    display: none; /* Hidden on mobile header, shown as button */
+  }
+  .icon-btn.mobile-only {
+    display: flex;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .user-greeting {
+    font-size: 0.9rem;
+  }
+}
+
+/* --- Navigation Navigation Component --- */
+.navigation-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.pill {
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  border: none;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.pill.active {
+  background-color: var(--primary-accent);
+  color: var(--primary-accent-white);
+}
+
+/* --- Announcements Component --- */
+.announcements-container {
+  position: relative;
+  width: 100%;
+}
+
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.announcement-card {
+  position: relative;
+  aspect-ratio: 1.15;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.announcement-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.announcement-card:hover .announcement-bg {
+  transform: scale(1.04);
+}
+
+.announcement-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.15) 100%);
+  z-index: 2;
+}
+
+.announcement-content {
+  position: relative;
+  z-index: 3;
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.quote-icon-top {
+  font-size: 2.5rem;
+  color: var(--brand-yellow);
+  line-height: 1;
+  font-family: serif;
+}
+
+.card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.announcement-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.announcement-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+.announcement-footer-logo {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.announcement-footer-logo .socials {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Quote Layout Specifics */
+.quote-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+  color: #130717; /* Dark text on quote */
+}
+
+.quote-author {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #572269;
+}
+
+.quote-pill-btn {
+  background-color: var(--brand-yellow);
+  color: #130717;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  align-self: flex-end;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Mobile Carousel controls */
+.carousel-dots {
+  display: none;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--bg-surface-hover);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dot.active {
+  background-color: var(--primary-accent);
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .announcements-grid {
+    display: flex;
+    overflow-x: hidden; /* We'll control via slider container */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+  }
+  .announcement-card {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 1; /* More square on mobile */
+  }
+  .carousel-dots {
+    display: flex;
+  }
+}
+
+/* --- Track Card Component --- */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .tracks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.track-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-surface);
+  padding: 0.75rem;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
+.track-card:hover {
+  background-color: var(--bg-surface-hover);
+  transform: scale(1.01);
+}
+
+.track-card.playing {
+  border-color: var(--brand-purple);
+  background-color: var(--bg-surface-hover);
+}
+
+.track-info-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.track-artwork {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.track-text {
+  min-width: 0;
+}
+
+.track-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.15rem;
+}
+
+.track-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.track-action-btn:hover {
+  transform: scale(1.1);
+}
+
+.track-action-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: fill 0.2s, stroke 0.2s;
+}
+
+.track-action-btn.active svg {
+  fill: var(--heart-active);
+  stroke: var(--heart-active);
+}
+
+/* --- Audio Player Component --- */
+.audio-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--player-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.player-track-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.player-artwork {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.player-text {
+  min-width: 0;
+}
+
+.player-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.player-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.player-btn:active {
+  transform: scale(0.92);
+}
+
+.player-btn.play-pause-btn {
+  background-color: var(--text-main);
+  color: var(--primary-accent-white);
+  width: 42px;
+  height: 42px;
+}
+
+.player-btn.play-pause-btn:hover {
+  background-color: var(--text-main);
+  opacity: 0.9;
+}
+
+.player-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Modal Simple Search Box (for Mobile trigger) */
+.mobile-search-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  backdrop-filter: blur(4px);
+}
+
+.mobile-search-content {
+  background-color: var(--bg-color);
+  width: 90%;
+  max-width: 500px;
+  padding: 1.25rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mobile-search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+}
+
+.mobile-search-input:focus {
+  border-color: var(--text-main);
 }
