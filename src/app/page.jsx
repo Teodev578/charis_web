@@ -5,9 +5,9 @@ import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import Announcements from '../components/Announcements';
 import TrackCard from '../components/TrackCard';
-import AudioPlayer from '../components/AudioPlayer';
+import { useAudio } from '../contexts/AudioContext';
 
-// Mock sermon notes data for the Notes tab
+// Mock sermon notes data for the Notes tab (to be replaced by localStorage notes soon)
 const mockNotes = [
     {
         id: 1,
@@ -15,13 +15,6 @@ const mockNotes = [
         date: "Vendredi 29 Mai 2026",
         speaker: "Rev. Israel Watchman",
         snippet: "La foi authentique ne recule pas devant les obstacles. L'atmosphère de prière libère la révélation. Trois points clés : 1. La consécration du cœur, 2. La persévérance active, 3. L'écoute de la voix douce de l'Esprit."
-    },
-    {
-        id: 2,
-        title: "Commentaire sur: Tarrîz Ye",
-        date: "Vendredi 22 Mai 2026",
-        speaker: "Rev. Israel Watchman",
-        snippet: "Tarrîz Ye est un appel de consécration et d'alignement divin. Nous devons rejeter la tiédeur spirituelle et entrer dans notre dimension d'excellence. Prendre note de la référence sur Marc 11:24."
     }
 ];
 
@@ -29,8 +22,12 @@ export default function Home() {
     const [activeTab, setActiveTab] = useState('accueil');
     const [searchQuery, setSearchQuery] = useState('');
     const [tracks, setTracks] = useState([]);
-    const [currentTrack, setCurrentTrack] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+
+    // Get global audio state
+    const { currentTrack, isPlaying, playTrack, getInProgressTracks, getCompletedTracks, initDefaultTrack } = useAudio();
+
+    const inProgressTracks = getInProgressTracks();
+    const completedTracks = getCompletedTracks();
 
     // Initialise the tracks list matching mockup styles
     useEffect(() => {
@@ -77,8 +74,15 @@ export default function Home() {
             }
         ];
         setTracks(initialTracks);
-        // Load the first track by default in the player
-        setCurrentTrack(initialTracks[0]);
+        
+        // Timeout pour éviter l'appel immédiat lors du rendu SSR si applicable
+        setTimeout(() => {
+            if (inProgressTracks.length > 0) {
+                initDefaultTrack(inProgressTracks[0]);
+            } else {
+                initDefaultTrack(initialTracks[0]);
+            }
+        }, 0);
     }, []);
 
     // Toggle favorite state
@@ -86,49 +90,11 @@ export default function Home() {
         setTracks(prevTracks => 
             prevTracks.map(track => {
                 if (track.id === id) {
-                    const updatedTrack = { ...track, isFavorite: !track.isFavorite };
-                    // If the current playing track is favorited, update it too
-                    if (currentTrack && currentTrack.id === id) {
-                        setCurrentTrack(updatedTrack);
-                    }
-                    return updatedTrack;
+                    return { ...track, isFavorite: !track.isFavorite };
                 }
                 return track;
             })
         );
-    };
-
-    // Load and play a track
-    const handlePlay = (track) => {
-        setCurrentTrack(track);
-        setIsPlaying(true);
-    };
-
-    // Player controls
-    const handleTogglePlay = () => {
-        setIsPlaying(!isPlaying);
-    };
-
-    const handleRewind = () => {
-        // Find previous track in the active tracks list
-        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
-        if (currentIndex > 0) {
-            handlePlay(tracks[currentIndex - 1]);
-        } else {
-            // Loop to end
-            handlePlay(tracks[tracks.length - 1]);
-        }
-    };
-
-    const handleForward = () => {
-        // Find next track in the active tracks list
-        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
-        if (currentIndex < tracks.length - 1) {
-            handlePlay(tracks[currentIndex + 1]);
-        } else {
-            // Loop to start
-            handlePlay(tracks[0]);
-        }
     };
 
     // Filter tracks based on search query
@@ -155,11 +121,38 @@ export default function Home() {
                     {/* Banners Component */}
                     <Announcements />
 
+                    {/* Reprendre l'écoute (In Progress) */}
+                    {inProgressTracks.length > 0 && (
+                        <div>
+                            <h2>
+                                Reprendre l'écoute
+                            </h2>
+                            <div className="tracks-grid">
+                                {inProgressTracks.slice(0, 2).map((track) => (
+                                    <div key={track.id} className="in-progress-card-wrapper">
+                                        <TrackCard
+                                            track={track}
+                                            isPlaying={isPlaying && currentTrack?.id === track.id}
+                                            onPlay={playTrack}
+                                            onFavoriteToggle={handleFavoriteToggle}
+                                        />
+                                        <div className="track-progress-indicator">
+                                            <div 
+                                                className="track-progress-fill" 
+                                                style={{ width: `${(track.currentTime / track.duration) * 100}%` }}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Favorites Section */}
                     {favoriteTracks.length > 0 && (
                         <div>
                             <h2>
-                                Réécouter vos favoris
+                                Bibliothèque & Favoris
                                 <span className="arrow-icon" style={{ fontSize: '1.2rem', marginLeft: '0.2rem' }}>&rarr;</span>
                             </h2>
                             <div className="tracks-grid">
@@ -168,7 +161,7 @@ export default function Home() {
                                         key={track.id}
                                         track={track}
                                         isPlaying={isPlaying && currentTrack?.id === track.id}
-                                        onPlay={handlePlay}
+                                        onPlay={playTrack}
                                         onFavoriteToggle={handleFavoriteToggle}
                                     />
                                 ))}
@@ -176,10 +169,10 @@ export default function Home() {
                         </div>
                     )}
 
-                    {/* Recent Section (visible on mobile / desktop under favorites) */}
+                    {/* Recent Section */}
                     <div>
                         <h2>
-                            Récent
+                            Derniers Messages
                             <span className="arrow-icon" style={{ fontSize: '1.2rem', marginLeft: '0.2rem' }}>&rarr;</span>
                         </h2>
                         <div className="tracks-grid">
@@ -188,12 +181,34 @@ export default function Home() {
                                     key={track.id}
                                     track={track}
                                     isPlaying={isPlaying && currentTrack?.id === track.id}
-                                    onPlay={handlePlay}
+                                    onPlay={playTrack}
                                     onFavoriteToggle={handleFavoriteToggle}
                                 />
                             ))}
                         </div>
                     </div>
+                    
+                    {/* Historique complet */}
+                    {completedTracks.length > 0 && (
+                        <div>
+                            <h2>
+                                Historique d'écoute
+                                <span className="arrow-icon" style={{ fontSize: '1.2rem', marginLeft: '0.2rem' }}>&rarr;</span>
+                            </h2>
+                            <div className="tracks-grid">
+                                {completedTracks.map((track) => (
+                                    <div key={track.id} style={{ opacity: 0.8 }}>
+                                        <TrackCard
+                                            track={track}
+                                            isPlaying={isPlaying && currentTrack?.id === track.id}
+                                            onPlay={playTrack}
+                                            onFavoriteToggle={handleFavoriteToggle}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
 
@@ -237,7 +252,7 @@ export default function Home() {
                                     key={track.id}
                                     track={track}
                                     isPlaying={isPlaying && currentTrack?.id === track.id}
-                                    onPlay={handlePlay}
+                                    onPlay={playTrack}
                                     onFavoriteToggle={handleFavoriteToggle}
                                 />
                             ))}
@@ -252,15 +267,6 @@ export default function Home() {
                     )}
                 </div>
             )}
-
-            {/* Persistent Audio Player component */}
-            <AudioPlayer 
-                currentTrack={currentTrack} 
-                isPlaying={isPlaying} 
-                onTogglePlay={handleTogglePlay}
-                onRewind={handleRewind}
-                onForward={handleForward}
-            />
         </div>
     );
 }

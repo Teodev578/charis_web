@@ -1,9 +1,44 @@
 'use client';
 
 import React from 'react';
+import { useAudio } from '../contexts/AudioContext';
 
-export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onRewind, onForward }) {
+export default function AudioPlayer() {
+    const { 
+        currentTrack, 
+        isPlaying, 
+        togglePlay, 
+        skip, 
+        seek,
+        currentTime,
+        duration,
+        setIsNotesPanelOpen,
+        isNotesPanelOpen 
+    } = useAudio();
+
     if (!currentTrack) return null;
+
+    const formatTime = (time) => {
+        if (isNaN(time)) return "0:00";
+        const m = Math.floor(time / 60);
+        const s = Math.floor(time % 60);
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    };
+
+    const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+    const handleProgressClick = (e) => {
+        const bounds = e.currentTarget.getBoundingClientRect();
+        const percent = (e.clientX - bounds.left) / bounds.width;
+        seek(percent * duration);
+    };
+
+    const handleShare = () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('t', Math.floor(currentTime));
+        navigator.clipboard.writeText(url.toString());
+        alert("Lien copié avec le temps exact !");
+    };
 
     return (
         <div className="audio-player-floating">
@@ -16,23 +51,13 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onR
                 />
                 <div className="player-text-pill">
                     <div className="player-title-pill">{currentTrack.title}</div>
-                    <div className="player-subtitle-pill">Daily News</div>
+                    <div className="player-subtitle-pill">{currentTrack.subtitle || "Daily News"}</div>
                 </div>
-                <button className="player-icon-btn" aria-label="Favoris">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                    </svg>
-                </button>
             </div>
 
             {/* Middle: Player Controls */}
             <div className="player-controls-pill">
-                <button className="player-icon-btn" aria-label="Précédent">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 20L9 12l10-8v16zM5 19V5" />
-                    </svg>
-                </button>
-                <button className="player-icon-btn" onClick={onRewind} aria-label="Reculer de 15s">
+                <button className="player-icon-btn" onClick={() => skip(-15)} aria-label="Reculer de 15s">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M3 2v6h6" />
                         <path d="M3 13a9 9 0 1 0 3-7.7L3 8" />
@@ -40,7 +65,7 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onR
                     </svg>
                 </button>
                 
-                <button className="player-play-btn-pill" onClick={onTogglePlay} aria-label={isPlaying ? 'Pause' : 'Lecture'}>
+                <button className="player-play-btn-pill" onClick={togglePlay} aria-label={isPlaying ? 'Pause' : 'Lecture'}>
                     {isPlaying ? (
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <rect x="6" y="4" width="4" height="16" />
@@ -53,43 +78,44 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onR
                     )}
                 </button>
                 
-                <button className="player-icon-btn" onClick={onForward} aria-label="Avancer de 15s">
+                <button className="player-icon-btn" onClick={() => skip(15)} aria-label="Avancer de 15s">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 2v6h-6" />
                         <path d="M21 13a9 9 0 1 1-3-7.7L21 8" />
                         <text x="12" y="16" fontSize="7" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle" fill="currentColor" stroke="none">15</text>
                     </svg>
                 </button>
-                <button className="player-icon-btn" aria-label="Suivant">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 4l10 8-10 8V4zM19 5v14" />
-                    </svg>
-                </button>
             </div>
 
             {/* Right-Middle: Progress Bar Inline */}
             <div className="player-progress-inline">
-                <span className="player-time">11:32</span>
-                <div className="player-progress-container-inline">
-                    <div className="player-progress-bar-inline" style={{ width: '35%' }}></div>
+                <span className="player-time">{formatTime(currentTime)}</span>
+                <div className="player-progress-container-inline" onClick={handleProgressClick}>
+                    <div className="player-progress-bar-inline" style={{ width: `${progressPercent}%` }}></div>
                 </div>
-                <span className="player-time">35:05</span>
+                <span className="player-time">{formatTime(duration)}</span>
             </div>
 
             {/* Far Right: Tools */}
             <div className="player-tools-pill">
-                <button className="player-icon-btn" aria-label="Notes/Lyrics">
+                <button 
+                    className="player-icon-btn" 
+                    onClick={() => setIsNotesPanelOpen(!isNotesPanelOpen)} 
+                    aria-label="Notes"
+                    style={{ color: isNotesPanelOpen ? 'var(--brand-yellow)' : 'inherit' }}
+                >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                        <line x1="9" y1="20" x2="15" y2="20"></line>
-                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
                     </svg>
                 </button>
-                <button className="player-icon-btn" aria-label="Volume">
+                <button className="player-icon-btn" onClick={handleShare} aria-label="Partager à ce moment">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
                     </svg>
                 </button>
             </div>
