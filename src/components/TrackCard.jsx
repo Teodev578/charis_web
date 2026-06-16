@@ -16,11 +16,18 @@ export default function TrackCard({ track, isPlaying, onPlay, onFavoriteToggle }
             onClick={() => onPlay && onPlay(track)}
         >
             <div className="track-info-section">
-                <img 
-                    src={track.imageUrl || '/images/preacher_man.png'} 
-                    alt={track.title} 
-                    className="track-artwork" 
-                />
+                <div className="track-artwork-container">
+                    <img 
+                        src={track.imageUrl || '/images/preacher_man.png'} 
+                        alt={track.title} 
+                        className="track-artwork" 
+                    />
+                    <div className="track-play-overlay">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
                 <div className="track-text">
                     <div className="track-title">{track.title}</div>
                     <div className="track-subtitle">{track.subtitle}</div>

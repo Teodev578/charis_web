@@ -7,18 +7,24 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onR
 
     return (
         <div className="audio-player-bar">
-            {/* Left: Track Information */}
-            <div className="player-track-info">
-                <img 
-                    src={currentTrack.imageUrl || '/images/preacher_man.png'} 
-                    alt={currentTrack.title} 
-                    className="player-artwork"
-                />
-                <div className="player-text">
-                    <div className="player-title">{currentTrack.title}</div>
-                    <div className="player-subtitle">{currentTrack.subtitle}</div>
-                </div>
+            {/* Top: Mock Progress Bar */}
+            <div className="player-progress-container">
+                <div className="player-progress-bar" style={{ width: '35%' }}></div>
             </div>
+
+            <div className="audio-player-content">
+                {/* Left: Track Information */}
+                <div className="player-track-info">
+                    <img 
+                        src={currentTrack.imageUrl || '/images/preacher_man.png'} 
+                        alt={currentTrack.title} 
+                        className="player-artwork"
+                    />
+                    <div className="player-text">
+                        <div className="player-title">{currentTrack.title}</div>
+                        <div className="player-subtitle">{currentTrack.subtitle}</div>
+                    </div>
+                </div>
 
             {/* Right: Player Controls */}
             <div className="player-controls">
@@ -69,6 +75,7 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onR
                         <text x="12" y="15.5" fontSize="8" fontWeight="bold" textAnchor="middle" fill="currentColor" stroke="none">10</text>
                     </svg>
                 </button>
+            </div>
             </div>
         </div>
     );
