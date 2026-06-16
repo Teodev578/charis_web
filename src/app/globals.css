@@ -31,9 +31,9 @@
   }
 }
 
-/* Headings use Outfit */
+/* Headings use Plus Jakarta Sans */
 h1, h2, h3, h4, h5, h6, .pill, .announcement-title, .track-title, .player-title {
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-plus-jakarta), sans-serif;
 }
 
 * {
@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6, .pill, .announcement-title, .track-title, .player-title 
 }
 
 body {
-  font-family: var(--font-work-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-plus-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
@@ -445,7 +445,8 @@ h2:hover .arrow-icon {
 
 .track-card:hover {
   background-color: var(--bg-surface-hover);
-  transform: scale(1.01);
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(19, 7, 23, 0.05);
 }
 
 .track-card.playing {
@@ -498,9 +499,15 @@ h2:hover .arrow-icon {
 }
 
 .track-play-overlay svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   fill: var(--primary-accent-white);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.track-card:hover .track-play-overlay svg {
+  transform: scale(1.1);
 }
 
 .track-text {
@@ -570,10 +577,12 @@ h2:hover .arrow-icon {
   justify-content: space-between;
   padding: 8px 24px;
   z-index: 1000;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(87, 34, 105, 0.15);
   color: #F8F7F4;
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   gap: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -677,6 +686,8 @@ h2:hover .arrow-icon {
 
 .player-play-btn-pill:hover {
   background-color: #383839;
+  box-shadow: 0 0 12px rgba(251, 201, 6, 0.3);
+  transform: scale(1.05);
 }
 
 .player-play-btn-pill:active {
@@ -715,6 +726,7 @@ h2:hover .arrow-icon {
   background-color: var(--brand-yellow, #FBC906);
   border-radius: 2px;
   position: relative;
+  box-shadow: 0 0 8px rgba(251, 201, 6, 0.6);
 }
 
 .player-tools-pill {

@@ -29,7 +29,7 @@
 }
 
 h1, h2, h3, h4, h5, h6, .pill, .announcement-title, .track-title, .player-title {
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-plus-jakarta), sans-serif;
 }
 
 * {
@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6, .pill, .announcement-title, .track-title, .player-title 
 }
 
 body {
-  font-family: var(--font-work-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-plus-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
@@ -440,7 +440,8 @@ h2:hover .arrow-icon {
 
 .track-card:hover {
   background-color: var(--bg-surface-hover);
-  transform: scale(1.01);
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px #1307170d;
 }
 
 .track-card.playing {
@@ -493,9 +494,15 @@ h2:hover .arrow-icon {
 }
 
 .track-play-overlay svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   fill: var(--primary-accent-white);
+  filter: drop-shadow(0 0 4px #ffffff80);
+  transition: transform .2s;
+}
+
+.track-card:hover .track-play-overlay svg {
+  transform: scale(1.1);
 }
 
 .track-text {
@@ -552,7 +559,10 @@ h2:hover .arrow-icon {
 .audio-player-floating {
   z-index: 1000;
   color: #f8f7f4;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   background-color: #1a1a1b;
+  border: 1px solid #ffffff0d;
   border-radius: 16px;
   justify-content: space-between;
   align-items: center;
@@ -566,7 +576,7 @@ h2:hover .arrow-icon {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 10px 40px #00000080;
+  box-shadow: 0 10px 40px #00000080, 0 0 20px #57226926;
 }
 
 @media (max-width: 768px) {
@@ -675,6 +685,8 @@ h2:hover .arrow-icon {
 
 .player-play-btn-pill:hover {
   background-color: #383839;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fbc9064d;
 }
 
 .player-play-btn-pill:active {
@@ -713,6 +725,7 @@ h2:hover .arrow-icon {
   border-radius: 2px;
   height: 100%;
   position: relative;
+  box-shadow: 0 0 8px #fbc90699;
 }
 
 .player-tools-pill {
