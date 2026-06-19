@@ -80,8 +80,20 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ClientA
 ;
 ;
 const metadata = {
-    title: "Charis",
-    description: "Plateforme de messages et prédications"
+    title: "Charis Nation — Enseignements & Prédications",
+    description: "Accédez aux enseignements et prédications de l'église Charis Nation. Écoutez, prenez des notes synchronisées et suivez votre progression.",
+    keywords: [
+        "Charis Nation",
+        "enseignements",
+        "prédications",
+        "foi",
+        "église"
+    ],
+    openGraph: {
+        title: "Charis Nation — Enseignements & Prédications",
+        description: "Plateforme d'écoute des enseignements de Charis Nation House of Excellence",
+        type: "website"
+    }
 };
 function RootLayout({ children }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
@@ -92,17 +104,17 @@ function RootLayout({ children }) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.jsx",
-                lineNumber: 20,
+                lineNumber: 26,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/layout.jsx",
-            lineNumber: 19,
+            lineNumber: 25,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/layout.jsx",
-        lineNumber: 18,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 }

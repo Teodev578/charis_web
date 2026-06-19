@@ -22,40 +22,70 @@ function AudioProvider({ children }) {
     const [currentTime, setCurrentTime] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [duration, setDuration] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [isNotesPanelOpen, setIsNotesPanelOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [playbackSpeed, setPlaybackSpeed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1);
     // State to persist
     const [playbackHistory, setPlaybackHistory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [trackNotes, setTrackNotes] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const audioRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const currentTrackRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const syncIntervalRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const userIdRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // Keep currentTrackRef in sync
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AudioProvider.useEffect": ()=>{
+            currentTrackRef.current = currentTrack;
+        }
+    }["AudioProvider.useEffect"], [
+        currentTrack
+    ]);
     // Initialize state from localStorage
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AudioProvider.useEffect": ()=>{
             const savedHistory = localStorage.getItem('charis_playback_history');
-            if (savedHistory) setPlaybackHistory(JSON.parse(savedHistory));
+            if (savedHistory) {
+                try {
+                    setPlaybackHistory(JSON.parse(savedHistory));
+                } catch  {}
+            }
             const savedNotes = localStorage.getItem('charis_notes');
-            if (savedNotes) setTrackNotes(JSON.parse(savedNotes));
+            if (savedNotes) {
+                try {
+                    setTrackNotes(JSON.parse(savedNotes));
+                } catch  {}
+            }
             // Setup global audio element if not exists
             if (!audioRef.current) {
                 audioRef.current = new Audio();
-                // Listeners
                 audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
                 audioRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
                 audioRef.current.addEventListener('ended', handleEnded);
+                audioRef.current.addEventListener('pause', handlePause);
             }
             // Check URL for timestamp (e.g. ?t=120)
             const urlParams = new URLSearchParams(window.location.search);
             const tParam = urlParams.get('t');
             if (tParam && !isNaN(tParam)) {
-                // Need a currentTrack to seek, but we handle this when playTrack is called from page
-                // For now, save it to a ref or state
                 window._initialSeekTime = parseFloat(tParam);
             }
+            // Visibility change handler — sync on tab hide/close
+            const handleVisibilityChange = {
+                "AudioProvider.useEffect.handleVisibilityChange": ()=>{
+                    if (document.visibilityState === 'hidden') {
+                        syncProgressToSupabase();
+                    }
+                }
+            }["AudioProvider.useEffect.handleVisibilityChange"];
+            document.addEventListener('visibilitychange', handleVisibilityChange);
             return ({
                 "AudioProvider.useEffect": ()=>{
                     if (audioRef.current) {
                         audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
                         audioRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
                         audioRef.current.removeEventListener('ended', handleEnded);
+                        audioRef.current.removeEventListener('pause', handlePause);
                     }
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    if (syncIntervalRef.current) clearInterval(syncIntervalRef.current);
                 }
             })["AudioProvider.useEffect"];
         }
@@ -75,13 +105,58 @@ function AudioProvider({ children }) {
     }["AudioProvider.useEffect"], [
         trackNotes
     ]);
+    // Setup sync interval (every 30 seconds of playback)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AudioProvider.useEffect": ()=>{
+            if (isPlaying) {
+                syncIntervalRef.current = setInterval({
+                    "AudioProvider.useEffect": ()=>{
+                        syncProgressToSupabase();
+                    }
+                }["AudioProvider.useEffect"], 30000);
+            } else {
+                if (syncIntervalRef.current) {
+                    clearInterval(syncIntervalRef.current);
+                    syncIntervalRef.current = null;
+                }
+            }
+            return ({
+                "AudioProvider.useEffect": ()=>{
+                    if (syncIntervalRef.current) {
+                        clearInterval(syncIntervalRef.current);
+                    }
+                }
+            })["AudioProvider.useEffect"];
+        }
+    }["AudioProvider.useEffect"], [
+        isPlaying
+    ]);
+    // Sync progress to Supabase (called on pause, every 30s, and visibilitychange)
+    const syncProgressToSupabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "AudioProvider.useCallback[syncProgressToSupabase]": async ()=>{
+            const track = currentTrackRef.current;
+            if (!track || !audioRef.current || !userIdRef.current) return;
+            const time = audioRef.current.currentTime;
+            const totalDuration = audioRef.current.duration;
+            if (!totalDuration || isNaN(totalDuration)) return;
+            const isCompleted = totalDuration > 0 && time / totalDuration >= 0.95;
+            try {
+                const { upsertProgress } = await __turbopack_context__.A("[project]/src/lib/services/user.js [app-client] (ecmascript, async loader)");
+                await upsertProgress(userIdRef.current, track.id, time, isCompleted);
+            } catch (err) {
+                // Silently fail — localStorage is the fallback
+                console.debug('Supabase sync skipped:', err.message);
+            }
+        }
+    }["AudioProvider.useCallback[syncProgressToSupabase]"], []);
     const handleTimeUpdate = ()=>{
         if (!audioRef.current) return;
         const current = audioRef.current.currentTime;
         setCurrentTime(current);
-        // Update history periodically
-        if (currentTrack) {
-            updatePlaybackHistory(currentTrack.id, current, audioRef.current.duration);
+        // Update local history
+        const track = currentTrackRef.current;
+        if (track) {
+            updatePlaybackHistory(track.id, current, audioRef.current.duration);
         }
     };
     const handleLoadedMetadata = ()=>{
@@ -91,30 +166,46 @@ function AudioProvider({ children }) {
         if (window._initialSeekTime) {
             audioRef.current.currentTime = window._initialSeekTime;
             window._initialSeekTime = null;
-        } else if (currentTrack && playbackHistory[currentTrack.id]) {
-            // Auto resume logic (-3 seconds for comfort)
-            const savedTime = playbackHistory[currentTrack.id].currentTime || 0;
-            const savedDuration = playbackHistory[currentTrack.id].duration || 0;
-            // Only resume if not completed (completed means > 95%)
-            const isCompleted = savedDuration > 0 && savedTime / savedDuration > 0.95;
-            if (!isCompleted && savedTime > 3) {
-                audioRef.current.currentTime = savedTime - 3; // Rewind 3 seconds
+        } else {
+            const track = currentTrackRef.current;
+            const history = JSON.parse(localStorage.getItem('charis_playback_history') || '{}');
+            if (track && history[track.id]) {
+                // Auto resume logic (-3 seconds for comfort)
+                const savedTime = history[track.id].currentTime || 0;
+                const savedDuration = history[track.id].duration || 0;
+                // Only resume if not completed (completed means > 95%)
+                const isCompleted = savedDuration > 0 && savedTime / savedDuration > 0.95;
+                if (!isCompleted && savedTime > 5) {
+                    audioRef.current.currentTime = savedTime - 3; // Rewind 3-5 seconds for context
+                }
             }
         }
     };
     const handleEnded = ()=>{
         setIsPlaying(false);
-        if (currentTrack) {
-            updatePlaybackHistory(currentTrack.id, audioRef.current.duration, audioRef.current.duration);
+        const track = currentTrackRef.current;
+        if (track && audioRef.current) {
+            updatePlaybackHistory(track.id, audioRef.current.duration, audioRef.current.duration);
+            syncProgressToSupabase();
         }
     };
+    const handlePause = ()=>{
+        // Sync to Supabase on pause
+        syncProgressToSupabase();
+    };
     const updatePlaybackHistory = (trackId, time, totalDuration)=>{
+        const track = currentTrackRef.current;
+        if (!track) return;
         setPlaybackHistory((prev)=>{
             const isCompleted = totalDuration > 0 && time / totalDuration >= 0.95;
             return {
                 ...prev,
                 [trackId]: {
-                    ...currentTrack,
+                    id: track.id,
+                    title: track.title,
+                    subtitle: track.subtitle,
+                    imageUrl: track.imageUrl,
+                    audioUrl: track.audioUrl,
                     currentTime: time,
                     duration: totalDuration || 0,
                     isCompleted: isCompleted,
@@ -130,10 +221,11 @@ function AudioProvider({ children }) {
             return;
         }
         setCurrentTrack(track);
-        // Use a dummy audio if none provided so the player logic works
+        currentTrackRef.current = track;
         const audioUrl = track.audioUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
         if (audioRef.current) {
             audioRef.current.src = audioUrl;
+            audioRef.current.playbackRate = playbackSpeed;
             audioRef.current.play().then(()=>{
                 setIsPlaying(true);
             }).catch((e)=>console.error("Audio play failed:", e));
@@ -164,22 +256,48 @@ function AudioProvider({ children }) {
             setIsPlaying(true);
         }
     };
+    const changeSpeed = ()=>{
+        const speeds = [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2
+        ];
+        const currentIndex = speeds.indexOf(playbackSpeed);
+        const nextSpeed = speeds[(currentIndex + 1) % speeds.length];
+        setPlaybackSpeed(nextSpeed);
+        if (audioRef.current) {
+            audioRef.current.playbackRate = nextSpeed;
+        }
+    };
+    // Set user ID for Supabase sync (called from ClientAppWrapper when auth loads)
+    const setUserId = (userId)=>{
+        userIdRef.current = userId;
+    };
     const addNote = (trackId, text, timeStamp)=>{
+        const newNote = {
+            id: Date.now().toString(),
+            text,
+            timestamp: timeStamp,
+            date: new Date().toISOString()
+        };
         setTrackNotes((prev)=>{
             const trackSpecificNotes = prev[trackId] || [];
             return {
                 ...prev,
                 [trackId]: [
                     ...trackSpecificNotes,
-                    {
-                        id: Date.now().toString(),
-                        text,
-                        timestamp: timeStamp,
-                        date: new Date().toISOString()
-                    }
+                    newNote
                 ]
             };
         });
+        // Also sync to Supabase if authenticated
+        if (userIdRef.current) {
+            __turbopack_context__.A("[project]/src/lib/services/user.js [app-client] (ecmascript, async loader)").then(({ addUserNote })=>{
+                addUserNote(userIdRef.current, trackId, text, timeStamp).catch(()=>{});
+            });
+        }
     };
     const deleteNote = (trackId, noteId)=>{
         setTrackNotes((prev)=>{
@@ -189,6 +307,12 @@ function AudioProvider({ children }) {
                 [trackId]: prev[trackId].filter((n)=>n.id !== noteId)
             };
         });
+        // Also delete from Supabase
+        if (userIdRef.current) {
+            __turbopack_context__.A("[project]/src/lib/services/user.js [app-client] (ecmascript, async loader)").then(({ deleteUserNote })=>{
+                deleteUserNote(noteId).catch(()=>{});
+            });
+        }
     };
     // Helper for UI to get progress
     const getInProgressTracks = ()=>{
@@ -200,7 +324,7 @@ function AudioProvider({ children }) {
     const initDefaultTrack = (track)=>{
         if (!currentTrack && !isPlaying) {
             setCurrentTrack(track);
-            // Optionally set the source without playing
+            currentTrackRef.current = track;
             if (audioRef.current) {
                 audioRef.current.src = track.audioUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
             }
@@ -224,16 +348,19 @@ function AudioProvider({ children }) {
             deleteNote,
             isNotesPanelOpen,
             setIsNotesPanelOpen,
-            initDefaultTrack
+            initDefaultTrack,
+            playbackSpeed,
+            changeSpeed,
+            setUserId
         },
         children: children
     }, void 0, false, {
         fileName: "[project]/src/contexts/AudioContext.jsx",
-        lineNumber: 216,
+        lineNumber: 327,
         columnNumber: 9
     }, this);
 }
-_s(AudioProvider, "WWYwg/lcSaXSPOWgbd/lQaNj4II=");
+_s(AudioProvider, "iaLMiFIkLe5k1+H7i6/SuKZFJAE=");
 _c = AudioProvider;
 function useAudio() {
     _s1();

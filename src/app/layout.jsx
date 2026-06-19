@@ -9,8 +9,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Charis",
-  description: "Plateforme de messages et prédications",
+  title: "Charis Nation — Enseignements & Prédications",
+  description: "Accédez aux enseignements et prédications de l'église Charis Nation. Écoutez, prenez des notes synchronisées et suivez votre progression.",
+  keywords: ["Charis Nation", "enseignements", "prédications", "foi", "église"],
+  openGraph: {
+    title: "Charis Nation — Enseignements & Prédications",
+    description: "Plateforme d'écoute des enseignements de Charis Nation House of Excellence",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {

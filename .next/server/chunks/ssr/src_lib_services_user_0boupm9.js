@@ -1,0 +1,3 @@
+module.exports=[59083,a=>{"use strict";let b=(0,a.i(47683).createClient)();async function c(a,d,e,f=!1){let{data:g,error:h}=await b.from("progression_lecture").upsert({utilisateur_id:a,message_id:d,temps_secondes:e,est_termine:f,mis_a_jour_le:new Date().toISOString()},{onConflict:"utilisateur_id,message_id"});if(h)throw h;return g}async function d(a,c,d,e){let{data:f,error:g}=await b.from("notes").insert({utilisateur_id:a,message_id:c,contenu:d,position_audio_secondes:e}).select().single();if(g)throw g;return f}async function e(a){let{error:c}=await b.from("notes").delete().eq("id",a);if(c)throw c}a.s(["addUserNote",0,d,"deleteUserNote",0,e,"upsertProgress",0,c])}];
+
+//# sourceMappingURL=src_lib_services_user_0boupm9.js.map
