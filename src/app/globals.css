@@ -68,13 +68,15 @@
 
   /* Typographie */
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
-  --font-serif: var(--font-cinzel), "Playfair Display", Georgia, serif;
+  --font-serif: var(--font-playfair), var(--font-cinzel), "Playfair Display", Georgia, serif;
 
-  /* Couleurs spécifiques Vitrine */
+  /* Couleurs spécifiques Vitrine & Hero Maquette */
   --color-vitrine-dark: #1A0A21;
   --color-vitrine-card: #251230;
   --color-vitrine-card-hover: #331942;
   --color-vitrine-cream: #F7F5F2;
+  --color-hero-purple: #6c288b;
+  --color-hero-orange: #fc7d42;
 }
 
 /* ==========================================

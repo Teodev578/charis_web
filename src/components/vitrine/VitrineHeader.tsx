@@ -11,7 +11,8 @@ export default function VitrineHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // N'apparaît que lorsque l'utilisateur a défilé en dehors du Hero blanc
+      setScrolled(window.scrollY > 300);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -37,10 +38,10 @@ export default function VitrineHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out ${
         scrolled
-          ? 'bg-[#1A0A21]/90 backdrop-blur-md py-3.5 border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.4)]'
-          : 'bg-gradient-to-b from-[#1A0A21]/90 via-[#1A0A21]/40 to-transparent py-5'
+          ? 'bg-[#1A0A21]/95 backdrop-blur-md py-3.5 border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-100 translate-y-0 pointer-events-auto'
+          : 'opacity-0 -translate-y-full pointer-events-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
