@@ -55,6 +55,22 @@ Règles absolues :
 | `SkeletonLoader.tsx` | Skeleton animé pour le perceived performance |
 | `ShareMenu.tsx` | Partage avec deep-link `?t=secondes` |
 
+## Layout & Responsivité — règles de l'espace public
+
+Ces règles complètent les invariants globaux de `layout_constraints.md`.
+
+**Textes dynamiques** : les titres d'enseignements, noms d'orateurs et descriptions de séries sont des données variables. Tout composant qui les affiche doit gérer le cas long : `text-overflow: ellipsis` sur une ligne, `overflow-wrap: break-word` sur un bloc multi-lignes. Ne jamais supposer qu'un titre est court.
+
+**`TrackCard.tsx`** : la carte est rendue en grille et en liste. Les deux variantes doivent être testées. La hauteur de la carte ne doit pas être fixe — elle s'adapte au contenu. La largeur suit le conteneur parent via `width: 100%`.
+
+**`NavigationDrawer.tsx`** : le drawer est un `position: fixed` ou un panneau à largeur fixe. Sur mobile (< 768 px), il prend toute la largeur (`width: 100%` ou `width: 100dvw`) et ne déborde jamais hors du viewport. Vérifier que le contenu scrollable à l'intérieur utilise `overflow-y: auto`, pas `overflow: hidden`.
+
+**`Header.tsx`** : la barre supérieure est en `position: sticky top: 0`. Elle ne doit jamais masquer du contenu sans que le layout principal ait un `padding-top` ou `scroll-margin-top` compensatoire sur les sections ancrées.
+
+**Grilles de la page d'accueil** : utiliser `grid-template-columns: repeat(auto-fill, minmax(0, 1fr))` ou une valeur de `minmax` explicite, jamais `1fr` seul. Tester à 375 px — une grille 2 colonnes sur iPhone SE doit rester lisible.
+
+**Padding bottom réservé pour l'AudioPlayer** : quand un message est actif, l'`AudioPlayer` flottant occupe l'espace en bas. Le layout racine (`ClientAppWrapper.tsx` ou `layout.tsx`) doit réserver ce padding via une variable CSS (`--audio-player-height`). Ne jamais hardcoder la valeur en pixels dans chaque page.
+
 ## Nommage et conventions
 
 - camelCase pour variables et fonctions, PascalCase pour composants et types.
