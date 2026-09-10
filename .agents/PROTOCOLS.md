@@ -103,10 +103,11 @@ Les agents disposent de fichiers mémoire dédiés dans [`.agents/memory/`](file
    - **Espace Public (`src/app/globals.css`)** : Utiliser exclusivement les variables CSS HSL du thème (`--primary`, `--background`, `--card`, etc.). Pas de classes utilitaires arbitraires ni de style inline `style={{}}` pour le positionnement.
    - **Espace Admin (`src/app/dashboard/dashboard.css`)** : Utiliser Tailwind CSS v4 exclusivement. Ne jamais importer ni référencer les variables HSL de `globals.css` dans le dashboard.
 2. **Consultation obligatoire des règles UI :**
+   - Consulter [`aesthetic_standards.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/aesthetic_standards.md) pour la doctrine de noblesse visuelle, respiration spatiale, duo typographique et harmonies chromatiques.
    - Consulter [`layout_constraints.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/layout_constraints.md) pour les invariants d'overflow et de grilles `minmax(0, 1fr)`.
-   - Consulter [`ui_forbidden.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_forbidden.md) pour éviter les 10 anti-patterns critiques.
+   - Consulter [`ui_forbidden.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_forbidden.md) pour éviter les 14 anti-patterns critiques (dont émojis, halos saturés et sur-empilement).
    - Consulter [`ui_patterns.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_patterns.md) pour réutiliser les motifs canoniques (cartes, listes, layout shell).
-   - Consulter [`ui_motion.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_motion.md) pour appliquer les tokens de durée (`--duration-fast`, `--ease-out`) et respecter `prefers-reduced-motion`.
+   - Consulter [`ui_motion.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_motion.md) pour appliquer le smooth scrolling Lenis, le text reveal en masque, les tokens de durée (`--duration-fast`, `--ease-out`) et respecter `prefers-reduced-motion`.
 3. **Prise en compte de l'AudioPlayer persistant :**
    - Réserver un dégagement inférieur (`padding-bottom`) pour que le contenu ne passe pas sous le lecteur audio fixe.
    - Intégrer `padding-bottom: env(safe-area-inset-bottom)` sur mobile iOS.
@@ -114,6 +115,10 @@ Les agents disposent de fichiers mémoire dédiés dans [`.agents/memory/`](file
 
 ### Checklist de validation
 - [ ] Test visuel sur 3 viewports obligatoires : 375px (mobile), 768px (tablette), 1280px (desktop)
+- [ ] Règle des 3 étages du Hero respectée : zéro collision entre boutons d'action et cartes
+- [ ] Respiration spatiale assurée : paddings de section amples (80px mobile / 120px+ desktop)
+- [ ] Zéro émoji dans les boutons d'action ou contrôles (icônes Lucide SVG exclusives)
+- [ ] Harmonie chromatique noble : fonds feutrés profonds, dorés chauds, aucun halo saturé boueux
 - [ ] Aucun débordement horizontal (`overflow-x`) sur toute la largeur de page
 - [ ] Contraste lisible en mode clair et en mode sombre
 - [ ] Textes longs tronqués proprement (`ellipsis` ou `line-clamp`) sans casser la mise en page

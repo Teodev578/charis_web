@@ -4,10 +4,8 @@ import React, { type ReactNode } from 'react';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { AudioProvider, useAudio } from '../contexts/AudioContext';
 import { ThemeProvider } from '../contexts/ThemeContext';
-import NavigationSidebar from './navigation/NavigationSidebar';
-import Header from './navigation/Header';
-import RightPanel from './notes/RightPanel';
-import AudioPlayer from './player/AudioPlayer';
+import { usePathname } from 'next/navigation';
+import AppLayout from './layout/AppLayout';
 
 function AudioSyncBridge() {
     const { user } = useAuth();
@@ -24,41 +22,35 @@ function AudioSyncBridge() {
     return null;
 }
 
-interface AppLayoutProps {
-    children: ReactNode;
-}
+function RoutedAppContent({ children }: { children: ReactNode }) {
+    const pathname = usePathname();
 
-function AppLayout({ children }: AppLayoutProps) {
+    // 1. Vitrine (Page d'accueil OnePage) : affichage pleine page avec scroll natif
+    if (pathname === '/') {
+        return (
+            <>
+                {children}
+                <AudioSyncBridge />
+            </>
+        );
+    }
+
+    // 2. Dashboard Admin : layout autonome (dashboard.css)
+    if (pathname.startsWith('/dashboard')) {
+        return (
+            <>
+                {children}
+                <AudioSyncBridge />
+            </>
+        );
+    }
+
+    // 3. Espace Écoute et pages applicatives (/ecouter, /explorer, /message, /auth)
     return (
-        <div className="flex h-screen w-full overflow-hidden bg-base text-main font-jakarta">
-            {/* 1. Sidebar Fixe */}
-            <NavigationSidebar />
-
-            {/* 2. Zone de contenu principale (qui scroll) */}
-            <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-                <div className="z-20 shrink-0">
-                    <Header />
-                </div>
-                
-                <div className="flex-1 overflow-y-auto">
-                    <div className="max-w-5xl mx-auto p-4 md:p-8 pb-[100px] lg:pb-8">
-                        {children}
-                    </div>
-                </div>
-            </main>
-
-            {/* 3. Panneau de droite (Lecteur & Notes) Fixe */}
-            <aside className="hidden lg:flex w-[380px] flex-shrink-0 flex-col bg-surface border-l border-border">
-                <RightPanel />
-            </aside>
-
-            {/* Mobile Player (floating bar & fullscreen overlay) */}
-            <div className="lg:hidden">
-                <AudioPlayer />
-            </div>
-            
+        <AppLayout>
+            {children}
             <AudioSyncBridge />
-        </div>
+        </AppLayout>
     );
 }
 
@@ -71,9 +63,9 @@ export default function ClientAppWrapper({ children }: ClientAppWrapperProps) {
         <ThemeProvider>
             <AuthProvider>
                 <AudioProvider>
-                    <AppLayout>
+                    <RoutedAppContent>
                         {children}
-                    </AppLayout>
+                    </RoutedAppContent>
                 </AudioProvider>
             </AuthProvider>
         </ThemeProvider>

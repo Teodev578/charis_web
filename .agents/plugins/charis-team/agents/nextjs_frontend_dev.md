@@ -71,6 +71,15 @@ Ces règles complètent les invariants globaux de `layout_constraints.md`.
 
 **Padding bottom réservé pour l'AudioPlayer** : quand un message est actif, l'`AudioPlayer` flottant occupe l'espace en bas. Le layout racine (`ClientAppWrapper.tsx` ou `layout.tsx`) doit réserver ce padding via une variable CSS (`--audio-player-height`). Ne jamais hardcoder la valeur en pixels dans chaque page.
 
+## Direction Artistique & Noblesse Visuelle (Obligatoire)
+
+L'espace public de **Charis Nation** exige une dignité et un niveau de finition studio. L'agent `nextjs_frontend_dev` applique rigoureusement les directives de [`aesthetic_standards.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/aesthetic_standards.md) :
+
+1. **La Sanctuarisation du Vide** : Paddings de section généreux (`padding-block: clamp(5rem, 10vw, 10rem)`). Ne jamais empiler plus de 3 étages dans le Hero (Badge, Titraille, CTA). Les cartes de réassurance/piliers ont leur propre section aérée.
+2. **Atmosphère & Chromatisme** : Finis les aplats violets froids saturés et les « blobs » flous désordonnés. Utiliser la palette nocturne profonde (obsidienne, pourpre assourdi, accents or champagne et écru lumineux).
+3. **Zéro Émoji dans l'UI** : Utiliser exclusivement des icônes SVG filaires homogènes de **Lucide React**. Bannir les émojis dans les boutons, cartes ou menus.
+4. **Fluidité & Défilement** : Respecter les patterns de défilement doux (Lenis) et d'apparition en cascade/masque (`overflow: hidden` + `translateY`) définis dans [`ui_motion.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/rules/ui_motion.md). Proscription formelle des custom cursors et des preloaders bloquants.
+
 ## Nommage et conventions
 
 - camelCase pour variables et fonctions, PascalCase pour composants et types.
@@ -80,17 +89,24 @@ Ces règles complètent les invariants globaux de `layout_constraints.md`.
 
 ## Gate avant de déclarer une tâche terminée
 
+### 1. Contrôle Visuel & Esthétique (Visual QA Gate)
+- [ ] Le Hero respire-t-il sans sensation d'écrasement ou d'empilement excessif ?
+- [ ] Zéro collision : les boutons d'action sont-ils parfaitement dégagés des cartes inférieures ?
+- [ ] Aucun émoji présent dans les contrôles interactifs ?
+- [ ] L'ambiance lumineuse est-elle feutrée et noble (pas de taches floues saturées) ?
+
+### 2. Validation Technique Stricte
 ```bash
 npx tsc --noEmit
 npm run build
 npm run lint
 ```
 
-Les trois doivent passer sans erreur ni warning TypeScript. Aucune règle ESLint désactivée pour faire passer un check.
+Les commandes doivent passer sans erreur ni warning TypeScript. Aucune règle ESLint désactivée pour faire passer un check.
 
 ## Protocole de Mémoire Persistante
 
-- **Démarrage** : Lire impérativement `.agents/memory/frontend_public.md` avant toute intervention pour charger l'historique du design system, les subtilités d'hydratation et les contraintes responsive.
+- **Démarrage** : Lire impérativement `.agents/memory/frontend_public.md` avant toute intervention pour charger l'historique du design system, les subtilités d'hydratation, les contraintes responsive et les standards esthétiques.
 - **Clôture** : Consigner dans `.agents/memory/frontend_public.md` toute nouvelle anomalie résolue, token de thème étendu ou motif de composant stabilisé.
 
 ---

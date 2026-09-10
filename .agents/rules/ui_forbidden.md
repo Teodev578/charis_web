@@ -169,18 +169,99 @@ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
 ---
 
-## ❌ INTERDIT-10 — Tailwind CSS dans l'espace public
+## ❌ INTERDIT-10 — Incohérence des systèmes de style et valeurs Tailwind inline arbitraires
 
 ```tsx
-/* ❌ INTERDIT dans src/app/ et src/components/ (espace public) */
-<div className="flex gap-4 p-6 rounded-xl bg-gray-900">
+/* ❌ INTERDIT — valeurs arbitraires et conflits d'infrastructures */
+<div className="bg-[#1A0A21] shadow-[0_8px_30px_rgba(87,34,105,0.6)]">
 
-/* ✅ OBLIGATOIRE — classes CSS sémantiques via globals.css */
-<div className="track-card">
+/* ✅ OBLIGATOIRE — Tokens partagés et classes thémées */
+<div className="hero-container">
 ```
 
-**Pourquoi** : l'espace public utilise des variables CSS HSL dans `globals.css`. Tailwind CSS est réservé au dashboard (`dashboard.css`). Mélanger les deux systèmes casse le thème light/dark et rend les variables CSS inutilisables sur les classes Tailwind.
+**Pourquoi** : Les valeurs arbitraires hardcodées inline (`bg-[#...]`) contournent le système de tokens partagé, empêchent l'adaptation au thème sombre/clair et produisent des disparités visuelles incontrôlables d'un écran à l'autre.
 
 ---
 
-*Ce fichier est une liste vivante. Quand un bug de layout récurrent est identifié et corrigé, ajouter l'anti-pattern ici pour que tous les agents l'évitent à l'avenir.*
+## ❌ INTERDIT-11 — Emojis dans les contrôles UI et boutons d'action
+
+```tsx
+/* ❌ INTERDIT */
+<Link className="btn">
+  <Headphones className="w-5 h-5" />
+  <span>🎧 Écouter nos enseignements</span>
+</Link>
+
+/* ✅ OBLIGATOIRE */
+<Link className="btn">
+  <Headphones className="w-4 h-4 text-amber-300" />
+  <span>Écouter nos enseignements</span>
+</Link>
+```
+
+**Pourquoi** : Les émojis sont rendus différemment selon le système d'exploitation (Apple, Android, Windows, Linux) et produisent un rendu amateur et hétérogène. Les coupler avec une icône SVG génère un doublon grotesque (`🎧 🎧`). Utiliser exclusivement des icônes SVG filaires homogènes (Lucide).
+
+---
+
+## ❌ INTERDIT-12 — Halos lumineux ponctuels flous non structurés (« Blobs »)
+
+```tsx
+/* ❌ INTERDIT — div circulaires ultra-saturées créant des taches boueuses */
+<div className="absolute w-[650px] h-[650px] bg-[#572269]/40 rounded-full blur-[140px]" />
+<div className="absolute w-[380px] h-[380px] bg-[#FBC906]/15 rounded-full blur-[120px]" />
+
+/* ✅ OBLIGATOIRE — gradients amples, diffus, basse opacité avec grain subtil */
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(44,18,54,0.35),rgba(13,7,20,0))]" />
+```
+
+**Pourquoi** : Les cercles individuels floutés avec `blur-[140px]` à forte saturation créent des taches de couleur locales qui entrent en collision avec le texte et provoquent une impression de saleté visuelle et de bruit chromatique.
+
+---
+
+## ❌ INTERDIT-13 — Sur-empilement dans le Hero (*Hero Over-stacking*) et collision de composants
+
+```tsx
+/* ❌ INTERDIT — Forcer badges + titre + sous-titre + double bouton + 3 cartes dans 100vh */
+<section className="min-h-screen">
+  <Badge />
+  <Title />
+  <Subtitle />
+  <ActionButtons />
+  <ThreeFeatureCards /> {/* Collision garantie avec les boutons ! */}
+</section>
+
+/* ✅ OBLIGATOIRE — Règle des 3 étages max dans le Hero + section suivante aérée */
+<section className="hero-section">
+  <Badge />
+  <Title />
+  <Subtitle />
+  <ActionButtons />
+</section>
+<section className="pillars-section"> {/* Dans son propre espace qui respire */}
+  <ThreeFeatureCards />
+</section>
+```
+
+**Pourquoi** : Empiler plus de 3 étages d'information dans le Hero écrase le contenu et provoque le chevauchement direct des boutons d'action sur les cartes d'information dès que la hauteur de fenêtre se réduit.
+
+---
+
+## ❌ INTERDIT-14 — Dégradé de texte saturé fluorescent sans compensation de lisibilité
+
+```tsx
+/* ❌ INTERDIT — Jaune canari fluo juxtaposé à du blanc cru */
+<span className="text-white">Bienvenue à</span>
+<span className="bg-gradient-to-r from-[#FBC906] to-[#f4ad02] text-transparent bg-clip-text">Charis Nation</span>
+
+/* ✅ OBLIGATOIRE — Dégradé harmonieux or champagne / écru chaleureux */
+<span className="bg-gradient-to-b from-[#FDFBF7] via-[#F4EBD9] to-[#E6C687] text-transparent bg-clip-text">
+  Bienvenue à Charis Nation
+</span>
+```
+
+**Pourquoi** : Un dégradé jaune fluo à côté d'un blanc pur crée une rupture de contraste agressive pour l'œil et dégrade la solennité de la marque. Le dégradé doit unir l'ensemble de la phrase avec des nuances d'or doux et d'écru chaleureux.
+
+---
+
+*Ce fichier est une liste vivante. Quand un bug de layout ou un défaut esthétique récurrent est identifié et corrigé, ajouter l'anti-pattern ici pour que tous les agents l'évitent à l'avenir.*
+

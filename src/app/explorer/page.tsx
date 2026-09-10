@@ -115,11 +115,11 @@ export default function ExplorerPage() {
 
     return (
         <div className="w-full max-w-[800px] mx-auto pb-[100px] min-h-screen p-4 md:p-6 lg:p-8 animate-[fadeIn_0.5s_ease]">
-            <Link href="/" className="inline-flex items-center gap-2 text-[0.95rem] font-bold text-text-muted mb-6 transition-colors duration-200 hover:text-brand-purple no-underline">
+            <Link href="/ecouter" className="inline-flex items-center gap-2 text-[0.95rem] font-bold text-text-muted mb-6 transition-colors duration-200 hover:text-brand-purple no-underline">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
                 </svg>
-                Accueil
+                Retour à l&apos;écoute
             </Link>
 
             <h1 className="m-0 text-3xl font-extrabold mb-1">Explorer</h1>

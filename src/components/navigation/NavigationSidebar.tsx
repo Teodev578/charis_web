@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Home, Compass, FileText, Heart, LayoutDashboard, LogOut, Moon, Sun, User as UserIcon } from 'lucide-react';
+import { Headphones, Compass, FileText, Heart, Globe, LayoutDashboard, LogOut, Moon, Sun, User as UserIcon } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
 
 interface SidebarItem {
@@ -24,10 +24,10 @@ function NavContent() {
 
   const NAV_ITEMS: SidebarItem[] = [
     {
-      id: 'accueil',
-      label: 'Accueil',
-      path: '/',
-      icon: <Home className="w-5 h-5" />,
+      id: 'ecouter',
+      label: 'Écouter',
+      path: '/ecouter',
+      icon: <Headphones className="w-5 h-5" />,
     },
     {
       id: 'explorer',
@@ -38,14 +38,20 @@ function NavContent() {
     {
       id: 'notes',
       label: 'Notes',
-      path: null, // Tab behaviour handled in landing page
+      path: null,
       icon: <FileText className="w-5 h-5" />,
     },
     {
       id: 'favoris',
       label: 'Favoris',
-      path: null, // Tab behaviour handled in landing page
+      path: null,
       icon: <Heart className="w-5 h-5" />,
+    },
+    {
+      id: 'vitrine',
+      label: 'Vitrine de l’Église',
+      path: '/',
+      icon: <Globe className="w-5 h-5" />,
     },
   ];
 
@@ -60,14 +66,14 @@ function NavContent() {
     if (item.path) {
       router.push(item.path);
     } else {
-      // If it's a tab, route to home and pass state or query param
-      router.push(`/?tab=${item.id}`);
+      router.push(`/ecouter?tab=${item.id}`);
     }
     closeMobileMenu();
   };
 
   const getIsActive = (item: SidebarItem) => {
     if (item.path === '/explorer' && pathname === '/explorer') return true;
+    if (item.path === '/ecouter' && pathname === '/ecouter') return true;
     if (item.path === '/' && pathname === '/') return true;
     return false;
   };

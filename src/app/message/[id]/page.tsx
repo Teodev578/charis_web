@@ -172,7 +172,7 @@ export default function MessageDetailPage() {
                     </svg>
                     <h2 className="m-0 mb-3 text-2xl font-bold">Message introuvable</h2>
                     <p className="m-0 mb-8 text-text-muted text-[1.05rem]">Ce message n&apos;existe pas ou a été supprimé.</p>
-                    <Link href="/" className="px-5 py-2.5 rounded-full border-none text-[0.9rem] font-bold cursor-pointer transition-all duration-200 bg-primary-accent text-primary-accent-white hover:opacity-90 no-underline">Retour à l&apos;accueil</Link>
+                    <Link href="/ecouter" className="px-5 py-2.5 rounded-full border-none text-[0.9rem] font-bold cursor-pointer transition-all duration-200 bg-primary-accent text-primary-accent-white hover:opacity-90 no-underline">Retour aux enseignements</Link>
                 </div>
             </div>
         );
@@ -181,7 +181,7 @@ export default function MessageDetailPage() {
     return (
         <div className="w-full max-w-[800px] mx-auto pb-[100px] min-h-screen p-4 md:p-6 lg:p-8 animate-[fadeIn_0.5s_ease]">
             {/* Back button */}
-            <Link href="/" className="inline-flex items-center gap-2 text-[0.95rem] font-bold text-text-muted mb-6 transition-colors duration-200 hover:text-brand-purple no-underline">
+            <Link href="/ecouter" className="inline-flex items-center gap-2 text-[0.95rem] font-bold text-text-muted mb-6 transition-colors duration-200 hover:text-brand-purple no-underline">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
                 </svg>

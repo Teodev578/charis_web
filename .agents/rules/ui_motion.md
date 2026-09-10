@@ -297,8 +297,48 @@ Placer ce bloc dans `globals.css` une seule fois. Ne pas le dupliquer dans chaqu
 
 ---
 
+---
+
+## Défilement doux global (Lenis Smooth Scrolling)
+
+Pour conférer à la navigation une texture soyeuse et haut de gamme sans casser les mécanismes d'accessibilité ni le scroll natif, **Lenis** est le moteur de smooth scrolling recommandé sur l'ensemble de l'espace public.
+
+### Règles d'intégration Lenis
+- **Initialisation unique** dans le layout client racine (`ClientAppWrapper.tsx`).
+- Ne jamais surcharger ou multiplier les instances de Lenis.
+- Désactiver automatiquement ou respecter `prefers-reduced-motion`.
+- Ne pas altérer le comportement des formulaires ni des zones à défilement interne (`overflow-y: auto`).
+
+---
+
+## Pattern Text Reveal en masque (*Split Masking*)
+
+Pour les titres majeurs de la vitrine et du Hero, le motif d'apparition recommandé repose sur le masquage de débordement (`overflow: hidden`) combiné à une translation verticale fluide orchestrée par `motion` (Framer Motion) ou CSS :
+
+```tsx
+/* Exemple conceptuel de Text Reveal */
+<div className="overflow-hidden">
+  <motion.h1
+    initial={{ y: "100%", opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+  >
+    Bienvenue à Charis Nation
+  </motion.h1>
+</div>
+```
+
+**Règles du reveal :**
+- L'élément conteneur direct doit porter `overflow: hidden`.
+- La courbe de transition doit être douce et naturelle (décélération noble, ex: `cubic-bezier(0.16, 1, 0.3, 1)`).
+- Les mots ou lignes apparaissent en cascade légère (*stagger* de 0.08s à 0.15s) pour créer une entrée majestueuse et digne.
+
+---
+
 ## Ce qu'on ne fait pas
 
+- **Jamais de Custom Cursor** : Les curseurs personnalisés créent de la latence visuelle, perturbent l'accessibilité pour les utilisateurs novices et sont inopérants sur 70%+ de trafic mobile.
+- **Jamais de Preloader bloquant** : Ne jamais insérer d'écran de chargement artificiel qui bloque la page au démarrage ; cela détruit le score LCP (Largest Contentful Paint) et agace les visiteurs.
 - Jamais `transition: all` — trop large, anime des propriétés coûteuses sans le savoir.
 - Jamais animer `height`, `width`, `margin`, `padding`, `top`, `left` — déclenche un reflow complet du layout à chaque frame. Utiliser `transform: scaleY()` ou `max-height` avec prudence.
 - Jamais d'animation en boucle infinie sur du contenu statique (`animation: spin 2s infinite`) — distrayant et énergivore.
@@ -307,4 +347,5 @@ Placer ce bloc dans `globals.css` une seule fois. Ne pas le dupliquer dans chaqu
 
 ---
 
-*Ces règles s'appliquent en complément de `layout_constraints.md`, `ui_patterns.md` et `ui_forbidden.md`.*
+*Ces règles s'appliquent en complément de `layout_constraints.md`, `ui_patterns.md`, `ui_forbidden.md` et `aesthetic_standards.md`.*
+
