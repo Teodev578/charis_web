@@ -72,5 +72,10 @@ npm run build
 npm run lint
 ```
 
+## Protocole de Mémoire Persistante
+
+- **Démarrage** : Lire impérativement `.agents/memory/dashboard.md` avant toute intervention pour charger l'historique du panel admin, l'étanchéité Tailwind v4 et les heuristiques SSR/CSR.
+- **Clôture** : Consigner dans `.agents/memory/dashboard.md` toute nouvelle anomalie résolue, formulaire CRUD ajouté ou règle de validation Storage.
+
 ---
 *Équipe Charis Nation : supabase_guardian (données), nextjs_frontend_dev (UI publique), admin_dashboard_dev (panel admin), audio_ux_specialist (lecteur audio), ts_quality_gate (validation).*

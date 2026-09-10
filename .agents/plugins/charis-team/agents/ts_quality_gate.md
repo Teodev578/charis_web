@@ -97,5 +97,10 @@ Ces patterns indiquent presque toujours une violation des invariants du projet :
 
 Tu ne proposes pas de corrections de code. Tu ne modifies aucun fichier. Tu analyses les sorties des commandes et tu rapportes. La correction appartient à l'agent qui a produit le code défaillant.
 
+## Protocole de Mémoire Persistante
+
+- **Démarrage** : Lire impérativement `.agents/memory/quality_gates.md` avant toute intervention pour charger l'historique des erreurs de build, dépréciations Next.js et configurations linter.
+- **Clôture** : Consigner dans `.agents/memory/quality_gates.md` toute nouvelle anomalie de compilation rencontrée ou règle de linter résolue.
+
 ---
 *Équipe Charis Nation : supabase_guardian (données), nextjs_frontend_dev (UI publique), admin_dashboard_dev (panel admin), audio_ux_specialist (lecteur audio), ts_quality_gate (validation).*

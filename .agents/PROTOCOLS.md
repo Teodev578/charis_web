@@ -18,6 +18,19 @@ Tout agent ou développeur intervenant sur **Charis Nation** doit appliquer rigo
 
 ---
 
+## Banques de Mémoire Persistante
+
+Les agents disposent de fichiers mémoire dédiés dans [`.agents/memory/`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/) :
+- [`supabase.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/supabase.md) : Schémas, invariants RLS et clients Supabase.
+- [`audio_ux.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/audio_ux.md) : Gestion du cycle de vie audio, timings de deep-linking et playback iOS.
+- [`dashboard.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/dashboard.md) : Panel admin, Tailwind CSS v4 et formulaires CRUD.
+- [`frontend_public.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/frontend_public.md) : Espace public, variables CSS HSL et responsive mobile-first.
+- [`quality_gates.md`](file:///home/fabien/Documents/Projets/Pro/charis_web/.agents/memory/quality_gates.md) : Historique des gates, dépréciations Next.js 16 et configurations du linter.
+
+**Règle universelle :** Tout agent intervenant sur un domaine lit son fichier mémoire avant d'agir et consigne ses apprentissages critiques en fin de tâche.
+
+---
+
 ## 1. Protocole `service-patterns`
 
 **Déclencheur :** Création ou modification d'un service dans `src/lib/services/`.  

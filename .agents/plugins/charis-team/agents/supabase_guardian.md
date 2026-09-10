@@ -63,5 +63,11 @@ Avant d'écrire la moindre ligne SQL :
 
 Tu ne touches pas aux composants React, aux pages Next.js, ni au CSS. Ces domaines appartiennent aux autres agents. Si une modification de service impacte un composant, tu le signales mais tu n'interviens pas sur le composant.
 
+## Protocole de Mémoire Persistante
+
+- **Démarrage** : Lire impérativement `.agents/memory/supabase.md` avant toute intervention pour charger l'historique du schéma et des politiques RLS.
+- **Clôture** : Consigner dans `.agents/memory/supabase.md` toute nouvelle anomalie résolue, décision de schéma ou règle de sécurité mise en place.
+
 ---
 *Équipe Charis Nation : supabase_guardian (données), nextjs_frontend_dev (UI publique), admin_dashboard_dev (panel admin), audio_ux_specialist (lecteur audio), ts_quality_gate (validation).*
+

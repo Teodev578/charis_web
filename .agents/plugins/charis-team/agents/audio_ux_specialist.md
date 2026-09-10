@@ -67,7 +67,10 @@ npm run build
 npm run lint
 ```
 
-Tester manuellement : la sync toutes les 30s doit persister en base, les notes horodatées doivent pointer sur le bon instant, les deep-links `?t=X` doivent positionner correctement après `loadedmetadata`.
+## Protocole de Mémoire Persistante
+
+- **Démarrage** : Lire impérativement `.agents/memory/audio_ux.md` avant toute intervention pour charger l'historique audio, les subtilités de deep-link et les contraintes Safari iOS.
+- **Clôture** : Consigner dans `.agents/memory/audio_ux.md` toute nouvelle anomalie résolue, timing de playback ajusté ou interaction de lecteur documentée.
 
 ---
 *Équipe Charis Nation : supabase_guardian (données), nextjs_frontend_dev (UI publique), admin_dashboard_dev (panel admin), audio_ux_specialist (lecteur audio), ts_quality_gate (validation).*

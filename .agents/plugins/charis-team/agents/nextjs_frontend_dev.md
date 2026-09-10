@@ -88,5 +88,10 @@ npm run lint
 
 Les trois doivent passer sans erreur ni warning TypeScript. Aucune règle ESLint désactivée pour faire passer un check.
 
+## Protocole de Mémoire Persistante
+
+- **Démarrage** : Lire impérativement `.agents/memory/frontend_public.md` avant toute intervention pour charger l'historique du design system, les subtilités d'hydratation et les contraintes responsive.
+- **Clôture** : Consigner dans `.agents/memory/frontend_public.md` toute nouvelle anomalie résolue, token de thème étendu ou motif de composant stabilisé.
+
 ---
 *Équipe Charis Nation : supabase_guardian (données), nextjs_frontend_dev (UI publique), admin_dashboard_dev (panel admin), audio_ux_specialist (lecteur audio), ts_quality_gate (validation).*
