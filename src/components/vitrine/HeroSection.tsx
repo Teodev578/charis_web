@@ -8,10 +8,50 @@ interface HeroSectionProps {
   onAnimationComplete?: () => void;
 }
 
+interface HeroCardItem {
+  id: number;
+  src: string;
+  alt: string;
+  labelTop: string;
+  labelBottom: string;
+}
+
+const HERO_CARDS: HeroCardItem[] = [
+  {
+    id: 0,
+    src: '/images/vitrine/hero/reader.png',
+    alt: 'Méditation biblique',
+    labelTop: 'Lorem ipsum',
+    labelBottom: 'dolor',
+  },
+  {
+    id: 1,
+    src: '/images/vitrine/hero/prayer_hands.png',
+    alt: 'Prière et intercession',
+    labelTop: 'Lorem ipsum',
+    labelBottom: 'dolor',
+  },
+  {
+    id: 2,
+    src: '/images/vitrine/hero/preacher_step3.png',
+    alt: 'Prédication pastorale Charis Nation',
+    labelTop: '',
+    labelBottom: '',
+  },
+  {
+    id: 3,
+    src: '/images/vitrine/hero/bass_guitar.png',
+    alt: 'Louange et adoration',
+    labelTop: 'Lorem ipsum',
+    labelBottom: 'dolor',
+  },
+];
+
 export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isTitlePurple, setIsTitlePurple] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState<number>(2); // Pasteur par défaut
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -25,8 +65,9 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     setStep(1);
     setIsTitlePurple(false);
     setHasInteracted(false);
+    setActiveCardIndex(2);
 
-    // Étape 1 -> Étape 2 : Écartement de Charis & Nation et émergence de l'image centrale
+    // Étape 1 -> Étape 2 : Écartement de Charis & Nation et émergence de l'image centrale parfaitement au milieu
     const t1 = setTimeout(() => {
       setStep(2);
     }, 1300);
@@ -40,7 +81,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     const t3 = setTimeout(() => {
       setIsTitlePurple(true);
       onAnimationComplete?.();
-    }, 4100);
+    }, 4200);
 
     timersRef.current = [t1, t2, t3];
   };
@@ -52,15 +93,21 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       if (prefersReducedMotion) {
         setStep(3);
         setIsTitlePurple(true);
+        setActiveCardIndex(2);
         onAnimationComplete?.();
         return;
       }
 
       // Exposer pour pilotage programmatique / tests
-      (window as unknown as { __setHeroStep?: (s: 1 | 2 | 3, purple?: boolean) => void }).__setHeroStep = (s: 1 | 2 | 3, purple = false) => {
+      (window as unknown as { __setHeroStep?: (s: 1 | 2 | 3, purple?: boolean, card?: number) => void }).__setHeroStep = (
+        s: 1 | 2 | 3,
+        purple = false,
+        card = 2
+      ) => {
         clearAllTimers();
         setStep(s);
         setIsTitlePurple(s === 3 ? purple : false);
+        setActiveCardIndex(card);
       };
     }
 
@@ -105,20 +152,37 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     }
   };
 
+  // Calcul du décalage horizontal du ruban pour amener la carte active au milieu de l'écran lors du survol
+  const getRibbonTranslateX = () => {
+    if (step < 3) return '0%';
+    switch (activeCardIndex) {
+      case 0: // Lecteur biblique : glisse à droite pour venir au centre
+        return 'clamp(140px, 24vw, 340px)';
+      case 1: // Mains en prière : glisse modérément à droite
+        return 'clamp(70px, 12vw, 170px)';
+      case 2: // Pasteur au pupitre (défaut centré)
+        return '0px';
+      case 3: // Guitariste à droite : glisse à gauche pour venir au centre et pousser les autres à gauche
+        return '-clamp(140px, 22vw, 320px)';
+      default:
+        return '0px';
+    }
+  };
+
   return (
     <section
       id="hero"
       ref={containerRef}
       onClick={skipToFinal}
-      className="relative min-h-screen w-full bg-white text-[#111111] overflow-hidden select-none flex flex-col justify-between"
+      className="relative h-screen min-h-[620px] max-h-[1080px] w-full bg-white text-[#111111] overflow-hidden select-none"
     >
       {/* =========================================================================
           1. BARRE DE NAVIGATION SUPÉRIEURE (Révélée lors de l'Étape 3)
           ========================================================================= */}
       <header
-        className={`w-full pt-8 pb-4 px-6 md:px-12 z-30 transition-all duration-700 ease-out ${
+        className={`absolute top-0 left-0 right-0 w-full pt-6 sm:pt-8 pb-4 px-6 md:px-12 z-40 transition-all duration-700 ease-out ${
           step === 3
-            ? 'opacity-100 translate-y-0'
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
       >
@@ -170,204 +234,198 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       </header>
 
       {/* =========================================================================
-          2. SCÈNE PRINCIPALE CONTINUE :
-             L'image centrale monte tout en haut dans la frise.
-             "Charis" et "Nation" descendent tout en bas, puis deviennent violets.
+          2. SCÈNE CENTRALE ABSOLUE (Centrage parfait à 50% X et 50% Y garanti)
+             - Étape 1 : "CharisNation" au centre exact de l'écran.
+             - Étape 2 : L'image centrale s'épanouit au milieu, séparant Charis et Nation
+                         avec un alignement médian vertical et horizontal sans faille.
+             - Étape 3 : L'image centrale monte au sommet dans la frise d'images,
+                         Charis et Nation descendent en bas et deviennent pourpres royaux (#6c288b).
           ========================================================================= */}
-      <div className="relative flex-1 flex flex-col items-center justify-center w-full px-2 sm:px-4 md:px-6 my-auto">
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
 
-          {/* Ligne des libellés discrets au-dessus des images (Étape 3) */}
+        {/* --- Image pastorale centrale d'intro (monte vers la frise en Étape 3) --- */}
+        <div
+          className="absolute flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-30 pointer-events-none"
+          style={{
+            transform: `translateY(${step === 3 ? '-clamp(140px, 23vh, 190px)' : '0px'})`,
+            opacity: step === 1 ? 0 : step === 2 ? 1 : 0,
+          }}
+        >
           <div
-            className={`w-full grid grid-cols-12 gap-2 sm:gap-4 mb-2 text-xs sm:text-sm text-[#222222] font-serif leading-tight transition-all duration-700 ease-out ${
-              step === 3
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 -translate-y-2 pointer-events-none'
+            className={`relative overflow-hidden rounded-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl ${
+              step === 1
+                ? 'w-0 h-0 scale-75 opacity-0'
+                : 'w-[240px] sm:w-[320px] md:w-[380px] lg:w-[440px] h-[190px] sm:h-[250px] md:h-[300px] lg:h-[340px] scale-100 opacity-100'
             }`}
           >
-            <div className="col-span-4 sm:col-span-3 text-left pl-2">
-              <p className="font-serif">Lorem ipsum</p>
-              <p className="font-serif">dolor</p>
-            </div>
-            <div className="col-span-4 sm:col-span-3 text-left pl-2">
-              <p className="font-serif">Lorem ipsum</p>
-              <p className="font-serif">dolor</p>
-            </div>
-            <div className="hidden sm:block sm:col-span-3" />
-            <div className="col-span-4 sm:col-span-3 text-left pl-2">
-              <p className="font-serif">Lorem ipsum</p>
-              <p className="font-serif">dolor</p>
-            </div>
+            <Image
+              src="/images/vitrine/hero/preacher_step3.png"
+              alt="Prédication pastorale Charis Nation"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 340px, 440px"
+            />
           </div>
-
-          {/* =====================================================================
-              FRISE D'IMAGES :
-              Contient les photos latérales ET la photo centrale qui s'y dépose.
-              ===================================================================== */}
-          <div className="w-full flex items-start justify-center gap-0 overflow-visible relative">
-            {/* Photo 1 (Gauche : Homme en lecture biblique) */}
-            <div
-              className={`relative flex-1 min-w-[70px] sm:min-w-[100px] h-[190px] sm:h-[260px] md:h-[320px] overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                step === 3
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 -translate-x-12 pointer-events-none'
-              }`}
-            >
-              <Image
-                src="/images/vitrine/hero/reader.png"
-                alt="Méditation biblique"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 25vw, 20vw"
-              />
-            </div>
-
-            {/* Photo 2 (Mains levées en prière) */}
-            <div
-              className={`relative flex-1 min-w-[90px] sm:min-w-[140px] h-[190px] sm:h-[260px] md:h-[320px] overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] delay-75 ${
-                step === 3
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 -translate-x-8 pointer-events-none'
-              }`}
-            >
-              <Image
-                src="/images/vitrine/hero/prayer_hands.png"
-                alt="Prière et intercession"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 25vw, 25vw"
-              />
-            </div>
-
-            {/* PHOTO CENTRALE DU PASTEUR :
-                C'est l'actrice principale du mouvement !
-                - Étape 1 : invisible (opacity-0, scale-75).
-                - Étape 2 : descendue au centre du viewport entre "Charis" et "Nation".
-                - Étape 3 : MONTE ET SE DÉPOSE TOUT EN HAUT À SA PLACE DÉFINITIVE ! */}
-            <div
-              className={`relative flex-[1.6] sm:flex-[1.8] min-w-[140px] sm:min-w-[240px] h-[230px] sm:h-[320px] md:h-[400px] z-20 shadow-xl overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                step === 1
-                  ? 'opacity-0 scale-75 translate-y-[18vh] pointer-events-none'
-                  : step === 2
-                  ? 'opacity-100 scale-100 translate-y-[18vh] shadow-2xl'
-                  : 'opacity-100 scale-100 translate-y-0 shadow-lg'
-              }`}
-            >
-              <Image
-                src="/images/vitrine/hero/preacher_step3.png"
-                alt="Prédication pastorale Charis Nation"
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 640px) 50vw, 35vw"
-              />
-            </div>
-
-            {/* Photo 4 (Droite : Bassiste lors de la louange) */}
-            <div
-              className={`relative flex-[1.2] sm:flex-[1.4] min-w-[100px] sm:min-w-[160px] h-[190px] sm:h-[260px] md:h-[320px] overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] delay-75 ${
-                step === 3
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 translate-x-8 pointer-events-none'
-              }`}
-            >
-              <Image
-                src="/images/vitrine/hero/bass_guitar.png"
-                alt="Louange et adoration"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 25vw, 25vw"
-              />
-            </div>
-          </div>
-
-          {/* =====================================================================
-              TITRE : "CHARIS" & "NATION"
-              - Étape 1 : ils sont au centre, collés, noirs (CharisNation).
-              - Étape 2 : ils s'écartent horizontalement pour entourer le pasteur, toujours noirs.
-              - Étape 3 : ils DESCENDENT TOUT EN BAS sous les images et se resserrent.
-              - UNE FOIS EN BAS : ils deviennent VIOLETS (#6c288b) !
-              ===================================================================== */}
-          <div
-            className={`relative mt-8 sm:mt-12 text-center transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 ${
-              step <= 2
-                ? '-translate-y-[24vh] sm:-translate-y-[28vh]'
-                : 'translate-y-0'
-            }`}
-          >
-            <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.95] flex items-center justify-center">
-              {/* Mot "Charis" */}
-              <span
-                className={`inline-block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  step === 1
-                    ? 'translate-x-0'
-                    : step === 2
-                    ? '-translate-x-32 sm:-translate-x-52 md:-translate-x-68 lg:-translate-x-80'
-                    : 'translate-x-0'
-                } ${
-                  isTitlePurple
-                    ? 'text-[#6c288b]'
-                    : 'text-[#111111]'
-                }`}
-                style={{
-                  transitionProperty: 'transform, color',
-                  transitionDuration: '1000ms, 800ms',
-                }}
-              >Charis</span>{step > 1 && <span className="inline-block w-2 sm:w-4 md:w-5 transition-all" />}<span
-                className={`inline-block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  step === 1
-                    ? 'translate-x-0'
-                    : step === 2
-                    ? 'translate-x-32 sm:translate-x-52 md:translate-x-68 lg:translate-x-80'
-                    : 'translate-x-0'
-                } ${
-                  isTitlePurple
-                    ? 'text-[#6c288b]'
-                    : 'text-[#111111]'
-                }`}
-                style={{
-                  transitionProperty: 'transform, color',
-                  transitionDuration: '1000ms, 800ms',
-                }}
-              >Nation</span>
-            </h1>
-
-            {/* Devise / Baseline sous le titre (Apparaît une fois que le titre est descendu) */}
-            <p
-              className={`mt-4 sm:mt-6 font-serif text-base sm:text-xl md:text-2xl text-[#1E1E1E] max-w-4xl mx-auto px-4 leading-relaxed transition-all duration-800 ease-out ${
-                isTitlePurple
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-4 pointer-events-none'
-              }`}
-            >
-              Equiper les Saints afin qu’ils influencent leurs différentes sphères avec Christ.
-            </p>
-          </div>
-
         </div>
 
-        {/* Indicateur pour passer l'intro */}
-        {step < 3 && !hasInteracted && (
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-400 animate-pulse cursor-pointer">
-            Cliquer pour passer l’introduction
+        {/* --- Titre "Charis Nation" et Devise (Acteurs continus des 3 étapes) --- */}
+        <div
+          className="flex flex-col items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 pointer-events-auto"
+          style={{
+            transform: `translateY(${step === 3 ? 'clamp(160px, 26vh, 220px)' : '0px'})`,
+          }}
+        >
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none flex items-center justify-center">
+            <span
+              className={`inline-block transition-colors duration-800 ease-out ${
+                isTitlePurple ? 'text-[#6c288b]' : 'text-[#111111]'
+              }`}
+            >
+              Charis
+            </span>
+
+            {/* Espace séparateur dynamique calibré exactement pour l'image centrale en étape 2 */}
+            <span
+              className="inline-block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                width:
+                  step === 1
+                    ? '0px'
+                    : step === 2
+                    ? 'clamp(280px, 33vw, 500px)'
+                    : 'clamp(10px, 1.4vw, 20px)',
+              }}
+            />
+
+            <span
+              className={`inline-block transition-colors duration-800 ease-out ${
+                isTitlePurple ? 'text-[#6c288b]' : 'text-[#111111]'
+              }`}
+            >
+              Nation
+            </span>
+          </h1>
+
+          {/* Devise sous le titre en Étape 3 */}
+          <p
+            className={`absolute top-full mt-3 sm:mt-4 font-serif text-sm sm:text-base md:text-lg text-[#1E1E1E] text-center max-w-2xl px-4 leading-relaxed transition-all duration-800 ease-out w-max max-w-[90vw] ${
+              isTitlePurple
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-4 pointer-events-none'
+            }`}
+          >
+            Equiper les Saints afin qu’ils influencent leurs différentes sphères avec Christ.
+          </p>
+        </div>
+
+        {/* --- Frise d'images supérieure interactive de l'Étape 3 --- */}
+        <div
+          className={`absolute w-full flex flex-col items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-25 overflow-visible ${
+            step === 3
+              ? 'opacity-100 pointer-events-auto'
+              : 'opacity-0 pointer-events-none'
+          }`}
+          style={{
+            top: 'clamp(54px, 8.5vh, 76px)',
+          }}
+          onMouseLeave={() => {
+            if (step === 3) setActiveCardIndex(2); // Retour naturel au pasteur au centre
+          }}
+        >
+          {/* Ruban horizontal animé et interactif */}
+          <div
+            className="flex items-start justify-center gap-2 sm:gap-3 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] w-max max-w-none px-4"
+            style={{
+              transform: `translateX(${getRibbonTranslateX()})`,
+            }}
+          >
+            {HERO_CARDS.map((card) => {
+              const isCardActive = activeCardIndex === card.id;
+              const isPreacher = card.id === 2;
+
+              return (
+                <div
+                  key={card.id}
+                  onMouseEnter={() => {
+                    if (step === 3) setActiveCardIndex(card.id);
+                  }}
+                  className={`relative flex flex-col items-start transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none group ${
+                    isCardActive ? 'z-30' : 'z-10'
+                  }`}
+                >
+                  {/* Libellé au-dessus de la carte (Lorem ipsum dolor) */}
+                  <div
+                    className={`h-8 mb-1.5 pl-1 text-xs sm:text-sm text-[#222222] font-serif leading-tight transition-all duration-500 ${
+                      step === 3 && card.labelTop
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 -translate-y-2 pointer-events-none'
+                    }`}
+                  >
+                    <p className="font-serif">{card.labelTop}</p>
+                    <p className="font-serif">{card.labelBottom}</p>
+                  </div>
+
+                  {/* Boîte d'image adaptative */}
+                  <div
+                    className={`relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-sm ${
+                      isCardActive
+                        ? 'w-[240px] sm:w-[320px] md:w-[380px] lg:w-[440px] h-[210px] sm:h-[280px] md:h-[320px] lg:h-[350px] shadow-2xl ring-1 ring-black/5'
+                        : 'w-[110px] sm:w-[150px] md:w-[190px] lg:w-[230px] h-[170px] sm:h-[220px] md:h-[260px] lg:h-[290px] shadow-md opacity-90 group-hover:opacity-100'
+                    }`}
+                  >
+                    <Image
+                      src={card.src}
+                      alt={card.alt}
+                      fill
+                      priority={isPreacher}
+                      className={`object-cover transition-transform duration-700 ease-out ${
+                        isCardActive ? 'scale-105' : 'scale-100 group-hover:scale-102'
+                      }`}
+                      sizes="(max-width: 640px) 45vw, 35vw"
+                    />
+
+                    {/* Voile d'atténuation sur les cartes inactives */}
+                    <div
+                      className={`absolute inset-0 bg-black/10 transition-opacity duration-500 ${
+                        isCardActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
+                      }`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        )}
+        </div>
+
       </div>
 
       {/* =========================================================================
-          3. BAS DE SECTION : FLUIDITÉ DE DÉFILEMENT VERS LA SECTION SUIVANTE
+          3. ÉLÉMENTS DE BAS DE PAGE (Indicateur intro & chevron Étape 3)
           ========================================================================= */}
-      <div className="w-full pb-8 pt-4 flex items-center justify-center text-center">
-        {step === 3 && isTitlePurple && (
-          <a
-            href="#vision"
-            onClick={(e) => handleNavClick(e, '#vision')}
-            className="inline-flex flex-col items-center gap-1.5 text-xs tracking-widest uppercase font-semibold text-[#6c288b]/70 hover:text-[#6c288b] transition-colors no-underline animate-[fadeIn_0.6s_ease]"
-          >
-            <span>Découvrir la suite</span>
-            <div className="w-4 h-4 border-b-2 border-r-2 border-[#6c288b] rotate-45 animate-bounce" />
-          </a>
-        )}
+      {/* Indication discrète pour passer l'intro */}
+      {step < 3 && !hasInteracted && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-400 animate-pulse cursor-pointer whitespace-nowrap z-40">
+          Cliquer pour passer l’introduction
+        </div>
+      )}
+
+      {/* Défilement vers la suite en Étape 3 */}
+      <div
+        className={`absolute bottom-6 left-0 right-0 w-full flex items-center justify-center text-center z-40 transition-all duration-700 ease-out ${
+          step === 3 && isTitlePurple
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-2 pointer-events-none'
+        }`}
+      >
+        <a
+          href="#vision"
+          onClick={(e) => handleNavClick(e, '#vision')}
+          className="inline-flex flex-col items-center gap-1 text-xs tracking-widest uppercase font-semibold text-[#6c288b]/70 hover:text-[#6c288b] transition-colors no-underline"
+        >
+          <span>Découvrir la suite</span>
+          <div className="w-3.5 h-3.5 border-b-2 border-r-2 border-[#6c288b] rotate-45 animate-bounce" />
+        </a>
       </div>
     </section>
   );
