@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* 
+  Configuration de Tailwind CSS v4 pour le dashboard uniquement
+  Les variables de thème globales sont définies dans globals.css
+*/
+
+@theme {
+  --color-primary-50: #faf5ff;
+  --color-primary-100: #f3e8ff;
+  --color-primary-600: #9333ea;
+  --color-primary-900: #581c87;
+  --color-brand-purple: #572269;
+  --color-brand-yellow: #FBC906;
+}
+
+.dashboard-container {
+  /* Isoler le style du dashboard pour éviter les conflits avec globals.css */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
