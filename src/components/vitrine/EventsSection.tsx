@@ -18,7 +18,7 @@ export default function EventsSection() {
   };
 
   return (
-    <section id="cultes" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5">
+    <section id="cultes" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
       {/* Background ambient beam */}
       <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-[#572269]/20 rounded-full blur-[130px] pointer-events-none" />
 

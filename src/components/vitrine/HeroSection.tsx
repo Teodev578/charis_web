@@ -410,23 +410,6 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
         </div>
       )}
 
-      {/* Défilement vers la suite en Étape 3 */}
-      <div
-        className={`absolute bottom-6 left-0 right-0 w-full flex items-center justify-center text-center z-40 transition-all duration-700 ease-out ${
-          step === 3 && isTitlePurple
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 translate-y-2 pointer-events-none'
-        }`}
-      >
-        <a
-          href="#vision"
-          onClick={(e) => handleNavClick(e, '#vision')}
-          className="inline-flex flex-col items-center gap-1 text-xs tracking-widest uppercase font-semibold text-[#6c288b]/70 hover:text-[#6c288b] transition-colors no-underline"
-        >
-          <span>Découvrir la suite</span>
-          <div className="w-3.5 h-3.5 border-b-2 border-r-2 border-[#6c288b] rotate-45 animate-bounce" />
-        </a>
-      </div>
     </section>
   );
 }

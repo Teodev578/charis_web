@@ -18,7 +18,7 @@ export default function VisionMissionSection() {
   };
 
   return (
-    <section id="vision" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5">
+    <section id="vision" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
       {/* Background soft lighting */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#572269]/20 rounded-full blur-[130px] pointer-events-none" />
 

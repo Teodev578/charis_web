@@ -28,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`dark ${jakarta.variable} ${cinzel.variable} ${playfair.variable}`}>
-      <body className="antialiased min-h-screen">
+    <html lang="fr" className={`dark ${jakarta.variable} ${cinzel.variable} ${playfair.variable} overflow-x-clip`}>
+      <body className="antialiased min-h-screen overflow-x-clip">
         <ClientAppWrapper>
           {children}
         </ClientAppWrapper>

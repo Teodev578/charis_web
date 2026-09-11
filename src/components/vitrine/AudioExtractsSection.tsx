@@ -76,7 +76,7 @@ export default function AudioExtractsSection() {
   };
 
   return (
-    <section id="enseignements" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5">
+    <section id="enseignements" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-[#572269]/30 rounded-full blur-[140px] pointer-events-none" />
 

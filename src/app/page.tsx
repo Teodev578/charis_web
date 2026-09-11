@@ -17,7 +17,7 @@ export default function VitrinePage() {
   const { currentTrack } = useAudio();
 
   return (
-    <div className="relative min-h-screen bg-[#1A0A21] text-[#F7F5F2] font-jakarta selection:bg-[#FBC906]/30 selection:text-[#FBC906] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#1A0A21] text-[#F7F5F2] font-jakarta selection:bg-[#FBC906]/30 selection:text-[#FBC906] overflow-x-clip">
       {/* 1. Sticky Navigation Header */}
       <VitrineHeader />
 

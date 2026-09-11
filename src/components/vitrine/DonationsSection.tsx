@@ -16,7 +16,7 @@ export default function DonationsSection() {
   };
 
   return (
-    <section id="dons" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5">
+    <section id="dons" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
       {/* Background radial glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#572269]/20 rounded-full blur-[150px] pointer-events-none" />
 
