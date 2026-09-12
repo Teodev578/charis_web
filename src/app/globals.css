@@ -100,3 +100,47 @@ body {
   /* Transition douce lors du changement clair/sombre */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* ==========================================
+   6. PELLICULE CINÉMATIQUE CONTINUE INFINIE
+   ========================================== */
+@keyframes filmstripRollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes filmstripRollRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-filmstrip-left {
+  animation: filmstripRollLeft 50s linear infinite;
+  will-change: transform;
+}
+
+.animate-filmstrip-right {
+  animation: filmstripRollRight 50s linear infinite;
+  will-change: transform;
+}
+
+.filmstrip-container:hover .animate-filmstrip-left,
+.filmstrip-container:hover .animate-filmstrip-right {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-filmstrip-left,
+  .animate-filmstrip-right {
+    animation: none;
+  }
+}
+
