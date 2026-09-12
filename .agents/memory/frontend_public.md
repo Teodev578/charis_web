@@ -60,8 +60,8 @@ Ce fichier consigne la mémoire persistante des pages vitrine, catalogue d'écou
 - *Refonte Galerie Slider Hero (Alignement Maquette)* :
   - Resserrement total des images en contact direct sans aucun interstice (`gap-0`), suppression des ombres latérales créant des liserés.
   - Suppression intégrale des coins arrondis (`rounded-none` sur l'étape 2 et l'étape 3 pour des angles droits stricts).
+  - Épuration visuelle complète : suppression des textes et libellés sous les images.
   - Réduction drastique des visuels latéraux (largeur 170px, hauteur 250px en desktop) face à une carte centrale dominante (largeur 440px, hauteur 390px descendant vers le bas).
-  - Basculement des libellés typographiques sous les cartes de côté, avec effacement fluide sous la carte active.
   - Recalibrage de la formule de centrage automatique `translateX(calc(... * clamp(80px, 11.8vw, 170px)))` pour un alignement optique subpixel rigoureux.
 - *Refonte des fondations esthétiques* : Mise en place de `aesthetic_standards.md`, enrichissement de `ui_forbidden.md` (anti-patterns 11 à 14), standardisation du smooth scrolling Lenis et du Text Reveal dans `ui_motion.md`, et instauration d'une porte de validation visuelle (Visual QA Gate).
 - *Initialisation de la mémoire* : Refonte moderne du layout avec barre latérale rétractable (`NavigationDrawer`), header unifié et intégration des cartes d'annonces.

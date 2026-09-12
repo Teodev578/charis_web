@@ -506,18 +506,6 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                         }`}
                       />
                     </div>
-
-                    {/* Libellé sous la carte (visible sous les cartes latérales, masqué sous la carte centrale agrandie) */}
-                    <div
-                      className={`mt-2.5 px-0.5 text-xs sm:text-sm text-[#222222] font-serif leading-tight transition-all duration-500 text-left ${
-                        step === 3 && card.labelTop && !isCardActive
-                          ? 'opacity-100 translate-y-0'
-                          : 'opacity-0 translate-y-1 pointer-events-none'
-                      }`}
-                    >
-                      <p className="font-serif font-medium">{card.labelTop}</p>
-                      <p className="font-serif text-gray-600">{card.labelBottom}</p>
-                    </div>
                   </div>
                 );
               })}
@@ -535,7 +523,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute left-2 sm:left-4 top-[120px] sm:top-[150px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
+                className="absolute left-2 sm:left-4 top-[80px] sm:top-[110px] md:top-[125px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
                 title="Image précédente"
                 aria-label="Image précédente"
               >
@@ -550,7 +538,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute right-2 sm:right-4 top-[120px] sm:top-[150px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
+                className="absolute right-2 sm:right-4 top-[80px] sm:top-[110px] md:top-[125px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
                 title="Image suivante"
                 aria-label="Image suivante"
               >
