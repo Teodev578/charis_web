@@ -408,12 +408,13 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
               const isDefaultHero = card.id === DEFAULT_CARD_INDEX;
 
               // Positionnement géométrique exact par rapport au centre : contact bord à bord strict (gap-0)
+              // Accélération matérielle 3D native pour forcer le compositeur GPU (translate3d)
               const transformStyle =
                 k === 0
-                  ? 'translate(-50%, 0)'
+                  ? 'translate3d(-50%, 0, 0)'
                   : k > 0
-                  ? `translate(calc(-50% + (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0)`
-                  : `translate(calc(-50% - (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0)`;
+                  ? `translate3d(calc(-50% + (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0, 0)`
+                  : `translate3d(calc(-50% - (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0, 0)`;
 
               return (
                 <div
@@ -436,18 +437,23 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                       resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                     }
                   }}
-                  className={`absolute top-0 left-1/2 flex flex-col items-start transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none group will-change-transform ${
+                  className={`absolute top-0 left-1/2 flex flex-col items-start cursor-pointer select-none group [contain:layout_paint] ${
                     isCardActive ? 'z-30' : 'z-10'
                   }`}
                   style={{
                     transform: transformStyle,
                     width: isCardActive ? 'var(--hero-card-w-active)' : 'var(--hero-card-w-side)',
                     height: isCardActive ? 'var(--hero-card-h-active)' : 'var(--hero-card-h-side)',
+                    transition:
+                      'transform 850ms cubic-bezier(0.22, 1, 0.36, 1), width 850ms cubic-bezier(0.22, 1, 0.36, 1), height 850ms cubic-bezier(0.22, 1, 0.36, 1)',
+                    willChange: 'transform, width, height',
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
                   }}
                 >
                   {/* Boîte d'image adaptative : parfaitement collée (gap-0), angles droits stricts (rounded-none) */}
                   <div
-                    className={`relative w-full h-full overflow-hidden transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none ${
+                    className={`relative w-full h-full overflow-hidden transition-all duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-none ${
                       isCardActive
                         ? 'shadow-2xl ring-1 ring-black/10'
                         : 'opacity-95 group-hover:opacity-100'
@@ -458,7 +464,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                       alt={card.alt}
                       fill
                       priority={isDefaultHero}
-                      className={`object-cover transition-transform duration-650 ease-out ${
+                      className={`object-cover transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                         isCardActive ? 'scale-105' : 'scale-100 group-hover:scale-102'
                       }`}
                       sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 440px"
@@ -466,7 +472,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
 
                     {/* Voile d'atténuation sur les cartes inactives */}
                     <div
-                      className={`absolute inset-0 bg-black/10 transition-opacity duration-500 ${
+                      className={`absolute inset-0 bg-black/10 transition-opacity duration-700 ease-out ${
                         isCardActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
                       }`}
                     />
@@ -476,7 +482,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
             })}
           </div>
 
-          {/* Chevrons discrets de navigation latérale au clic */}
+          {/* Chevrons discrets de navigation latérale au clic (réservés au format mobile) */}
           {step === 3 && isTitleSettled && (
             <>
               <button
@@ -487,7 +493,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute left-2 sm:left-4 top-[80px] sm:top-[110px] md:top-[125px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
+                className="flex sm:hidden absolute left-2 top-[80px] -translate-y-1/2 z-40 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-80 hover:opacity-100"
                 title="Image précédente"
                 aria-label="Image précédente"
               >
@@ -502,7 +508,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute right-2 sm:right-4 top-[80px] sm:top-[110px] md:top-[125px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
+                className="flex sm:hidden absolute right-2 top-[80px] -translate-y-1/2 z-40 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-80 hover:opacity-100"
                 title="Image suivante"
                 aria-label="Image suivante"
               >
