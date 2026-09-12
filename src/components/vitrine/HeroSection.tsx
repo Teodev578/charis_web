@@ -122,7 +122,7 @@ const DEFAULT_VIRTUAL_INDEX = MIDDLE_SET_INDEX * CARDS_PER_SET + DEFAULT_CARD_IN
 
 export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [isTitlePurple, setIsTitlePurple] = useState(false);
+  const [isTitleSettled, setIsTitleSettled] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [activeVirtualIndex, setActiveVirtualIndex] = useState<number>(DEFAULT_VIRTUAL_INDEX);
   const [isHovering, setIsHovering] = useState(false);
@@ -158,14 +158,14 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
 
   // Défilement automatique doux au repos : avance d'une carte toutes les 3,6s quand non survolé
   useEffect(() => {
-    if (step !== 3 || !isTitlePurple || isHovering) return;
+    if (step !== 3 || !isTitleSettled || isHovering) return;
 
     const interval = setInterval(() => {
       setActiveVirtualIndex((prev) => prev + 1);
     }, 3600);
 
     return () => clearInterval(interval);
-  }, [step, isTitlePurple, isHovering]);
+  }, [step, isTitleSettled, isHovering]);
 
   // Saut silencieux à la fin de la transition quand on sort du set médian
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
@@ -186,7 +186,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
   const startSequence = () => {
     clearAllTimers();
     setStep(1);
-    setIsTitlePurple(false);
+    setIsTitleSettled(false);
     setHasInteracted(false);
     setIsHovering(false);
     setActiveVirtualIndex(DEFAULT_VIRTUAL_INDEX);
@@ -201,9 +201,9 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       setStep(3);
     }, 3200);
 
-    // Une fois en bas : Charis & Nation deviennent violets
+    // Une fois en bas : stabilisation du titre, apparition de la devise et activation des contrôles
     const t3 = setTimeout(() => {
-      setIsTitlePurple(true);
+      setIsTitleSettled(true);
       onAnimationComplete?.();
     }, 4200);
 
@@ -216,21 +216,21 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReducedMotion) {
         setStep(3);
-        setIsTitlePurple(true);
+        setIsTitleSettled(true);
         setActiveVirtualIndex(DEFAULT_VIRTUAL_INDEX);
         onAnimationComplete?.();
         return;
       }
 
       // Exposer pour pilotage programmatique / tests
-      (window as unknown as { __setHeroStep?: (s: 1 | 2 | 3, purple?: boolean, card?: number) => void }).__setHeroStep = (
+      (window as unknown as { __setHeroStep?: (s: 1 | 2 | 3, settled?: boolean, card?: number) => void }).__setHeroStep = (
         s: 1 | 2 | 3,
-        purple = false,
+        settled = false,
         card = DEFAULT_VIRTUAL_INDEX
       ) => {
         clearAllTimers();
         setStep(s);
-        setIsTitlePurple(s === 3 ? purple : false);
+        setIsTitleSettled(s === 3 ? settled : false);
         setActiveVirtualIndex(card);
       };
     }
@@ -244,10 +244,10 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
 
   // Passer instantanément à l'étape finale lors d'une interaction (clic ou scroll)
   const skipToFinal = () => {
-    if (step < 3 || !isTitlePurple) {
+    if (step < 3 || !isTitleSettled) {
       clearAllTimers();
       setStep(3);
-      setIsTitlePurple(true);
+      setIsTitleSettled(true);
       setHasInteracted(true);
       setIsHovering(false);
       onAnimationComplete?.();
@@ -346,7 +346,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
              - Étape 1 : "CharisNation" au centre exact de l'écran.
              - Étape 2 : L'image centrale s'épanouit au milieu, séparant Charis et Nation.
              - Étape 3 : L'image centrale monte au sommet dans la frise d'images,
-                         Charis et Nation descendent en bas et deviennent pourpres royaux (#6c288b).
+                         Charis et Nation descendent en bas et restent en noir (#111111).
           ========================================================================= */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
 
@@ -383,12 +383,8 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
             transform: `translateY(${step === 3 ? 'clamp(160px, 26vh, 220px)' : '0px'})`,
           }}
         >
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none flex items-center justify-center">
-            <span
-              className={`inline-block transition-colors duration-800 ease-out ${
-                isTitlePurple ? 'text-[#6c288b]' : 'text-[#111111]'
-              }`}
-            >
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none flex items-center justify-center text-[#111111]">
+            <span className="inline-block text-[#111111]">
               Charis
             </span>
 
@@ -405,11 +401,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
               }}
             />
 
-            <span
-              className={`inline-block transition-colors duration-800 ease-out ${
-                isTitlePurple ? 'text-[#6c288b]' : 'text-[#111111]'
-              }`}
-            >
+            <span className="inline-block text-[#111111]">
               Nation
             </span>
           </h1>
@@ -417,7 +409,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           {/* Devise sous le titre en Étape 3 */}
           <p
             className={`absolute top-full mt-3 sm:mt-4 font-serif text-sm sm:text-base md:text-lg text-[#1E1E1E] text-center max-w-2xl px-4 leading-relaxed transition-all duration-800 ease-out w-max max-w-[90vw] ${
-              isTitlePurple
+              isTitleSettled
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4 pointer-events-none'
             }`}
@@ -533,7 +525,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           </div>
 
           {/* Chevrons discrets de navigation latérale au clic (rotation circulaire infinie sans bornes) */}
-          {step === 3 && isTitlePurple && (
+          {step === 3 && isTitleSettled && (
             <>
               <button
                 onClick={(e) => {
