@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -16,12 +16,8 @@ interface HeroCardItem {
   labelBottom: string;
 }
 
-interface ExtendedHeroCardItem extends HeroCardItem {
-  uniqueKey: string;
-  virtualIndex: number;
-}
-
 const DEFAULT_CARD_INDEX = 5;
+const VISIBLE_RANGE = 8; // De -8 à +8 (17 cartes au total pour couvrir tout écran jusqu'à 4K)
 
 const HERO_CARDS: HeroCardItem[] = [
   {
@@ -103,33 +99,31 @@ const HERO_CARDS: HeroCardItem[] = [
   },
 ];
 
-// Nombre de répétitions pour garantir un défilement infini sans trou blanc (55 cartes)
-const SET_COUNT = 5;
-const CARDS_PER_SET = HERO_CARDS.length; // 11 cartes
-const MIDDLE_SET_INDEX = Math.floor(SET_COUNT / 2); // Set 2 (centre)
-
-// Ruban étendu à 5 cycles pour un anneau circulaire parfait sans bordure
-const EXTENDED_HERO_CARDS: ExtendedHeroCardItem[] = Array.from({ length: SET_COUNT }, (_, setIdx) =>
-  HERO_CARDS.map((card, i) => ({
-    ...card,
-    uniqueKey: `set${setIdx}-${card.id}`,
-    virtualIndex: setIdx * CARDS_PER_SET + i,
-  }))
-).flat();
-
-// Indice de la carte pastorale au centre du set médian (Set 2, indice 2 * 11 + 5 = 27)
-const DEFAULT_VIRTUAL_INDEX = MIDDLE_SET_INDEX * CARDS_PER_SET + DEFAULT_CARD_INDEX;
-
 export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isTitleSettled, setIsTitleSettled] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [activeVirtualIndex, setActiveVirtualIndex] = useState<number>(DEFAULT_VIRTUAL_INDEX);
+  // Index virtuel continu infini (sans borne ni début ni fin)
+  const [currentIndex, setCurrentIndex] = useState<number>(DEFAULT_CARD_INDEX);
   const [isHovering, setIsHovering] = useState(false);
-  const [isJumping, setIsJumping] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fenêtre glissante centrée sur currentIndex : projection circulaire stricte sans fin
+  const visibleCards = useMemo(() => {
+    const cards = [];
+    for (let k = -VISIBLE_RANGE; k <= VISIBLE_RANGE; k++) {
+      const vIndex = currentIndex + k;
+      const realIndex = ((vIndex % HERO_CARDS.length) + HERO_CARDS.length) % HERO_CARDS.length;
+      cards.push({
+        card: HERO_CARDS[realIndex],
+        virtualIndex: vIndex,
+        k,
+      });
+    }
+    return cards;
+  }, [currentIndex]);
 
   const clearAllTimers = () => {
     timersRef.current.forEach(clearTimeout);
@@ -140,48 +134,16 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     }
   };
 
-  // Réinitialisation fluide de isJumping après le repaint du navigateur (saut silencieux invisible)
-  useEffect(() => {
-    if (isJumping) {
-      let frameId2: number;
-      const frameId1 = requestAnimationFrame(() => {
-        frameId2 = requestAnimationFrame(() => {
-          setIsJumping(false);
-        });
-      });
-      return () => {
-        cancelAnimationFrame(frameId1);
-        cancelAnimationFrame(frameId2);
-      };
-    }
-  }, [isJumping]);
-
-  // Défilement automatique doux au repos : avance d'une carte toutes les 3,6s quand non survolé
+  // Défilement automatique continu doux au repos : avance d'une carte toutes les 3,6s quand non survolé
   useEffect(() => {
     if (step !== 3 || !isTitleSettled || isHovering) return;
 
     const interval = setInterval(() => {
-      setActiveVirtualIndex((prev) => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
     }, 3600);
 
     return () => clearInterval(interval);
   }, [step, isTitleSettled, isHovering]);
-
-  // Saut silencieux à la fin de la transition quand on sort du set médian
-  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target !== e.currentTarget || e.propertyName !== 'transform') return;
-
-    const minNormalIndex = MIDDLE_SET_INDEX * CARDS_PER_SET; // 22
-    const maxNormalIndex = (MIDDLE_SET_INDEX + 1) * CARDS_PER_SET - 1; // 32
-
-    if (activeVirtualIndex < minNormalIndex || activeVirtualIndex > maxNormalIndex) {
-      const realIndex = ((activeVirtualIndex % CARDS_PER_SET) + CARDS_PER_SET) % CARDS_PER_SET;
-      const normalizedIndex = MIDDLE_SET_INDEX * CARDS_PER_SET + realIndex;
-
-      setIsJumping(true);
-      setActiveVirtualIndex(normalizedIndex);
-    }
-  };
 
   const startSequence = () => {
     clearAllTimers();
@@ -189,7 +151,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     setIsTitleSettled(false);
     setHasInteracted(false);
     setIsHovering(false);
-    setActiveVirtualIndex(DEFAULT_VIRTUAL_INDEX);
+    setCurrentIndex(DEFAULT_CARD_INDEX);
 
     // Étape 1 -> Étape 2 : Écartement de Charis & Nation et émergence de l'image centrale parfaitement au milieu
     const t1 = setTimeout(() => {
@@ -217,7 +179,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       if (prefersReducedMotion) {
         setStep(3);
         setIsTitleSettled(true);
-        setActiveVirtualIndex(DEFAULT_VIRTUAL_INDEX);
+        setCurrentIndex(DEFAULT_CARD_INDEX);
         onAnimationComplete?.();
         return;
       }
@@ -226,12 +188,12 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       (window as unknown as { __setHeroStep?: (s: 1 | 2 | 3, settled?: boolean, card?: number) => void }).__setHeroStep = (
         s: 1 | 2 | 3,
         settled = false,
-        card = DEFAULT_VIRTUAL_INDEX
+        card = DEFAULT_CARD_INDEX
       ) => {
         clearAllTimers();
         setStep(s);
         setIsTitleSettled(s === 3 ? settled : false);
-        setActiveVirtualIndex(card);
+        setCurrentIndex(card);
       };
     }
 
@@ -439,77 +401,79 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
             }, 2800);
           }}
         >
-          {/* Conteneur de centrage */}
-          <div className="flex items-center justify-center w-max">
-            {/* Ruban horizontal : images parfaitement collées (gap-0), sans coins arrondis (rounded-none) */}
-            <div
-              onTransitionEnd={handleTransitionEnd}
-              className="flex items-start justify-center gap-0 w-max max-w-none px-4"
-              style={{
-                transform: `translateX(calc(${DEFAULT_VIRTUAL_INDEX - activeVirtualIndex} * clamp(80px, 11.8vw, 170px)))`,
-                transition: isJumping ? 'none' : 'transform 650ms cubic-bezier(0.16, 1, 0.3, 1)',
-                willChange: 'transform',
-              }}
-            >
-              {EXTENDED_HERO_CARDS.map((card) => {
-                const isCardActive = activeVirtualIndex === card.virtualIndex;
-                const isDefaultHero = card.virtualIndex === DEFAULT_VIRTUAL_INDEX;
+          {/* Scène de l'anneau circulaire avec ancrage central et jointure gap-0 absolue */}
+          <div className="relative w-full h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] overflow-visible flex items-start justify-center">
+            {visibleCards.map(({ card, virtualIndex, k }) => {
+              const isCardActive = k === 0;
+              const isDefaultHero = card.id === DEFAULT_CARD_INDEX;
 
-                return (
+              // Positionnement géométrique exact par rapport au centre : contact bord à bord strict (gap-0)
+              const transformStyle =
+                k === 0
+                  ? 'translate(-50%, 0)'
+                  : k > 0
+                  ? `translate(calc(-50% + (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0)`
+                  : `translate(calc(-50% - (var(--hero-card-w-active) - var(--hero-card-w-side)) / 2 + ${k} * var(--hero-card-w-side)), 0)`;
+
+              return (
+                <div
+                  key={virtualIndex}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (step === 3) {
+                      setIsHovering(true);
+                      setCurrentIndex((prev) => prev + k);
+                      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+                      resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    // Au survol d'une carte latérale, centrage immédiat et fluide
+                    if (step === 3 && k !== 0) {
+                      setIsHovering(true);
+                      setCurrentIndex((prev) => prev + k);
+                      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+                      resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
+                    }
+                  }}
+                  className={`absolute top-0 left-1/2 flex flex-col items-start transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none group will-change-transform ${
+                    isCardActive ? 'z-30' : 'z-10'
+                  }`}
+                  style={{
+                    transform: transformStyle,
+                    width: isCardActive ? 'var(--hero-card-w-active)' : 'var(--hero-card-w-side)',
+                    height: isCardActive ? 'var(--hero-card-h-active)' : 'var(--hero-card-h-side)',
+                  }}
+                >
+                  {/* Boîte d'image adaptative : parfaitement collée (gap-0), angles droits stricts (rounded-none) */}
                   <div
-                    key={card.uniqueKey}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (step === 3) {
-                        setIsHovering(true);
-                        setActiveVirtualIndex(card.virtualIndex);
-                        if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-                        resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
-                      }
-                    }}
-                    onMouseEnter={() => {
-                      // Hover scroll : au survol, le ruban scrolle pour amener cette carte au centre et l'agrandit
-                      if (step === 3 && !isJumping) {
-                        setIsHovering(true);
-                        setActiveVirtualIndex(card.virtualIndex);
-                        if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-                        resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
-                      }
-                    }}
-                    className={`relative flex flex-col items-start transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none group ${
-                      isCardActive ? 'z-30' : 'z-10'
+                    className={`relative w-full h-full overflow-hidden transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none ${
+                      isCardActive
+                        ? 'shadow-2xl ring-1 ring-black/10'
+                        : 'opacity-95 group-hover:opacity-100'
                     }`}
                   >
-                    {/* Boîte d'image adaptative : parfaitement collée (gap-0), angles droits stricts (rounded-none) */}
-                    <div
-                      className={`relative overflow-hidden transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none ${
-                        isCardActive
-                          ? 'w-[220px] sm:w-[300px] md:w-[380px] lg:w-[440px] h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] shadow-2xl ring-1 ring-black/10'
-                          : 'w-[80px] sm:w-[110px] md:w-[140px] lg:w-[170px] h-[130px] sm:h-[170px] md:h-[210px] lg:h-[250px] opacity-95 group-hover:opacity-100'
+                    <Image
+                      src={card.src}
+                      alt={card.alt}
+                      fill
+                      priority={isDefaultHero}
+                      className={`object-cover transition-transform duration-650 ease-out ${
+                        isCardActive ? 'scale-105' : 'scale-100 group-hover:scale-102'
                       }`}
-                    >
-                      <Image
-                        src={card.src}
-                        alt={card.alt}
-                        fill
-                        priority={isDefaultHero}
-                        className={`object-cover transition-transform duration-650 ease-out ${
-                          isCardActive ? 'scale-105' : 'scale-100 group-hover:scale-102'
-                        }`}
-                        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 440px"
-                      />
+                      sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 440px"
+                    />
 
-                      {/* Voile d'atténuation sur les cartes inactives */}
-                      <div
-                        className={`absolute inset-0 bg-black/10 transition-opacity duration-500 ${
-                          isCardActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
-                        }`}
-                      />
-                    </div>
+                    {/* Voile d'atténuation sur les cartes inactives */}
+                    <div
+                      className={`absolute inset-0 bg-black/10 transition-opacity duration-500 ${
+                        isCardActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
+                      }`}
+                    />
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* Chevrons discrets de navigation latérale au clic */}
@@ -519,7 +483,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsHovering(true);
-                  setActiveVirtualIndex((prev) => prev - 1);
+                  setCurrentIndex((prev) => prev - 1);
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
@@ -534,7 +498,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsHovering(true);
-                  setActiveVirtualIndex((prev) => prev + 1);
+                  setCurrentIndex((prev) => prev + 1);
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}

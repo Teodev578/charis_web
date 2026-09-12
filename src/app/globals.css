@@ -26,6 +26,39 @@
   --brand-purple-light: #7a3d91;
   --brand-yellow: #FBC906;
   --color-attention: #FE3434;
+
+  /* Dimensions de la galerie Hero (Anneau circulaire virtuel) */
+  --hero-card-w-active: 220px;
+  --hero-card-w-side: 80px;
+  --hero-card-h-active: 200px;
+  --hero-card-h-side: 130px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --hero-card-w-active: 300px;
+    --hero-card-w-side: 110px;
+    --hero-card-h-active: 270px;
+    --hero-card-h-side: 170px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --hero-card-w-active: 380px;
+    --hero-card-w-side: 140px;
+    --hero-card-h-active: 330px;
+    --hero-card-h-side: 210px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --hero-card-w-active: 440px;
+    --hero-card-w-side: 170px;
+    --hero-card-h-active: 390px;
+    --hero-card-h-side: 250px;
+  }
 }
 
 /* ==========================================
