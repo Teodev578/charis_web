@@ -359,7 +359,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           }}
         >
           <div
-            className={`relative overflow-hidden rounded-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl w-[240px] sm:w-[320px] md:w-[380px] lg:w-[440px] h-[190px] sm:h-[250px] md:h-[300px] lg:h-[340px] ${
+            className={`relative overflow-hidden rounded-none transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl w-[220px] sm:w-[300px] md:w-[380px] lg:w-[440px] h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] ${
               step === 1
                 ? 'scale-75 opacity-0 pointer-events-none'
                 : 'scale-100 opacity-100'
@@ -426,7 +426,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
               : 'opacity-0 pointer-events-none'
           }`}
           style={{
-            top: 'clamp(54px, 8.5vh, 76px)',
+            top: 'clamp(50px, 7.5vh, 72px)',
           }}
           onMouseEnter={() => {
             setIsHovering(true);
@@ -441,12 +441,12 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
         >
           {/* Conteneur de centrage */}
           <div className="flex items-center justify-center w-max">
-            {/* Ruban horizontal : hover scroll fluide avec centrage et saut silencieux invisible */}
+            {/* Ruban horizontal : images parfaitement collées (gap-0), sans coins arrondis (rounded-none) */}
             <div
               onTransitionEnd={handleTransitionEnd}
-              className="flex items-start justify-center gap-2 sm:gap-3 w-max max-w-none px-4"
+              className="flex items-start justify-center gap-0 w-max max-w-none px-4"
               style={{
-                transform: `translateX(calc(${DEFAULT_VIRTUAL_INDEX - activeVirtualIndex} * clamp(118px, 15vw, 242px)))`,
+                transform: `translateX(calc(${DEFAULT_VIRTUAL_INDEX - activeVirtualIndex} * clamp(80px, 11.8vw, 170px)))`,
                 transition: isJumping ? 'none' : 'transform 650ms cubic-bezier(0.16, 1, 0.3, 1)',
                 willChange: 'transform',
               }}
@@ -480,24 +480,12 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                       isCardActive ? 'z-30' : 'z-10'
                     }`}
                   >
-                    {/* Libellé au-dessus de la carte */}
+                    {/* Boîte d'image adaptative : parfaitement collée (gap-0), angles droits stricts (rounded-none) */}
                     <div
-                      className={`h-8 mb-1.5 pl-1 text-xs sm:text-sm text-[#222222] font-serif leading-tight transition-all duration-500 ${
-                        step === 3 && card.labelTop
-                          ? 'opacity-100 translate-y-0'
-                          : 'opacity-0 -translate-y-2 pointer-events-none'
-                      }`}
-                    >
-                      <p className="font-serif">{card.labelTop}</p>
-                      <p className="font-serif">{card.labelBottom}</p>
-                    </div>
-
-                    {/* Boîte d'image adaptative : la carte active s'agrandit majestueusement au centre */}
-                    <div
-                      className={`relative overflow-hidden transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-sm ${
+                      className={`relative overflow-hidden transition-all duration-650 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none ${
                         isCardActive
-                          ? 'w-[240px] sm:w-[320px] md:w-[380px] lg:w-[440px] h-[210px] sm:h-[280px] md:h-[320px] lg:h-[350px] shadow-2xl ring-1 ring-black/5'
-                          : 'w-[110px] sm:w-[150px] md:w-[190px] lg:w-[230px] h-[170px] sm:h-[220px] md:h-[260px] lg:h-[290px] shadow-md opacity-90 group-hover:opacity-100'
+                          ? 'w-[220px] sm:w-[300px] md:w-[380px] lg:w-[440px] h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] shadow-2xl ring-1 ring-black/10'
+                          : 'w-[80px] sm:w-[110px] md:w-[140px] lg:w-[170px] h-[130px] sm:h-[170px] md:h-[210px] lg:h-[250px] opacity-95 group-hover:opacity-100'
                       }`}
                     >
                       <Image
@@ -518,13 +506,25 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                         }`}
                       />
                     </div>
+
+                    {/* Libellé sous la carte (visible sous les cartes latérales, masqué sous la carte centrale agrandie) */}
+                    <div
+                      className={`mt-2.5 px-0.5 text-xs sm:text-sm text-[#222222] font-serif leading-tight transition-all duration-500 text-left ${
+                        step === 3 && card.labelTop && !isCardActive
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-1 pointer-events-none'
+                      }`}
+                    >
+                      <p className="font-serif font-medium">{card.labelTop}</p>
+                      <p className="font-serif text-gray-600">{card.labelBottom}</p>
+                    </div>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Chevrons discrets de navigation latérale au clic (rotation circulaire infinie sans bornes) */}
+          {/* Chevrons discrets de navigation latérale au clic */}
           {step === 3 && isTitleSettled && (
             <>
               <button
@@ -535,11 +535,11 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-gray-700 hover:text-black shadow-lg backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-75 hover:opacity-100"
+                className="absolute left-2 sm:left-4 top-[120px] sm:top-[150px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
                 title="Image précédente"
                 aria-label="Image précédente"
               >
-                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                <ChevronLeft className="w-5 h-5" />
               </button>
 
               <button
@@ -550,11 +550,11 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
                   resumeTimerRef.current = setTimeout(() => setIsHovering(false), 3500);
                 }}
-                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-gray-700 hover:text-black shadow-lg backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-75 hover:opacity-100"
+                className="absolute right-2 sm:right-4 top-[120px] sm:top-[150px] -translate-y-1/2 z-40 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-black shadow-md backdrop-blur-md border border-black/5 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-70 hover:opacity-100"
                 title="Image suivante"
                 aria-label="Image suivante"
               >
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                <ChevronRight className="w-5 h-5" />
               </button>
             </>
           )}
