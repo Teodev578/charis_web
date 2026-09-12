@@ -57,6 +57,10 @@ Ce fichier consigne la mémoire persistante des pages vitrine, catalogue d'écou
   - Intégration de l'accordéon interactif avec répulsion au survol (*Hover Push*) et dépassement de padding (*full-bleed*).
   - Résolution de la double barre de défilement par adoption de `overflow-x: clip` et encapsulation `overflow-hidden` des sections à halos d'ambiance.
   - Épuration finale du bas de page (suppression du bouton « Découvrir la suite ») pour conformité stricte avec la maquette.
+- *Refonte Galerie Hero en Anneau Circulaire Virtuel (Option 1)* :
+  - Abandon total de la liste finie dupliquée en 5 sets (`SET_COUNT = 5`) et de la téléportation conditionnelle (`isJumping`, `handleTransitionEnd`).
+  - Passage à un anneau circulaire infini piloté par un `currentIndex` libre et une fenêtre glissante symétrique de 17 cartes ($k \in [-8, +8]$) via projection modulo stricte.
+  - Positionnement géométrique exact par rapport au centre : contact bord à bord absolu (`gap-0`), angles droits stricts (`rounded-none`), cartes latérales à 170px et carte active à 440px sans aucun décentrage lors des transitions.
 - *Refonte Galerie Slider Hero (Alignement Maquette)* :
   - Resserrement total des images en contact direct sans aucun interstice (`gap-0`), suppression des ombres latérales créant des liserés.
   - Suppression intégrale des coins arrondis (`rounded-none` sur l'étape 2 et l'étape 3 pour des angles droits stricts).
@@ -65,3 +69,4 @@ Ce fichier consigne la mémoire persistante des pages vitrine, catalogue d'écou
   - Recalibrage de la formule de centrage automatique `translateX(calc(... * clamp(80px, 11.8vw, 170px)))` pour un alignement optique subpixel rigoureux.
 - *Refonte des fondations esthétiques* : Mise en place de `aesthetic_standards.md`, enrichissement de `ui_forbidden.md` (anti-patterns 11 à 14), standardisation du smooth scrolling Lenis et du Text Reveal dans `ui_motion.md`, et instauration d'une porte de validation visuelle (Visual QA Gate).
 - *Initialisation de la mémoire* : Refonte moderne du layout avec barre latérale rétractable (`NavigationDrawer`), header unifié et intégration des cartes d'annonces.
+
