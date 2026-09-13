@@ -247,6 +247,18 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       className="relative h-screen min-h-[640px] max-h-[1080px] w-full bg-[#f2f2f2] text-[#111111] overflow-hidden select-none"
     >
       {/* =========================================================================
+          0. TEXTURE DE GRAIN MONOCHROME (Rendu argentique tuilé sans dégradation GPU)
+          ========================================================================= */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-[1] opacity-15 mix-blend-multiply"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.3'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+        }}
+      />
+
+      {/* =========================================================================
           1. BARRE DE NAVIGATION SUPÉRIEURE (Révélée lors de l'Étape 3)
           ========================================================================= */}
       <header
