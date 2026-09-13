@@ -244,7 +244,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       id="hero"
       ref={containerRef}
       onClick={skipToFinal}
-      className="relative h-screen min-h-[640px] max-h-[1080px] w-full bg-white text-[#111111] overflow-hidden select-none"
+      className="relative h-screen min-h-[640px] max-h-[1080px] w-full bg-[#f2f2f2] text-[#111111] overflow-hidden select-none"
     >
       {/* =========================================================================
           1. BARRE DE NAVIGATION SUPÉRIEURE (Révélée lors de l'Étape 3)
