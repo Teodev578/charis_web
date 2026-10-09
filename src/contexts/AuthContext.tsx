@@ -36,15 +36,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     // Fetch user profile from utilisateurs table
     const fetchProfile = useCallback(async (userId: string) => {
-        console.log('DEBUG: fetchProfile called with userId:', userId);
         try {
             const { data, error } = await supabase
                 .from('utilisateurs')
                 .select('*')
                 .eq('id', userId)
                 .maybeSingle();
-
-            console.log('DEBUG: fetchProfile result:', { data, error });
 
             if (error) {
                 console.error('Error fetching profile:', {

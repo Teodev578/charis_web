@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
-import { RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { RotateCcw, ChevronLeft, ChevronRight, Headphones, ArrowRight, Heart } from 'lucide-react';
 
 interface HeroSectionProps {
   onAnimationComplete?: () => void;
@@ -350,11 +351,11 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* --- Titre "Charis Nation" et Devise (Acteurs continus des 3 étapes) --- */}
+        {/* --- Titre "Charis Nation", Devise & CTA (Acteurs continus des 3 étapes) --- */}
         <div
           className="flex flex-col items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 pointer-events-auto"
           style={{
-            transform: `translateY(${step === 3 ? 'clamp(160px, 26vh, 220px)' : '0px'})`,
+            transform: `translateY(${step === 3 ? 'clamp(145px, 23vh, 205px)' : '0px'})`,
           }}
         >
           <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none flex items-center justify-center text-[#111111]">
@@ -380,16 +381,41 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
             </span>
           </h1>
 
-          {/* Devise sous le titre en Étape 3 */}
-          <p
-            className={`absolute top-full mt-3 sm:mt-4 font-serif text-sm sm:text-base md:text-lg text-[#1E1E1E] text-center max-w-2xl px-4 leading-relaxed transition-all duration-800 ease-out w-max max-w-[90vw] ${
+          {/* Devise et CTA sous le titre en Étape 3 */}
+          <div
+            className={`absolute top-full mt-2.5 sm:mt-3 flex flex-col items-center gap-3 sm:gap-4 transition-all duration-800 ease-out w-max max-w-[90vw] ${
               isTitleSettled
-                ? 'opacity-100 translate-y-0'
+                ? 'opacity-100 translate-y-0 pointer-events-auto'
                 : 'opacity-0 translate-y-4 pointer-events-none'
             }`}
           >
-            Equiper les Saints afin qu’ils influencent leurs différentes sphères avec Christ.
-          </p>
+            <p className="font-serif text-sm sm:text-base md:text-lg text-[#1E1E1E] text-center max-w-2xl px-4 leading-relaxed">
+              Equiper les Saints afin qu’ils influencent leurs différentes sphères avec Christ.
+            </p>
+
+            {/* Actions CTA : Écoute et Don */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-3.5">
+              <Link
+                href="/ecouter"
+                className="group inline-flex items-center gap-2.5 px-6 py-2.5 sm:px-7 sm:py-3 rounded-full bg-[#111111] text-[#F7F5F2] text-xs sm:text-sm font-semibold tracking-wide shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(87,34,105,0.25)] hover:bg-[#1A0A21] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 no-underline border border-black/5"
+              >
+                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 group-hover:bg-[#FBC906]/20 group-hover:scale-110">
+                  <Headphones className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FBC906]" />
+                </span>
+                <span>Écouter les messages</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#F7F5F2]/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+
+              <a
+                href="#dons"
+                onClick={(e) => handleNavClick(e, '#dons')}
+                className="group inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full bg-white/50 hover:bg-white/90 backdrop-blur-sm text-[#111111] text-xs sm:text-sm font-semibold tracking-wide border border-[#111111]/25 hover:border-[#111111] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 no-underline shadow-sm"
+              >
+                <Heart className="w-3.5 h-3.5 text-[#111111]/70 group-hover:text-[#6C288B] group-hover:scale-110 transition-all duration-300" />
+                <span>Faire un don</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* --- Frise d'images supérieure interactive : HOVER SCROLL & ANNEAU CIRCULAIRE INFINI --- */}
