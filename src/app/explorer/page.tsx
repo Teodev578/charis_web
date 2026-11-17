@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
-import TrackCard from '@/components/sections/ecouter/TrackCard';
+import TrackCard from '@/components/sections/ecouter/track-card/TrackCard';
 import { TrackGridSkeleton } from '@/components/ui/SkeletonLoader';
 import Link from 'next/link';
 import type { MessageWithDetails, SerieWithCount } from '@/lib/services/messages';

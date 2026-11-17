@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, type UIEvent } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import AnnouncementCard from '@/components/sections/ecouter/AnnouncementCard';
+import AnnouncementCard from '@/components/sections/ecouter/announcements/AnnouncementCard';
 import type { Database } from '@/lib/supabase/database.types';
 
 type AnnonceRow = Database['public']['Tables']['annonces']['Row'];

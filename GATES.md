@@ -101,9 +101,9 @@ EXPECT: IMPORTS_ALIAS_UNIFIES
 EVIDENCE: Tous les imports inter-dossiers dans src/ utilisent l'alias canonique @/*.
 
 ### Gate : Orthogonalité de src/components et Propreté des Racines
-CHECK: test ! -d src/components/vitrine && test ! -f src/components/ClientAppWrapper.tsx && test -f src/components/layout/ClientAppWrapper.tsx && test -d src/components/sections/hero && test -d src/components/sections/vitrine && test -d src/components/sections/ecouter && test ! -f update_header.py && echo "COMPONENTS_ORTHOGONAUX"
+CHECK: test ! -d src/components/vitrine && test ! -f src/components/ClientAppWrapper.tsx && test -f src/components/layout/ClientAppWrapper.tsx && test -d src/components/sections/vitrine/hero && test -z "$(find src/components/sections/vitrine src/components/sections/ecouter -maxdepth 1 -name '*.tsx')" && test ! -f update_header.py && echo "COMPONENTS_ORTHOGONAUX"
 EXPECT: COMPONENTS_ORTHOGONAUX
-EVIDENCE: src/components est structuré par rôle sans fichier libre à sa racine, et la racine du dépôt est purgée des scripts obsolètes.
+EVIDENCE: src/components et ses sous-domaines (vitrine, ecouter) isolent chaque section dans son sous-dossier dédié sans fichier .tsx libre aux racines.
 
 ---
 
@@ -153,7 +153,7 @@ EXPECT: FONT_JAKARTA_RESOLUE
 EVIDENCE: layout.tsx injecte --font-jakarta-sans et globals.css l'alimente sans cycle CSS dans --font-jakarta.
 
 ### Gate : Alignement Typographique Partagé entre HeroSection et VitrineHeader
-CHECK: grep -q "vitrine-wordmark" src/components/sections/hero/HeroSection.tsx && grep -q "vitrine-wordmark" src/components/navigation/VitrineHeader.tsx && grep -q "vitrine-nav-link" src/components/sections/hero/HeroSection.tsx && grep -q "vitrine-nav-link" src/components/navigation/VitrineHeader.tsx && echo "HEADERS_TYPO_ALIGNES"
+CHECK: grep -q "vitrine-wordmark" src/components/sections/vitrine/hero/HeroSection.tsx && grep -q "vitrine-wordmark" src/components/navigation/VitrineHeader.tsx && grep -q "vitrine-nav-link" src/components/sections/vitrine/hero/HeroSection.tsx && grep -q "vitrine-nav-link" src/components/navigation/VitrineHeader.tsx && echo "HEADERS_TYPO_ALIGNES"
 EXPECT: HEADERS_TYPO_ALIGNES
 EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wordmark et .vitrine-nav-link.
 
@@ -178,3 +178,4 @@ EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wo
 | 2026-11-17 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
 | 2026-11-17 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 4.0s`) |
 | 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 23/23 gates validées après prefactoring `ARCH-PREFACTOR-02`, 0 en échec |
+| 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 23/23 gates validées après structuration en sous-dossiers `ARCH-SECTIONS-03`, 0 en échec |

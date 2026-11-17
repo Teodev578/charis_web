@@ -160,3 +160,25 @@ Transposer la séparation des responsabilités du modèle « React JS Advanced F
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Dossier `src/components/vitrine/` dissous au profit d'une organisation 100 % orthogonale par rôle (`layout/`, `navigation/`, `sections/{hero,vitrine,ecouter}/`) avec zéro fichier libre aux racines de `src/components/` et `src/components/sections/` ; `update_header.py` supprimé et `architecture.md` déplacé vers `docs/architecture.md` ; 5 consommateurs mis à jour ; `AGENTS.md` et `GATES.md` synchronisés ; aucune ligne modifiée dans `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`. `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (`Compiled successfully in 4.0s`, 12/12 routes) et `node scripts/verify-gates.mjs` validés à 23/23.
 - **Leçon retenue** : Séparer la classification par rôle technique (`layout/`, `navigation/`, `player/`, `notes/`, `ui/`) de la classification par sous-domaine de page sous `sections/` supprime toute ambiguïté sur l'emplacement d'un nouveau composant.
+
+---
+
+### [2026-11-17] Structuration en Sous-Dossiers de `sections/vitrine/` et `sections/ecouter/` (`ARCH-SECTIONS-03`)
+
+- **Complexité** : Complexe (Niveau 4 — création de 8 sous-dossiers, déplacement de 9 fichiers sans altérer `hero/`, mise à jour de 4 consommateurs, synchronisation `AGENTS.md` et `GATES.md`)
+- **Périmètre** : `src/components/sections/vitrine/`, `src/components/sections/ecouter/`, `src/app/{page,ecouter/page,explorer/page}.tsx`, `AGENTS.md` et `GATES.md`.
+
+#### 1. Problème Réel & Contrainte Principale
+Suite au déplacement manuel de `hero/` dans `src/components/sections/vitrine/hero/`, `src/components/sections/vitrine/` combinait un sous-dossier (`hero/`) et six fichiers `.tsx` à plat, tout comme `src/components/sections/ecouter/` qui gardait trois fichiers `.tsx` à sa racine. La contrainte est d'uniformiser la granularité en encapsulant chaque section dans son propre sous-dossier sans modifier `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`, tout en conservant la racine globale du dépôt `/` inchangée selon la décision de l'utilisateur.
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Regrouper les 6 sections restantes dans un sous-dossier unique (`vitrine/content/`), ou conserver les fichiers `.tsx` à plat à côté de `hero/`.
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : Conserver des fichiers `.tsx` à plat à côté de `hero/` maintient une asymétrie visuelle et structurelle, tandis qu'un sous-dossier `content/` intermédiaire crée un niveau d'indirection superflu par rapport aux sous-dossiers directs par section.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : *(Recommandé)* Isoler chaque section dans son sous-dossier dédié (`vitrine/{audio-extracts,donations,events,hero,location-hours,pastoral-team,vision-mission}/` et `ecouter/{announcements,track-card}/`), offrant zéro fichier `.tsx` libre aux racines de `vitrine/` et `ecouter/` et un espace prêt à accueillir d'éventuels sous-composants locaux sans refactoring ultérieur.
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : Les 6 sections restantes de `src/components/sections/vitrine/` et les 3 fichiers de `src/components/sections/ecouter/` ont été encapsulés dans leurs sous-dossiers respectifs (`audio-extracts/`, `donations/`, `events/`, `location-hours/`, `pastoral-team/`, `vision-mission/`, `announcements/`, `track-card/`), avec zéro fichier `.tsx` à plat dans `vitrine/` ou `ecouter/`. Les 4 consommateurs (`page.tsx`, `ecouter/page.tsx`, `explorer/page.tsx`, `Announcements.tsx`), `AGENTS.md` et `GATES.md` ont été synchronisés sans modifier `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`, et la racine du dépôt `/` est restée inchangée selon le choix utilisateur. Validation : `npx tsc --noEmit` (code 0), `npm run lint` (code 0) et `node scripts/verify-gates.mjs` (23/23 gates passées, 0 en échec).
+- **Leçon retenue** : Aligner la granularité des dossiers frères (`vitrine/hero/` et l'ensemble des autres sections de `vitrine/` et `ecouter/`) par une gate vérifiant l'absence de `.tsx` libres à leur racine garantit la symétrie durable de l'arborescence.

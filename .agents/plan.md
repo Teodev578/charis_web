@@ -126,3 +126,19 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 3** : Mise à jour des imports `@/components/...` dans les 5 fichiers consommateurs (`src/app/layout.tsx`, `src/app/page.tsx`, `src/app/ecouter/page.tsx`, `src/app/explorer/page.tsx`, `src/components/sections/ecouter/Announcements.tsx`).
 - [x] **Étape 4** : Synchronisation de `AGENTS.md` (carte `src/`) et `GATES.md` (chemin mis à jour + nouvelle gate d'orthogonalité).
 - [x] **Étape 5** : Vérification déterministe (`npx tsc --noEmit`, `npm run lint`, `node scripts/verify-gates.mjs`) après la dernière édition et clôture.
+
+---
+
+## 📌 Tâche Active : Structuration en Sous-Dossiers de `sections/vitrine/` et `sections/ecouter/` (`ARCH-SECTIONS-03`)
+
+- **Identifiant** : `ARCH-SECTIONS-03`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Préserver `HeroSection.tsx` et `HeroGrainSurface.tsx` dans `src/components/sections/vitrine/hero/` sans aucune modification ; conserver la racine du dépôt `/` inchangée.
+- **Référence Gates** : Gates « Orthogonalité de src/components et Propreté des Racines » et « Alignement Typographique Partagé entre HeroSection et VitrineHeader » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Déplacement des 9 fichiers de section dans leurs sous-dossiers dédiés sous `vitrine/` et `ecouter/`.
+- [x] **Étape 3** : Mise à jour des imports dans `src/app/page.tsx`, `src/app/ecouter/page.tsx`, `src/app/explorer/page.tsx` et `src/components/sections/ecouter/announcements/Announcements.tsx`.
+- [x] **Étape 4** : Synchronisation de `AGENTS.md` et `GATES.md`.
+- [x] **Étape 5** : Clôture documentaire et validation finale (`npx tsc --noEmit`, `npm run lint`, `node scripts/verify-gates.mjs`).

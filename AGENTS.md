@@ -118,9 +118,8 @@ src/
 │   ├── notes/                  # Panneau droit lecture & notes synchronisées (RightPanel.tsx)
 │   ├── player/                 # Lecteurs et partage (AudioPlayer.tsx, StickyAudioPlayer.tsx, ShareMenu.tsx)
 │   ├── sections/               # Sections de pages découplées par sous-domaine
-│   │   ├── ecouter/            # Cartes et bannières d'écoute (Announcements.tsx, AnnouncementCard.tsx, TrackCard.tsx)
-│   │   ├── hero/               # Scène Hero et shader WebGL (HeroSection.tsx, HeroGrainSurface.tsx)
-│   │   └── vitrine/            # Sections éditoriales de la vitrine (Vision, Équipe, Extraits, Événements, Lieu, Dons)
+│   │   ├── ecouter/            # Sections de l'espace d'écoute (announcements/, track-card/)
+│   │   └── vitrine/            # Sections éditoriales de la vitrine (hero/, vision-mission/, pastoral-team/, audio-extracts/, events/, location-hours/, donations/)
 │   └── ui/                     # Primitives UI génériques (SkeletonLoader.tsx)
 ├── contexts/                   # Contextes React globaux
 │   ├── ThemeContext.tsx        # Thème light/dark, localStorage, classe .dark sur <html>
