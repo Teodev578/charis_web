@@ -1,5 +1,5 @@
 import './globals.css';
-import ClientAppWrapper from '@/components/ClientAppWrapper';
+import ClientAppWrapper from '@/components/layout/ClientAppWrapper';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Cinzel, Playfair_Display } from 'next/font/google';
 

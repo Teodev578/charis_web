@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import Announcements from '@/components/sections/Announcements';
-import TrackCard from '@/components/sections/TrackCard';
+import Announcements from '@/components/sections/ecouter/Announcements';
+import TrackCard from '@/components/sections/ecouter/TrackCard';
 import { TrackGridSkeleton } from '@/components/ui/SkeletonLoader';
 import { useAudio, type Track } from '@/contexts/AudioContext';
 import { useAuth } from '@/contexts/AuthContext';

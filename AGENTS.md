@@ -112,15 +112,16 @@ src/
 │       ├── categories/         # CRUD catégories + slugify
 │       ├── series/             # CRUD séries thématiques
 │       └── utilisateurs/       # Liste membres + promotion administrateurs
-├── components/                 # Composants React organisés par domaine
-│   ├── ClientAppWrapper.tsx    # Providers imbriqués + routage AppLayout hors vitrine/dashboard
-│   ├── layout/                 # Shell applicatif (AppLayout.tsx)
-│   ├── navigation/             # En-tête et barre latérale (Header.tsx, NavigationSidebar.tsx)
+├── components/                 # Composants React organisés par rôle architectural
+│   ├── layout/                 # Shells et structure (ClientAppWrapper.tsx, AppLayout.tsx, VitrineFooter.tsx)
+│   ├── navigation/             # Barres de navigation (Header.tsx, NavigationSidebar.tsx, VitrineHeader.tsx)
 │   ├── notes/                  # Panneau droit lecture & notes synchronisées (RightPanel.tsx)
 │   ├── player/                 # Lecteurs et partage (AudioPlayer.tsx, StickyAudioPlayer.tsx, ShareMenu.tsx)
-│   ├── sections/               # Cartes et bannières (Announcements.tsx, AnnouncementCard.tsx, TrackCard.tsx)
-│   ├── ui/                     # Primitives UI génériques (SkeletonLoader.tsx)
-│   └── vitrine/                # Sections institutionnelles de la page d'accueil
+│   ├── sections/               # Sections de pages découplées par sous-domaine
+│   │   ├── ecouter/            # Cartes et bannières d'écoute (Announcements.tsx, AnnouncementCard.tsx, TrackCard.tsx)
+│   │   ├── hero/               # Scène Hero et shader WebGL (HeroSection.tsx, HeroGrainSurface.tsx)
+│   │   └── vitrine/            # Sections éditoriales de la vitrine (Vision, Équipe, Extraits, Événements, Lieu, Dons)
+│   └── ui/                     # Primitives UI génériques (SkeletonLoader.tsx)
 ├── contexts/                   # Contextes React globaux
 │   ├── ThemeContext.tsx        # Thème light/dark, localStorage, classe .dark sur <html>
 │   ├── AuthContext.tsx         # Session Supabase, signIn/signUp/signOut, profil utilisateur

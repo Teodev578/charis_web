@@ -110,3 +110,19 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 4** : Factorisation des helpers dupliqués (`formatTime`, `formatDateFr`, `slugify`) et normalisation de tous les imports inter-dossiers vers `@/*`.
 - [x] **Étape 5** : Synchronisation de `AGENTS.md` (carte `src/`) et `GATES.md` (chemin `AudioPlayer.tsx` + 3 nouvelles gates architecturales).
 - [x] **Étape 6** : Vérification déterministe (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture.
+
+---
+
+## 📌 Tâche Active : Prefactoring d'Orthogonalité de `src/components/` et Assainissement de la Racine (`ARCH-PREFACTOR-02`)
+
+- **Identifiant** : `ARCH-PREFACTOR-02`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Ne modifier aucune ligne dans `HeroSection.tsx` ni `HeroGrainSurface.tsx` lors de leur déplacement vers `src/components/sections/hero/` ; zéro modification de `package.json`.
+- **Référence Gates** : Gate « Orthogonalité de src/components et Propreté des Racines » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Réorganisation orthogonale de `src/components/` (`layout/`, `navigation/`, `sections/{hero,vitrine,ecouter}/`), suppression de `src/components/vitrine/` et `update_header.py`, déplacement de `architecture.md` vers `docs/architecture.md`.
+- [x] **Étape 3** : Mise à jour des imports `@/components/...` dans les 5 fichiers consommateurs (`src/app/layout.tsx`, `src/app/page.tsx`, `src/app/ecouter/page.tsx`, `src/app/explorer/page.tsx`, `src/components/sections/ecouter/Announcements.tsx`).
+- [x] **Étape 4** : Synchronisation de `AGENTS.md` (carte `src/`) et `GATES.md` (chemin mis à jour + nouvelle gate d'orthogonalité).
+- [x] **Étape 5** : Vérification déterministe (`npx tsc --noEmit`, `npm run lint`, `node scripts/verify-gates.mjs`) après la dernière édition et clôture.

@@ -138,3 +138,25 @@ Transposer la séparation des responsabilités du modèle « React JS Advanced F
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Socle `src/lib/utils/` (`format.ts`, `slug.ts`, `index.ts`) créé ; reliquats Vite (`src/assets/`) et 4 composants orphelins purgés ; 6 implémentations locales de `formatTime`, `formatDate` et `generateSlug` remplacées par `@/lib/utils` ; 100 % des imports inter-dossiers statiques et dynamiques normalisés vers `@/*` ; carte `src/` de `AGENTS.md` et 3 nouvelles gates de `GATES.md` alignées sans toucher `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` ni `package.json`. Validation complète : `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (12/12 routes compilées en 4,0 s), `node scripts/verify-gates.mjs` (22/22 gates passées, 0 en échec).
 - **Leçon retenue** : Centraliser les fonctions pures dans `src/lib/utils/` et exiger l'alias canonique `@/*` via une gate grep exécutable prévient à la fois la duplication silencieuse entre routes App Router et la fragilité des chemins relatifs profonds (`../../../`).
+
+---
+
+### [2026-11-17] Prefactoring d'Orthogonalité de `src/components/` et Assainissement de la Racine (`ARCH-PREFACTOR-02`)
+
+- **Complexité** : Complexe / Fastidieux (Niveau 4/5 — réorganisation structurelle de `src/components/`, suppression du dossier `src/components/vitrine/`, assainissement de la racine `/`, mise à jour des imports consommateurs, synchronisation `AGENTS.md` et `GATES.md`)
+- **Périmètre** : `src/components/layout/`, `src/components/navigation/`, `src/components/sections/{hero,vitrine,ecouter}/`, racine du dépôt (`update_header.py`, `architecture.md`), `src/app/{layout,page,ecouter/page,explorer/page}.tsx`, `AGENTS.md` et `GATES.md` (sans aucune modification de contenu dans `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`).
+
+#### 1. Problème Réel & Contrainte Principale
+`src/components/` mélangeait deux axes taxonomiques orthogonaux : six dossiers classés par rôle architectural (`layout/`, `navigation/`, `notes/`, `player/`, `sections/`, `ui/`), un fichier isolé à la racine (`ClientAppWrapper.tsx`) et un dossier fourre-tout classé par page (`vitrine/`) empilant 10 fichiers hétérogènes à plat (en-tête, pied de page, scène Hero WebGL et six sections éditoriales). Parallèlement, la racine du dépôt conservait un script jetable obsolète (`update_header.py`) et `architecture.md` redondant avec `AGENTS.md` et `docs/`. La contrainte critique consiste à restaurer une orthogonalité stricte par rôle tout en préservant à l'octet près `HeroSection.tsx` et `HeroGrainSurface.tsx`.
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Conserver `src/components/vitrine/` à plat avec 10 fichiers hétérogènes et laisser `ClientAppWrapper.tsx` à la racine de `src/components/`, ou éclater uniquement les sections en ajoutant des barrels `index.ts`.
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : Maintenir `vitrine/` à plat perpétue l'ambiguïté taxonomique entre `navigation/`, `layout/` et `sections/`, tandis que multiplier des sous-dossiers non normalisés maintient la confusion sur la frontière entre composants de structure globale et sections éditoriales.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : *(Recommandé)* Adopter une classification 100 % orthogonale par rôle architectural dans `src/components/` (`layout/` avec `ClientAppWrapper.tsx`, `AppLayout.tsx`, `VitrineFooter.tsx` ; `navigation/` avec `Header.tsx`, `NavigationSidebar.tsx`, `VitrineHeader.tsx` ; `sections/{hero,vitrine,ecouter}/` avec zéro fichier libre aux racines de `components/` et `sections/`), supprimer `update_header.py` et déplacer `architecture.md` vers `docs/architecture.md`.
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : Dossier `src/components/vitrine/` dissous au profit d'une organisation 100 % orthogonale par rôle (`layout/`, `navigation/`, `sections/{hero,vitrine,ecouter}/`) avec zéro fichier libre aux racines de `src/components/` et `src/components/sections/` ; `update_header.py` supprimé et `architecture.md` déplacé vers `docs/architecture.md` ; 5 consommateurs mis à jour ; `AGENTS.md` et `GATES.md` synchronisés ; aucune ligne modifiée dans `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`. `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (`Compiled successfully in 4.0s`, 12/12 routes) et `node scripts/verify-gates.mjs` validés à 23/23.
+- **Leçon retenue** : Séparer la classification par rôle technique (`layout/`, `navigation/`, `player/`, `notes/`, `ui/`) de la classification par sous-domaine de page sous `sections/` supprime toute ambiguïté sur l'emplacement d'un nouveau composant.

@@ -1,15 +1,15 @@
 'use client';
 
 import React from 'react';
-import VitrineHeader from '@/components/vitrine/VitrineHeader';
-import HeroSection from '@/components/vitrine/HeroSection';
-import VisionMissionSection from '@/components/vitrine/VisionMissionSection';
-import PastoralTeamSection from '@/components/vitrine/PastoralTeamSection';
-import AudioExtractsSection from '@/components/vitrine/AudioExtractsSection';
-import EventsSection from '@/components/vitrine/EventsSection';
-import LocationHoursSection from '@/components/vitrine/LocationHoursSection';
-import DonationsSection from '@/components/vitrine/DonationsSection';
-import VitrineFooter from '@/components/vitrine/VitrineFooter';
+import VitrineHeader from '@/components/navigation/VitrineHeader';
+import HeroSection from '@/components/sections/vitrine/hero/HeroSection';
+import VisionMissionSection from '@/components/sections/vitrine/VisionMissionSection';
+import PastoralTeamSection from '@/components/sections/vitrine/PastoralTeamSection';
+import AudioExtractsSection from '@/components/sections/vitrine/AudioExtractsSection';
+import EventsSection from '@/components/sections/vitrine/EventsSection';
+import LocationHoursSection from '@/components/sections/vitrine/LocationHoursSection';
+import DonationsSection from '@/components/sections/vitrine/DonationsSection';
+import VitrineFooter from '@/components/layout/VitrineFooter';
 import StickyAudioPlayer from '@/components/player/StickyAudioPlayer';
 import { useAudio } from '@/contexts/AudioContext';
 
