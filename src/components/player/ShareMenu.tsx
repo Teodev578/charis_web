@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { formatTime } from '@/lib/utils';
 
 export interface ShareMenuProps {
     currentTime: number;
@@ -17,12 +18,6 @@ export default function ShareMenu({ currentTime, messageId, messageTitle, onClos
     const shareUrl = typeof window !== 'undefined'
         ? `${window.location.origin}/message/${messageId}?t=${timeInSeconds}`
         : '';
-
-    const formatTime = (time: number) => {
-        const m = Math.floor(time / 60);
-        const s = Math.floor(time % 60);
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    };
 
     // Close on click outside
     useEffect(() => {

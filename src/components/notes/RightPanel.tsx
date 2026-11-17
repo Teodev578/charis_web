@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, type FormEvent, type ChangeEvent } from 'react';
-import { useAudio } from '../../contexts/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 import { FileText, Music, Send, Trash2, ArrowDown, Play, Pause, RotateCcw, RotateCw, Share2, Download, Heart, ChevronDown } from 'lucide-react';
+import { formatTime } from '@/lib/utils';
 
 export default function RightPanel() {
   const {
@@ -29,13 +30,6 @@ export default function RightPanel() {
     if (!noteText.trim() || !currentTrack) return;
     addNote(currentTrack.id, noteText, currentTime);
     setNoteText('');
-  };
-
-  const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00';
-    const m = Math.floor(time / 60);
-    const s = Math.floor(time % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;

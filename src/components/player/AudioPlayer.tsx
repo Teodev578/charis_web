@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAudio } from '../../contexts/AudioContext';
-import ShareMenu from './ShareMenu';
+import { useAudio } from '@/contexts/AudioContext';
+import ShareMenu from '@/components/player/ShareMenu';
+import { formatTime } from '@/lib/utils';
 
 export default function AudioPlayer() {
     const { 
@@ -21,13 +22,6 @@ export default function AudioPlayer() {
     const [activeTab, setActiveTab] = useState<'lecture' | 'notes'>('lecture'); // 'lecture' | 'notes'
 
     if (!currentTrack) return null;
-
-    const formatTime = (time: number) => {
-        if (isNaN(time)) return "0:00";
-        const m = Math.floor(time / 60);
-        const s = Math.floor(time % 60);
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    };
 
     const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 

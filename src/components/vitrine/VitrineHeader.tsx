@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Headphones, Sparkles, ChevronRight } from 'lucide-react';
-import { VITRINE_CONFIG } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG } from '@/lib/config/vitrine';
 
 export default function VitrineHeader() {
   const [scrolled, setScrolled] = useState(false);

@@ -3,10 +3,10 @@
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Headphones, Compass, FileText, Heart, Globe, LayoutDashboard, LogOut, Moon, Sun, User as UserIcon } from 'lucide-react';
-import { useUIStore } from '../../store/uiStore';
+import { useUIStore } from '@/store/uiStore';
 
 interface SidebarItem {
   id: string;

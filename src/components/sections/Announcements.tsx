@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef, type UIEvent } from 'react';
-import { createClient } from '../../lib/supabase/client';
-import AnnouncementCard from './AnnouncementCard';
-import type { Database } from '../../lib/supabase/database.types';
+import { createClient } from '@/lib/supabase/client';
+import AnnouncementCard from '@/components/sections/AnnouncementCard';
+import type { Database } from '@/lib/supabase/database.types';
 
 type AnnonceRow = Database['public']['Tables']['annonces']['Row'];
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Heart, Copy, Check, Smartphone, Landmark, ShieldCheck, Sparkles } from 'lucide-react';
-import { VITRINE_CONFIG, type DonationMethod } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG, type DonationMethod } from '@/lib/config/vitrine';
 
 export default function DonationsSection() {
   const [copiedId, setCopiedId] = useState<string | null>(null);

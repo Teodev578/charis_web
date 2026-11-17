@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Sparkles, MessageCircle, Mail, Phone, MapPin, Heart } from 'lucide-react';
-import { VITRINE_CONFIG } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG } from '@/lib/config/vitrine';
 
 export default function VitrineFooter() {
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {

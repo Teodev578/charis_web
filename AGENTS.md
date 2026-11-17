@@ -100,7 +100,7 @@ src/
 ├── app/                        # Pages, layouts, routage (Next.js App Router)
 │   ├── layout.tsx              # Layout racine : polices, FOUC-guard, SEO, OpenGraph
 │   ├── globals.css             # Design system complet de l'espace public (variables HSL)
-│   ├── page.tsx                # Accueil : vitrine institutionnelle, série en cours, favoris
+│   ├── page.tsx                # Accueil : vitrine institutionnelle
 │   ├── auth/                   # Connexion / Inscription Supabase Auth
 │   ├── ecouter/                # Espace d'écoute quotidien
 │   ├── explorer/               # Navigation par catégories et séries
@@ -112,30 +112,40 @@ src/
 │       ├── categories/         # CRUD catégories + slugify
 │       ├── series/             # CRUD séries thématiques
 │       └── utilisateurs/       # Liste membres + promotion administrateurs
-├── components/                 # Composants React réutilisables
-│   ├── ClientAppWrapper.tsx    # Providers imbriqués + AudioPlayer + NotesPanel
-│   ├── AudioPlayer.tsx         # Lecteur flottant persistant (ancré en bas)
-│   ├── NotesPanel.tsx          # Tiroir coulissant de notes synchronisées
-│   ├── NavigationDrawer.tsx    # Menu latéral gauche (nav + profil + auth)
-│   ├── Header.tsx              # Barre sup : logo, recherche globale, bascule de thème
-│   ├── TrackCard.tsx           # Carte enseignement (grille ou liste)
-│   ├── Announcements.tsx       # Bannières dynamiques (série à la une, verset)
-│   ├── SkeletonLoader.tsx      # Skeleton animé (performance perçue)
-│   └── ShareMenu.tsx           # Partage avec deep-link ?t=secondes
+├── components/                 # Composants React organisés par domaine
+│   ├── ClientAppWrapper.tsx    # Providers imbriqués + routage AppLayout hors vitrine/dashboard
+│   ├── layout/                 # Shell applicatif (AppLayout.tsx)
+│   ├── navigation/             # En-tête et barre latérale (Header.tsx, NavigationSidebar.tsx)
+│   ├── notes/                  # Panneau droit lecture & notes synchronisées (RightPanel.tsx)
+│   ├── player/                 # Lecteurs et partage (AudioPlayer.tsx, StickyAudioPlayer.tsx, ShareMenu.tsx)
+│   ├── sections/               # Cartes et bannières (Announcements.tsx, AnnouncementCard.tsx, TrackCard.tsx)
+│   ├── ui/                     # Primitives UI génériques (SkeletonLoader.tsx)
+│   └── vitrine/                # Sections institutionnelles de la page d'accueil
 ├── contexts/                   # Contextes React globaux
 │   ├── ThemeContext.tsx        # Thème light/dark, localStorage, classe .dark sur <html>
 │   ├── AuthContext.tsx         # Session Supabase, signIn/signUp/signOut, profil utilisateur
 │   └── AudioContext.tsx        # Cœur : audioRef, progression, notes, sync 30s
+├── hooks/                      # Hooks réactifs et cinétiques sans re-render
+│   ├── index.ts                # Export centralisé des hooks
+│   ├── useReveal.ts            # Révélation au scroll via IntersectionObserver
+│   └── useScrollProgress.ts    # Progression continue au scroll via rAF
 ├── lib/
+│   ├── config/
+│   │   └── vitrine.ts          # Données structurées de la vitrine institutionnelle
+│   ├── services/               # Services métier Supabase (throw error obligatoire)
+│   │   ├── messages.ts         # getMessages, getMessageById, getCategories, getSeries
+│   │   └── user.ts             # getUserProgress, upsertProgress, favoris, notes
 │   ├── supabase/
 │   │   ├── client.ts           # createBrowserClient() — côté client uniquement
 │   │   ├── server.ts           # createServerClient() — côté serveur uniquement
 │   │   ├── middleware.ts       # updateSession() pour le middleware Next.js
 │   │   └── database.types.ts  # Types générés Supabase — SOURCE UNIQUE DE VÉRITÉ
-│   └── services/               # Services métier Supabase (throw error obligatoire)
-│       ├── messages.ts         # getMessages, getMessageById, getCategories, getSeries
-│       └── user.ts             # getUserProgress, upsertProgress, favoris, notes
-└── store/                      # Zustand (état global non-contextuel)
+│   └── utils/                  # Fonctions pures centralisées (formatTime, formatDateFr, slugify)
+│       ├── format.ts           # Formatage temporel audio et dates francophones
+│       ├── slug.ts             # Normalisation Unicode NFD et slugification URL
+│       └── index.ts            # Point d'entrée public des utilitaires
+└── store/
+    └── uiStore.ts              # Zustand (état UI global non-contextuel)
 ```
 
 ---

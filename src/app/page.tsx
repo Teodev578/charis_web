@@ -1,17 +1,17 @@
 'use client';
 
 import React from 'react';
-import VitrineHeader from '../components/vitrine/VitrineHeader';
-import HeroSection from '../components/vitrine/HeroSection';
-import VisionMissionSection from '../components/vitrine/VisionMissionSection';
-import PastoralTeamSection from '../components/vitrine/PastoralTeamSection';
-import AudioExtractsSection from '../components/vitrine/AudioExtractsSection';
-import EventsSection from '../components/vitrine/EventsSection';
-import LocationHoursSection from '../components/vitrine/LocationHoursSection';
-import DonationsSection from '../components/vitrine/DonationsSection';
-import VitrineFooter from '../components/vitrine/VitrineFooter';
-import StickyAudioPlayer from '../components/player/StickyAudioPlayer';
-import { useAudio } from '../contexts/AudioContext';
+import VitrineHeader from '@/components/vitrine/VitrineHeader';
+import HeroSection from '@/components/vitrine/HeroSection';
+import VisionMissionSection from '@/components/vitrine/VisionMissionSection';
+import PastoralTeamSection from '@/components/vitrine/PastoralTeamSection';
+import AudioExtractsSection from '@/components/vitrine/AudioExtractsSection';
+import EventsSection from '@/components/vitrine/EventsSection';
+import LocationHoursSection from '@/components/vitrine/LocationHoursSection';
+import DonationsSection from '@/components/vitrine/DonationsSection';
+import VitrineFooter from '@/components/vitrine/VitrineFooter';
+import StickyAudioPlayer from '@/components/player/StickyAudioPlayer';
+import { useAudio } from '@/contexts/AudioContext';
 
 export default function VitrinePage() {
   const { currentTrack } = useAudio();

@@ -1,11 +1,11 @@
 'use client';
 
 import React, { type ReactNode } from 'react';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { AudioProvider, useAudio } from '../contexts/AudioContext';
-import { ThemeProvider } from '../contexts/ThemeContext';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { AudioProvider, useAudio } from '@/contexts/AudioContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { usePathname } from 'next/navigation';
-import AppLayout from './layout/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 
 function AudioSyncBridge() {
     const { user } = useAuth();

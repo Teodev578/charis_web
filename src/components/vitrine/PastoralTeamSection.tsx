@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Users, Quote } from 'lucide-react';
-import { VITRINE_CONFIG, type Pastor } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG, type Pastor } from '@/lib/config/vitrine';
 
 export default function PastoralTeamSection() {
   return (

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { type ReactNode } from 'react';
-import NavigationSidebar from '../navigation/NavigationSidebar';
-import Header from '../navigation/Header';
-import RightPanel from '../notes/RightPanel';
-import AudioPlayer from '../player/AudioPlayer';
+import NavigationSidebar from '@/components/navigation/NavigationSidebar';
+import Header from '@/components/navigation/Header';
+import RightPanel from '@/components/notes/RightPanel';
+import AudioPlayer from '@/components/player/AudioPlayer';
 
 export interface AppLayoutProps {
   children: ReactNode;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { Database } from '../../lib/supabase/database.types';
+import type { Database } from '@/lib/supabase/database.types';
 import { Share2, Sparkles } from 'lucide-react';
 
 type AnnonceRow = Database['public']['Tables']['annonces']['Row'];

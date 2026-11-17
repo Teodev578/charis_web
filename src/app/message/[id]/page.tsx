@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useAudio, type Track } from '../../../contexts/AudioContext';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAudio, type Track } from '@/contexts/AudioContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
-import type { MessageWithFullDetails } from '../../../lib/services/messages';
-import type { Database } from '../../../lib/supabase/database.types';
+import type { MessageWithFullDetails } from '@/lib/services/messages';
+import type { Database } from '@/lib/supabase/database.types';
+import { formatTime, formatDateFr } from '@/lib/utils';
 
 type MessageRow = Database['public']['Tables']['messages']['Row'];
 
@@ -68,7 +69,7 @@ export default function MessageDetailPage() {
             setLoading(true);
             try {
                 // Try Supabase first
-                const { getMessageById, getMessagesBySerie } = await import('../../../lib/services/messages');
+                const { getMessageById, getMessagesBySerie } = await import('@/lib/services/messages');
                 const msg = await getMessageById(messageId);
                 setMessage(msg);
 
@@ -121,23 +122,6 @@ export default function MessageDetailPage() {
         if (!noteText.trim() || !message) return;
         addNote(message.id, noteText, currentTime);
         setNoteText('');
-    };
-
-    const formatTime = (seconds?: number | null) => {
-        if (!seconds || isNaN(seconds)) return '0:00';
-        const m = Math.floor(seconds / 60);
-        const s = Math.floor(seconds % 60);
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    };
-
-    const formatDate = (dateString?: string | null) => {
-        if (!dateString) return '';
-        return new Date(dateString).toLocaleDateString('fr-FR', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
     };
 
     const isCurrentMessage = currentTrack?.id === message?.id;
@@ -224,7 +208,7 @@ export default function MessageDetailPage() {
                     {message.categories && (
                         <span className="self-start text-[0.75rem] font-bold tracking-wider uppercase bg-brand-purple/10 text-brand-purple px-3 py-1.5 rounded-lg mb-4">{message.categories.nom}</span>
                     )}
-                    <div className="text-[0.85rem] text-text-muted font-medium mt-auto md:mt-6">{formatDate(message.date_publication)}</div>
+                    <div className="text-[0.85rem] text-text-muted font-medium mt-auto md:mt-6">{formatDateFr(message.date_publication)}</div>
                 </div>
             </div>
 

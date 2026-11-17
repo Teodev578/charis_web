@@ -93,3 +93,20 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 3** : Application unifiée sur le `<header>` de `HeroSection.tsx` (sans altérer ses couleurs ni animations) et sur `VitrineHeader.tsx`.
 - [x] **Étape 4** : Mise à jour de la rampe typographique (`wordmark`, `nav`) dans `DESIGN.md` et `.impeccable/design.json`.
 - [x] **Étape 5** : Ajout des oracles typographiques dans `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, `impeccable detect --scope type`, `node scripts/verify-gates.mjs` et clôture.
+
+---
+
+## 📌 Tâche Active : Rationalisation Architecturale Idiomatique Next.js 16 (`ARCH-CLEANUP-01`)
+
+- **Identifiant** : `ARCH-CLEANUP-01`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Préserver `src/app/`, `src/contexts/`, `src/hooks/`, `src/store/`, `src/lib/supabase/`, `HeroSection.tsx`, `HeroGrainSurface.tsx` et `package.json`.
+- **Référence Gates** : Section « Gates d'Architecture & Intégrité des Types » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable : inscription dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Création du socle d'utilitaires purs `src/lib/utils/` (`format.ts`, `slug.ts`, `index.ts`).
+- [x] **Étape 3** : Purge des reliquats Vite (`src/assets/`) et des 4 composants orphelins (`MessageItem.tsx`, `ui/Header.tsx`, `navigation/Navigation.tsx`, `navigation/NavigationDrawer.tsx`).
+- [x] **Étape 4** : Factorisation des helpers dupliqués (`formatTime`, `formatDateFr`, `slugify`) et normalisation de tous les imports inter-dossiers vers `@/*`.
+- [x] **Étape 5** : Synchronisation de `AGENTS.md` (carte `src/`) et `GATES.md` (chemin `AudioPlayer.tsx` + 3 nouvelles gates architecturales).
+- [x] **Étape 6** : Vérification déterministe (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture.

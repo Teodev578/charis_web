@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Calendar, Clock, MapPin, User, Sparkles } from 'lucide-react';
-import { VITRINE_CONFIG, type ChurchEvent } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG, type ChurchEvent } from '@/lib/config/vitrine';
 
 export default function EventsSection() {
   const getBadgeStyle = (type: ChurchEvent['type']) => {

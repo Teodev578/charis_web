@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import type { Track } from '../../contexts/AudioContext';
+import type { Track } from '@/contexts/AudioContext';
 
 export interface TrackCardProps {
     track: Track;

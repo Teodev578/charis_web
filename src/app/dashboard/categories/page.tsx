@@ -4,6 +4,7 @@ import React, { useEffect, useState, type FormEvent } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Edit2, Trash2, Plus, X } from 'lucide-react';
 import type { Database } from '@/lib/supabase/database.types';
+import { slugify } from '@/lib/utils';
 
 type CategoryRow = Database['public']['Tables']['categories']['Row'];
 
@@ -50,19 +51,12 @@ export default function CategoriesPage() {
     setIsModalOpen(true);
   };
 
-  const generateSlug = (text: string): string => {
-    return text.toString().toLowerCase().trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const payload = {
       nom: formData.nom,
-      slug: formData.slug || generateSlug(formData.nom)
+      slug: formData.slug || slugify(formData.nom)
     };
 
     if (editingId) {
@@ -149,7 +143,7 @@ export default function CategoriesPage() {
                   setFormData({
                     ...formData, 
                     nom: e.target.value,
-                    slug: !editingId ? generateSlug(e.target.value) : formData.slug
+                    slug: !editingId ? slugify(e.target.value) : formData.slug
                   })
                 }} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-purple focus:border-transparent outline-none" />
               </div>

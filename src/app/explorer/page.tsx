@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAudio } from '../../contexts/AudioContext';
-import TrackCard from '../../components/sections/TrackCard';
-import { TrackGridSkeleton } from '../../components/ui/SkeletonLoader';
+import { useAudio } from '@/contexts/AudioContext';
+import TrackCard from '@/components/sections/TrackCard';
+import { TrackGridSkeleton } from '@/components/ui/SkeletonLoader';
 import Link from 'next/link';
-import type { MessageWithDetails, SerieWithCount } from '../../lib/services/messages';
-import type { Database } from '../../lib/supabase/database.types';
+import type { MessageWithDetails, SerieWithCount } from '@/lib/services/messages';
+import type { Database } from '@/lib/supabase/database.types';
 
 type CategoryRow = Database['public']['Tables']['categories']['Row'];
 
@@ -72,7 +72,7 @@ export default function ExplorerPage() {
         const loadData = async () => {
             setLoading(true);
             try {
-                const { getCategories, getSeries, getMessages } = await import('../../lib/services/messages');
+                const { getCategories, getSeries, getMessages } = await import('@/lib/services/messages');
                 const [cats, sers, msgs] = await Promise.all([
                     getCategories(),
                     getSeries(),

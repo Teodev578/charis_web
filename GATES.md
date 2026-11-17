@@ -62,7 +62,7 @@ EVIDENCE: globals.css est exclusivement structuré en variables et sélecteurs V
 ## 🎧 2. Gates Spécifiques : Moteur Audio & Prise de Notes
 
 ### Gate : Présence de l'Événement loadedmetadata pour le Deep-Linking
-CHECK: grep -n "loadedmetadata" src/contexts/AudioContext.tsx src/components/AudioPlayer.tsx || echo "VERIFIE"
+CHECK: grep -n "loadedmetadata" src/contexts/AudioContext.tsx src/components/player/AudioPlayer.tsx || echo "VERIFIE"
 EXPECT: loadedmetadata
 EVIDENCE: L'écoute de loadedmetadata est présente pour sécuriser le repositionnement temporel de l'audioRef.
 
@@ -84,6 +84,21 @@ EVIDENCE: Le fichier généré database.types.ts est présent et intact à la ra
 CHECK: grep -rn "get_user_profil" supabase/migrations/ || echo "FONCTION_RLS_PRESENTE"
 EXPECT: get_user_profil
 EVIDENCE: La fonction get_user_profil avec SECURITY DEFINER est déclarée dans les migrations du schéma.
+
+### Gate : Présence du Socle d'Utilitaires Purs (src/lib/utils)
+CHECK: test -f src/lib/utils/index.ts && test -f src/lib/utils/format.ts && test -f src/lib/utils/slug.ts && echo "UTILS_PRESENTS"
+EXPECT: UTILS_PRESENTS
+EVIDENCE: Les modules utilitaires purs (format.ts, slug.ts, index.ts) sont centralisés dans src/lib/utils/.
+
+### Gate : Absence de Reliquats Orphelins Vite et Composants Morts
+CHECK: test ! -d src/assets && test ! -f src/components/MessageItem.tsx && test ! -f src/components/ui/Header.tsx && test ! -f src/components/navigation/Navigation.tsx && test ! -f src/components/navigation/NavigationDrawer.tsx && echo "AUCUN_ORPHELIN"
+EXPECT: AUCUN_ORPHELIN
+EVIDENCE: Les reliquats Vite (src/assets/) et les 4 composants orphelins ont été purgés.
+
+### Gate : Normalisation des Imports Inter-Dossiers via Alias @/*
+CHECK: grep -rnE "from ['\"]\.\./|import\(['\"]\.\./" src/ || echo "IMPORTS_ALIAS_UNIFIES"
+EXPECT: IMPORTS_ALIAS_UNIFIES
+EVIDENCE: Tous les imports inter-dossiers dans src/ utilisent l'alias canonique @/*.
 
 ---
 
@@ -150,3 +165,7 @@ EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wo
 | 2026-11-16 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript sur `src/` et `src/hooks/` |
 | 2026-11-16 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 9.7s`) |
 | 2026-11-16 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
+| 2026-11-17 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après rationalisation `ARCH-CLEANUP-01` |
+| 2026-11-17 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
+| 2026-11-17 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 4.0s`) |
+| 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 22/22 gates validées, 0 en échec |

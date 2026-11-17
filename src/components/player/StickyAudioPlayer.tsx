@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useAudio } from '../../contexts/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 import { Play, Pause, RotateCcw, RotateCw } from 'lucide-react';
+import { formatTime } from '@/lib/utils';
 
 export default function StickyAudioPlayer() {
   const {
@@ -16,13 +17,6 @@ export default function StickyAudioPlayer() {
   } = useAudio();
 
   if (!currentTrack) return null;
-
-  const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00';
-    const m = Math.floor(time / 60);
-    const s = Math.floor(time % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 

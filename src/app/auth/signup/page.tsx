@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, type FormEvent, type ChangeEvent } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { Provider } from '@supabase/supabase-js';

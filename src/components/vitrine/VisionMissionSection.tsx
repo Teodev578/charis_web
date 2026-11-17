@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Flame, Users, HeartHandshake, BookOpen, ArrowRight, Compass } from 'lucide-react';
-import { VITRINE_CONFIG, type ChurchValue } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG, type ChurchValue } from '@/lib/config/vitrine';
 
 const ICON_MAP = {
   Flame: Flame,

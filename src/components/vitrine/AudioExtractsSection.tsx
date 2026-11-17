@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Play, Pause, Headphones, ArrowRight, Volume2, Sparkles, Clock } from 'lucide-react';
-import { useAudio, type Track } from '../../contexts/AudioContext';
+import { useAudio, type Track } from '@/contexts/AudioContext';
 
 const DEFAULT_FEATURED: Track[] = [
   {
@@ -39,7 +39,7 @@ export default function AudioExtractsSection() {
   useEffect(() => {
     const fetchRecentMessages = async () => {
       try {
-        const { getMessages } = await import('../../lib/services/messages');
+        const { getMessages } = await import('@/lib/services/messages');
         const messages = await getMessages({ limit: 3 });
         if (messages && messages.length > 0) {
           setFeaturedTracks(

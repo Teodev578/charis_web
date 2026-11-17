@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import Announcements from '../../components/sections/Announcements';
-import TrackCard from '../../components/sections/TrackCard';
-import { TrackGridSkeleton } from '../../components/ui/SkeletonLoader';
-import { useAudio, type Track } from '../../contexts/AudioContext';
-import { useAuth } from '../../contexts/AuthContext';
+import Announcements from '@/components/sections/Announcements';
+import TrackCard from '@/components/sections/TrackCard';
+import { TrackGridSkeleton } from '@/components/ui/SkeletonLoader';
+import { useAudio, type Track } from '@/contexts/AudioContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { formatTime } from '@/lib/utils';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
@@ -102,7 +103,7 @@ function EcouterContent() {
         const loadTracks = async () => {
             setLoading(true);
             try {
-                const { getMessages } = await import('../../lib/services/messages');
+                const { getMessages } = await import('@/lib/services/messages');
                 const messages = await getMessages({ limit: 20 });
 
                 if (messages.length > 0) {
@@ -172,13 +173,6 @@ function EcouterContent() {
                         'Message',
         }))
     ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    const formatTime = (time?: number) => {
-        if (!time || isNaN(time)) return '0:00';
-        const m = Math.floor(time / 60);
-        const s = Math.floor(time % 60);
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    };
 
     return (
         <div className="w-full max-w-[800px] mx-auto pb-[100px] min-h-screen p-4 md:p-6 lg:p-8 animate-[fadeIn_0.5s_ease]">

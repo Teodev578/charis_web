@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Menu, Search, Bell } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useUIStore } from '../../store/uiStore';
+import { useUIStore } from '@/store/uiStore';
 
 export default function Header() {
   const router = useRouter();

@@ -1,5 +1,5 @@
-import { createClient } from '../supabase/client';
-import type { Database } from '../supabase/database.types';
+import { createClient } from '@/lib/supabase/client';
+import type { Database } from '@/lib/supabase/database.types';
 
 const supabase = createClient();
 

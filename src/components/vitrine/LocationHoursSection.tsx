@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MapPin, Navigation, Clock, Phone, Mail, MessageCircle, ExternalLink } from 'lucide-react';
-import { VITRINE_CONFIG } from '../../lib/config/vitrine';
+import { VITRINE_CONFIG } from '@/lib/config/vitrine';
 
 export default function LocationHoursSection() {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

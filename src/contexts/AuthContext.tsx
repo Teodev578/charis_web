@@ -1,9 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { createClient } from '../lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import type { User, Session, Provider, AuthResponse, OAuthResponse } from '@supabase/supabase-js';
-import type { Database } from '../lib/supabase/database.types';
+import type { Database } from '@/lib/supabase/database.types';
 
 type ProfileRow = Database['public']['Tables']['utilisateurs']['Row'];
 

@@ -181,7 +181,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
         const isCompleted = totalDuration > 0 && (time / totalDuration) >= 0.95;
 
         try {
-            const { upsertProgress } = await import('../lib/services/user');
+            const { upsertProgress } = await import('@/lib/services/user');
             await upsertProgress(userIdRef.current, track.id, time, isCompleted);
         } catch (err: any) {
             // Silently fail — localStorage is the fallback
@@ -371,7 +371,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
         // Also sync to Supabase if authenticated
         if (userIdRef.current) {
-            import('../lib/services/user').then(({ addUserNote }) => {
+            import('@/lib/services/user').then(({ addUserNote }) => {
                 addUserNote(userIdRef.current!, trackId, text, timeStamp).catch(() => {});
             });
         }
@@ -388,7 +388,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
         // Also delete from Supabase
         if (userIdRef.current) {
-            import('../lib/services/user').then(({ deleteUserNote }) => {
+            import('@/lib/services/user').then(({ deleteUserNote }) => {
                 deleteUserNote(noteId).catch(() => {});
             });
         }

@@ -116,3 +116,25 @@ La contrainte absolue est de préserver intégralement les animations et couleur
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Variable `--font-jakarta-sans` dissociée dans `layout.tsx` et résolue sans cycle dans `globals.css` (`--font-jakarta` et `--font-plus-jakarta`) ; rôles `.vitrine-wordmark`, `.vitrine-nav-link` et `.vitrine-nav-cta` placés dans `@layer components` et appliqués à l'identique aux en-têtes de `HeroSection.tsx` et `VitrineHeader.tsx` (suppression du sous-titre `10px`, `hidden md:flex` sur le `<nav>` Hero) sans altérer les couleurs ni les animations du Hero.
 - **Leçon retenue** : En Tailwind CSS v4, toute classe typographique utilitaire partagée doit vivre dans `@layer components` pour que les modificateurs conditionnels (`font-semibold` sur le lien actif) conservent leur priorité dans la cascade, et la variable CSS d'une police `next/font` ne doit jamais porter le même nom que la variable finale `@theme`.
+
+---
+
+### [2026-11-17] Rationalisation Architecturale Idiomatique Next.js 16 (`ARCH-CLEANUP-01`)
+
+- **Complexité** : Fastidieux / Critique (Niveau 5 — réorganisation d'architecture transverse : purge de 7 fichiers morts/reliquats Vite, création de `src/lib/utils/`, refactoring des duplications dans 6 fichiers, normalisation des imports `@/*` dans ~30 fichiers, synchronisation `AGENTS.md` et `GATES.md`)
+- **Périmètre** : `src/lib/utils/`, purge de `src/assets/` et 4 composants orphelins, normalisation `@/*` dans `src/`, `AGENTS.md` et `GATES.md` (en préservant strictement `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` et `package.json`).
+
+#### 1. Problème Réel & Contrainte Principale
+Transposer la séparation des responsabilités du modèle « React JS Advanced Folder Structure » (composants, layout, services, utilitaires/helpers) dans une architecture Next.js 16 App Router + TypeScript strict + Supabase sans briser le routage `src/app/`, la frontière RSC/CSR ni les oracles de `GATES.md`, tout en éliminant la dette d'une migration antérieure depuis Vite (`src/assets/`, 4 composants orphelins, 6 duplications de `formatTime`, imports relatifs `../../../` fragiles).
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Appliquer littéralement l'arborescence SPA (`src/pages/`, `src/Routers/Routers.js`, `src/store/reducers.js`, CSS Modules par composant et barrels `index.ts` dans `src/components/`).
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : Incompatible avec Next.js 16 App Router (`src/app/`), le double design system hermétique (`globals.css` / `dashboard.css`), Zustand 5 et l'isolation RSC/CSR.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : *(Recommandé)* Conserver les piliers App Router, purger les 7 fichiers morts, créer le module profond `src/lib/utils/` (`format.ts`, `slug.ts`, `index.ts`), unifier tous les imports inter-dossiers sous l'alias `@/*` et aligner `AGENTS.md` et `GATES.md`.
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : Socle `src/lib/utils/` (`format.ts`, `slug.ts`, `index.ts`) créé ; reliquats Vite (`src/assets/`) et 4 composants orphelins purgés ; 6 implémentations locales de `formatTime`, `formatDate` et `generateSlug` remplacées par `@/lib/utils` ; 100 % des imports inter-dossiers statiques et dynamiques normalisés vers `@/*` ; carte `src/` de `AGENTS.md` et 3 nouvelles gates de `GATES.md` alignées sans toucher `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` ni `package.json`. Validation complète : `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (12/12 routes compilées en 4,0 s), `node scripts/verify-gates.mjs` (22/22 gates passées, 0 en échec).
+- **Leçon retenue** : Centraliser les fonctions pures dans `src/lib/utils/` et exiger l'alias canonique `@/*` via une gate grep exécutable prévient à la fois la duplication silencieuse entre routes App Router et la fragilité des chemins relatifs profonds (`../../../`).
