@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T23:55:00Z",
+  "title": "Design System: Charis Nation",
+  "extensions": {
+    "colorMeta": {
+      "brand-purple": {
+        "role": "primary",
+        "displayName": "Imperial Sanctuary Purple",
+        "canonical": "#572269",
+        "tonalRamp": ["#1d0924", "#32123d", "#451a54", "#572269", "#7a3d91", "#9b62b0", "#c299d1", "#efe3f4"]
+      },
+      "brand-yellow": {
+        "role": "secondary",
+        "displayName": "Sanctuary Gold",
+        "canonical": "#FBC906",
+        "tonalRamp": ["#3b2e00", "#614c00", "#8a6d02", "#b89204", "#fbc906", "#fcd94d", "#fde896", "#fef7db"]
+      },
+      "vitrine-dark": {
+        "role": "neutral",
+        "displayName": "Vitrine Nocturne",
+        "canonical": "#1A0A21",
+        "tonalRamp": ["#0d0511", "#1a0a21", "#251230", "#331942", "#4b2c5c", "#745785", "#b29ec0", "#f7f5f2"]
+      },
+      "light-base": {
+        "role": "neutral",
+        "displayName": "Parchment Light",
+        "canonical": "#F8F7F4",
+        "tonalRamp": ["#130717", "#362b3a", "#706e6b", "#9b9995", "#c8c5c0", "#e2e0dc", "#eae8e4", "#f8f7f4"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Grands titres de la Vitrine et ouvertures éditoriales."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Titres de section (Vision, Équipe Pastorale, Enseignements)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Titres d'enseignements détaillés et sous-ensembles narratifs."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texte courant éditorial (65-75ch) et prise de notes."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Micro-métadonnées, repères de navigation et horodatages."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-player",
+        "value": "0 -10px 30px rgba(0, 0, 0, 0.7)",
+        "purpose": "Séparation du lecteur audio flottant sur la Vitrine."
+      },
+      {
+        "name": "interactive-lift",
+        "value": "0 20px 40px rgba(87, 34, 105, 0.3)",
+        "purpose": "Élévation ciblée au survol d'une unité d'action interactive."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-instant",
+        "value": "80ms",
+        "purpose": "Feedback immédiat : clic, focus, pression tactile."
+      },
+      {
+        "name": "duration-fast",
+        "value": "150ms",
+        "purpose": "Transitions UI rapides : hover bouton, badge, toggle."
+      },
+      {
+        "name": "duration-normal",
+        "value": "250ms",
+        "purpose": "Standard : ouverture de menu, panneau contextuel."
+      },
+      {
+        "name": "duration-slow",
+        "value": "400ms",
+        "purpose": "Entrées de section et révélations progressives."
+      },
+      {
+        "name": "duration-xslow",
+        "value": "600ms",
+        "purpose": "Transitions de page (View Transitions) et masques de section."
+      },
+      {
+        "name": "duration-editorial",
+        "value": "850ms",
+        "purpose": "Chorégraphie éditoriale Vitrine (anneau Hero, scale-through)."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Décélération UI franche pour entrées et survols."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "Mouvements et clip-path symétriques sur écran."
+      },
+      {
+        "name": "ease-editorial",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Inertie quintique des transitions éditoriales Vitrine."
+      },
+      {
+        "name": "ease-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Décélération exponentielle sans rebond pour les entrées amples."
+      },
+      {
+        "name": "ease-drawer",
+        "value": "cubic-bezier(0.32, 0.72, 0, 1)",
+        "purpose": "Tiroirs coulissants et lecteur audio persistant."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Vitrine Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Bouton d'action principal de la Vitrine vers l'espace d'écoute.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3\"/></svg><span>Écouter nos messages</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 9999px; background: linear-gradient(90deg, #572269, #7a3d91); color: #F7F5F2; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(87, 34, 105, 0.5); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #FBC906; outline-offset: 3px; }"
+    },
+    {
+      "name": "Track Card Row",
+      "kind": "card",
+      "refersTo": "track-card",
+      "description": "Ligne compacte d'enseignement dans l'espace d'écoute quotidien.",
+      "html": "<div class=\"ds-track-card\"><div class=\"ds-track-thumb\"></div><div class=\"ds-track-meta\"><div class=\"ds-track-title\">La foi qui déplace les montagnes</div><div class=\"ds-track-sub\">Rev. Israel Watchman</div></div><span class=\"ds-track-dur\">30:00</span></div>",
+      "css": ".ds-track-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 15px; background: var(--bg-surface, #EAE8E4); color: var(--text-main, #130717); font-family: 'Plus Jakarta Sans', sans-serif; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-track-card:hover { transform: translateY(-2px); } .ds-track-thumb { width: 50px; height: 50px; border-radius: 10px; background: #572269; flex-shrink: 0; } .ds-track-meta { flex: 1; min-width: 0; } .ds-track-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-track-sub { font-size: 12px; opacity: 0.7; } .ds-track-dur { font-size: 12px; font-weight: 600; opacity: 0.65; }"
+    },
+    {
+      "name": "Editorial Micro Label",
+      "kind": "chip",
+      "description": "Repère contextuel typographique sans emphase tapageuse.",
+      "html": "<span class=\"ds-micro-label\">Sanctuaire de Grâce</span>",
+      "css": ".ds-micro-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(251,201,6,0.2); color: #FBC906; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Editorial Sanctuary",
+    "overview": "Charis Nation réunit deux surfaces complémentaires qui obéissent à une même exigence de retenue et de clarté : une Vitrine institutionnelle publique destinée à accueillir et situer la communauté, et un Espace Écoute applicatif pensé pour l'étude quotidienne, l'écoute d'enseignements audio et la prise de notes synchronisée. L'ambition esthétique repose sur un minimalisme éditorial à forte tension spatiale : laisser parler la typographie, le vide architectural et la photographie plein cadre plutôt que d'empiler des cartes encadrées et des ornements lumineux. Lorsque l'interface s'anime, le mouvement suit une grammaire cinétique sobre, exclusivement exécutée sur le thread compositeur (transform, opacity, clip-path), avec une décélération franche et sans à-coup qui oriente l'attention vers le contenu spirituel sans jamais se donner en spectacle.",
+    "keyCharacteristics": [
+      "Tension éditoriale entre grands titres serif (Playfair Display / Cinzel) et micro-métadonnées géométriques (Plus Jakarta Sans).",
+      "Respiration spatiale assumée, inspirée des publications éditoriales et de l'architecture de sanctuaire.",
+      "Double surface maîtrisée : Vitrine sombre et théâtrale (#1A0A21) face à un Espace Écoute bithème clair/sombre (#F8F7F4 / #171717).",
+      "Grammaire de mouvement frugale limitée à trois primitives GPU-only (Mask Reveal, Scroll Scale-Through, Non-Blocking Hover Preview)."
+    ],
+    "rules": [
+      {
+        "name": "The Rarity of Gold Rule",
+        "body": "L'accent doré (#FBC906 et déclinaisons adoucies) ne doit jamais occuper plus de 10 % d'un écran ; il ponctue un repère ou un état actif sans concurrencer la hiérarchie typographique.",
+        "section": "colors"
+      },
+      {
+        "name": "The Diacritic Breathing Room Rule",
+        "body": "Les titres en français portant des majuscules accentuées (É, À, È) exigent un interlignage minimal de 1.12 (Display) à 1.15 (Headline) et un dégagement supérieur dans les masques overflow: hidden, afin qu'aucun diacritique ne soit rogné lors d'une révélation verticale.",
+        "section": "typography"
+      },
+      {
+        "name": "The Asymmetrical Editorial Grid Rule",
+        "body": "Sur la Vitrine, privilégier le dialogue direct entre une colonne typographique respirante et une colonne média plein cadre (minmax(0, 1fr)), sans multiplier les boîtes uniformes.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Les surfaces éditoriales sont plates au repos ; l'élévation sert uniquement à signaler une couche persistante flottante ou un retour direct à l'interaction.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do restreindre les animations de la Vitrine aux trois primitives GPU-only définies dans globals.css (Mask Reveal, Scroll Scale-Through, Hover Preview), en n'animant que transform, opacity et clip-path.",
+      "Do déclencher les révélations de section une seule fois via useReveal (IntersectionObserver avec once: true), jamais en boucle à chaque aller-retour de scroll.",
+      "Do réserver les micro-aperçus au survol (hover-preview) aux pointeurs précis (@media (hover: hover) and (pointer: fine)).",
+      "Do envelopper les titres français en text-wrap: balance avec line-height >= 1.12 pour préserver les accents majuscules.",
+      "Do garantir l'accessibilité vestibulaire via @media (prefers-reduced-motion: reduce) dans globals.css et les hooks React associés."
+    ],
+    "donts": [
+      "Don't installer ou empiler des bibliothèques d'animation tierces sans validation préalable explicite sur package.json.",
+      "Don't utiliser transition: all, ni animer width, height, top, left ou margin.",
+      "Don't introduire de curseur personnalisé bloquant ni de preloader plein écran retardant le Largest Contentful Paint.",
+      "Don't insérer d'émojis dans les boutons, onglets ou étiquettes interactives (icônes Lucide SVG uniquement).",
+      "Don't employer 100vh ou overflow-x: hidden sur des coques de page (utiliser 100dvh et overflow-x: clip)."
+    ]
+  }
+}

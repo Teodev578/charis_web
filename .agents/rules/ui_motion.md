@@ -23,16 +23,19 @@ Définir dans `globals.css`, jamais inline :
 
 ```css
 :root {
-  --duration-instant:  80ms;   /* feedback immédiat : hover bouton, focus */
-  --duration-fast:    150ms;   /* transitions UI rapides : toggle, badge */
-  --duration-normal:  250ms;   /* standard : ouverture menu, slide card */
-  --duration-slow:    400ms;   /* entrées de page, reveal de section */
-  --duration-xslow:  600ms;   /* transitions de page entière */
+  --duration-instant:    80ms;   /* feedback immédiat : clic, focus, pression tactile */
+  --duration-fast:      150ms;   /* transitions UI rapides : hover bouton, badge, toggle */
+  --duration-normal:    250ms;   /* standard : ouverture menu, slide card */
+  --duration-slow:      400ms;   /* entrées de page, reveal de section */
+  --duration-xslow:     600ms;   /* transitions de page entière, clip-path */
+  --duration-editorial: 850ms;   /* chorégraphie éditoriale Vitrine (Hero, scale-through) */
 
-  --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);   /* décélération naturelle */
-  --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);   /* symétrique, pour dialogs */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot léger, premium */
-  --ease-linear: linear;
+  --ease-out:       cubic-bezier(0.23, 1, 0.32, 1);    /* décélération franche UI */
+  --ease-in-out:    cubic-bezier(0.77, 0, 0.175, 1);   /* mouvement / clip-path sur écran */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);    /* inertie quintique éditoriale */
+  --ease-expo:      cubic-bezier(0.16, 1, 0.3, 1);     /* décélération exponentielle sans rebond */
+  --ease-drawer:    cubic-bezier(0.32, 0.72, 0, 1);    /* tiroirs et lecteur flottant */
+  --ease-linear:    linear;
 }
 ```
 
@@ -114,7 +117,7 @@ Tout élément interactif (carte, bouton, lien, icône cliquable) a un hover sta
   background: var(--brand-purple);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--duration-normal) var(--ease-spring);
+  transition: transform var(--duration-normal) var(--ease-out);
 }
 
 .nav-link:hover::after,
@@ -153,36 +156,14 @@ Pattern léger sans dépendance externe. Utiliser `IntersectionObserver` côté 
 ```
 
 ```tsx
-// Hook réutilisable — src/hooks/useReveal.ts
-'use client';
-import { useEffect, useRef } from 'react';
-
-export function useReveal() {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('is-visible');
-          observer.disconnect(); // ne rejoue pas à chaque scroll
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return ref;
-}
+// Hooks réutilisables (zéro dépendance) — src/hooks/useReveal.ts & src/hooks/useScrollProgress.ts
+// 1. useReveal<T extends HTMLElement>() : observe l'entrée dans le viewport, pose data-visible="true",
+//    respecte prefers-reduced-motion et évite tout re-render React.
+// 2. useScrollProgress<T extends HTMLElement>(onProgress) : pilote un scale-through / parallaxe
+//    directement via requestAnimationFrame passif sur le nœud DOM cible, sans state haute fréquence.
 ```
 
-**Règle** : le reveal ne se rejoue pas à chaque passage. `observer.disconnect()` après le premier déclenchement. Un effet qui rejoue en scrollant haut/bas est distrayant.
+**Règle** : le reveal ne se rejoue pas à chaque passage (`once: true` par défaut via `observer.disconnect()` après le premier déclenchement). Tout effet `:hover` spatialisé ou aperçu flottant sur une liste doit être protégé par `@media (hover: hover) and (pointer: fine)` afin de ne jamais bloquer le tactile mobile.
 
 ---
 
@@ -222,7 +203,7 @@ Le lecteur flottant a trois états : absent, apparition, actif. Chaque transitio
 ```css
 .audio-player {
   transform: translateY(100%);        /* état initial : hors écran */
-  transition: transform var(--duration-slow) var(--ease-spring);
+  transition: transform var(--duration-slow) var(--ease-drawer);
 }
 
 .audio-player.is-active {
@@ -237,7 +218,7 @@ Le lecteur flottant a trois états : absent, apparition, actif. Chaque transitio
 
 /* Bouton play/pause */
 .audio-player__play-btn {
-  transition: transform var(--duration-instant) var(--ease-spring);
+  transition: transform var(--duration-instant) var(--ease-out);
 }
 
 .audio-player__play-btn:active {
@@ -252,21 +233,22 @@ Le lecteur flottant a trois états : absent, apparition, actif. Chaque transitio
 Toute page de l'espace public avec un titre héros utilise `clamp()`. Jamais de taille fixe pour les grands titres.
 
 ```css
-/* Titre héros — scale fluide entre mobile et desktop */
-.text-display {
-  font-size: clamp(2.25rem, 5vw + 1rem, 4rem);
-  /* 36px mobile → 64px desktop, courbe continue */
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.03em;   /* lettre-spacing négatif sur les grands titres */
+/* Titre héros — scale fluide entre mobile et desktop (diacritiques français préservés) */
+.type-display {
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-display); /* >= 1.12 pour préserver É, À, È */
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
 }
 
 /* Sous-titre de section */
-.text-headline {
-  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
-  font-weight: 700;
-  line-height: 1.15;
+.type-headline {
+  font-size: var(--text-headline);
+  font-weight: 600;
+  line-height: var(--leading-headline);
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 ```
 
@@ -299,9 +281,11 @@ Placer ce bloc dans `globals.css` une seule fois. Ne pas le dupliquer dans chaqu
 
 ---
 
-## Défilement doux global (Lenis Smooth Scrolling)
+## Défilement doux global & Dépendances externes (Sous Consentement)
 
-Pour conférer à la navigation une texture soyeuse et haut de gamme sans casser les mécanismes d'accessibilité ni le scroll natif, **Lenis** est le moteur de smooth scrolling recommandé sur l'ensemble de l'espace public.
+> **Invariant de gouvernance** : ni `lenis` ni `motion` (Framer Motion) ne sont installés dans `package.json` à ce stade. Leur ajout éventuel requiert une validation explicite de l'utilisateur (`AGENTS.md` §2). Tant qu'aucune bibliothèque externe n'est validée, l'ensemble des effets repose sur les tokens CSS de `globals.css`, la View Transitions API, `useReveal` et `useScrollProgress`.
+
+Si **Lenis** est ultérieurement validé pour conférer une inertie douce sur l'espace public :
 
 ### Règles d'intégration Lenis
 - **Initialisation unique** dans le layout client racine (`ClientAppWrapper.tsx`).
@@ -313,25 +297,7 @@ Pour conférer à la navigation une texture soyeuse et haut de gamme sans casser
 
 ## Pattern Text Reveal en masque (*Split Masking*)
 
-Pour les titres majeurs de la vitrine et du Hero, le motif d'apparition recommandé repose sur le masquage de débordement (`overflow: hidden`) combiné à une translation verticale fluide orchestrée par `motion` (Framer Motion) ou CSS :
-
-```tsx
-/* Exemple conceptuel de Text Reveal */
-<div className="overflow-hidden">
-  <motion.h1
-    initial={{ y: "100%", opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-  >
-    Bienvenue à Charis Nation
-  </motion.h1>
-</div>
-```
-
-**Règles du reveal :**
-- L'élément conteneur direct doit porter `overflow: hidden`.
-- La courbe de transition doit être douce et naturelle (décélération noble, ex: `cubic-bezier(0.16, 1, 0.3, 1)`).
-- Les mots ou lignes apparaissent en cascade légère (*stagger* de 0.08s à 0.15s) pour créer une entrée majestueuse et digne.
+Pour les titres majeurs de la vitrine et du Hero, le motif d'apparition recommandé repose sur le masquage de débordement (`overflow: hidden`) combiné à une translation verticale GPU (`transform: translate3d(0, 110%, 0)` vers `0`) pilotée en CSS pur via `.motion-mask-reveal` / `.motion-mask-reveal__line` + `useReveal` (ou ultérieurement `motion` si validé). Toujours conserver un `padding-top: 0.12em` dans le masque pour éviter le rognage des majuscules accentuées françaises (`É`, `À`, `È`).
 
 ---
 

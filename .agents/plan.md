@@ -43,3 +43,20 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - Build Next.js 16 : Code 0 (12/12 routes statiques et dynamiques compilées)
 - Audit ESLint : Code 0 (Zéro erreur, zéro warning)
 - Oracle déterministe `verify-gates.mjs` : Validé avec succès.
+
+---
+
+## 📌 Tâche Active : Préparation du Terrain Design System & Socle Cinétique (`PREP-DESIGN-SYSTEM-01`)
+
+- **Identifiant** : `PREP-DESIGN-SYSTEM-01`
+- **Statut** : Validé et clôturé
+- **Contrainte stricte** : Zéro changement visuel immédiat sur les pages rendues ; zéro modification de `package.json`.
+- **Référence Gates** : Section « Socle Design System & Physique du Mouvement » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Rédaction de l'arbitrage initial dans `.agents/WRITING_IMPROVEMENT.md` et inscription du plan dans `.agents/plan.md`.
+- [x] **Étape 2** : Création de `DESIGN.md` à la racine et du sidecar `.impeccable/design.json` (spécification officielle `DESIGN.md` + grammaire éditoriale et cinétique).
+- [x] **Étape 3** : Harmonisation de `.agents/rules/ui_motion.md` avec les courbes et hooks réels du socle.
+- [x] **Étape 4** : Ajout des tokens cinétiques, échelle typographique opt-in, primitives GPU-only, View Transitions et garde-fou global `prefers-reduced-motion` dans `src/app/globals.css`.
+- [x] **Étape 5** : Implémentation de `src/hooks/useReveal.ts`, `src/hooks/useScrollProgress.ts` et `src/hooks/index.ts`.
+- [x] **Étape 6** : Ajout des oracles dans `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs` et clôture dans `WRITING_IMPROVEMENT.md`.

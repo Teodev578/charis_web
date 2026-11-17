@@ -32,6 +32,31 @@
   --hero-card-w-side: 80px;
   --hero-card-h-active: 200px;
   --hero-card-h-side: 130px;
+
+  /* Timing & Courbes de Physique du Mouvement (Socle cinétique opt-in) */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-xslow: 600ms;
+  --duration-editorial: 850ms;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-linear: linear;
+
+  /* Échelle typographique éditoriale fluide (opt-in, préserve les diacritiques FR) */
+  --text-display: clamp(2.5rem, 6vw + 1rem, 5.5rem);
+  --text-headline: clamp(1.75rem, 3.5vw + 0.5rem, 3.25rem);
+  --text-title: clamp(1.25rem, 1.8vw + 0.5rem, 1.875rem);
+  --text-label: 0.75rem;
+  --leading-display: 1.12;
+  --leading-headline: 1.15;
+  --tracking-display: -0.03em;
+  --tracking-label: 0.18em;
 }
 
 @media (min-width: 640px) {
@@ -170,10 +195,147 @@ body {
   animation-play-state: paused;
 }
 
+/* ==========================================
+   7. SOCLE TYPOGRAPHIQUE & CINÉTIQUE OPT-IN
+   (Sans impact sur les composants existants tant que non appliqués)
+   ========================================== */
+.type-display {
+  font-family: var(--font-serif);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.type-headline {
+  font-family: var(--font-serif);
+  font-size: var(--text-headline);
+  font-weight: 600;
+  line-height: var(--leading-headline);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.type-micro-label {
+  font-family: var(--font-jakarta);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Primitive 1 : Entrée sobre GPU-only (opacity + translate3d) */
+.motion-reveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+.motion-reveal[data-visible="true"],
+.motion-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Primitive 2 : Mask Reveal typographique (padding-top protège É, À, È) */
+.motion-mask-reveal {
+  overflow: hidden;
+  padding-top: 0.12em;
+  margin-top: -0.12em;
+}
+
+.motion-mask-reveal__line {
+  display: block;
+  opacity: 0;
+  transform: translate3d(0, 110%, 0);
+  transition:
+    opacity var(--duration-editorial) var(--ease-editorial),
+    transform var(--duration-editorial) var(--ease-editorial);
+}
+
+.motion-mask-reveal[data-visible="true"] .motion-mask-reveal__line,
+.motion-mask-reveal.is-visible .motion-mask-reveal__line {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Primitive 3 : Révélation média plein cadre par clip-path GPU */
+.motion-clip-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--duration-xslow) var(--ease-in-out);
+}
+
+.motion-clip-reveal[data-visible="true"],
+.motion-clip-reveal.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Gating tactile : les micro-aperçus au survol ne s'activent que sur pointeur précis */
+@media (hover: hover) and (pointer: fine) {
+  .hover-preview-stage {
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-normal) var(--ease-editorial);
+  }
+}
+
+/* Transitions de page natives (View Transitions API) */
+@keyframes vtFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes vtFadeOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+::view-transition-old(root) {
+  animation: var(--duration-normal) var(--ease-in-out) vtFadeOut;
+}
+
+::view-transition-new(root) {
+  animation: var(--duration-normal) var(--ease-in-out) vtFadeIn;
+}
+
+/* Garde-fou global d'accessibilité vestibulaire */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .animate-filmstrip-left,
   .animate-filmstrip-right {
     animation: none;
+  }
+
+  .motion-reveal,
+  .motion-mask-reveal__line,
+  .motion-clip-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
   }
 }
 

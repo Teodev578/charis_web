@@ -87,7 +87,31 @@ EVIDENCE: La fonction get_user_profil avec SECURITY DEFINER est déclarée dans 
 
 ---
 
-## 📜 4. Journal d'Exécution des Oracles
+## 🎨 4. Gates Socle Design System & Physique du Mouvement
+
+### Gate : Présence du Contrat DESIGN.md et du Sidecar design.json
+CHECK: test -f DESIGN.md && test -f .impeccable/design.json && echo "CONTRAT_DESIGN_PRESENT"
+EXPECT: CONTRAT_DESIGN_PRESENT
+EVIDENCE: Le contrat racine DESIGN.md et le sidecar .impeccable/design.json sont présents.
+
+### Gate : Présence des Tokens Cinétiques et Typographiques dans globals.css
+CHECK: grep -q -- "--duration-editorial" src/app/globals.css && grep -q -- "--ease-editorial" src/app/globals.css && grep -q -- "--text-display" src/app/globals.css && echo "TOKENS_SOCLE_PRESENTS"
+EXPECT: TOKENS_SOCLE_PRESENTS
+EVIDENCE: Les tokens opt-in (--duration-editorial, --ease-editorial, --text-display) sont déclarés dans src/app/globals.css.
+
+### Gate : Présence du Garde-Fou Global prefers-reduced-motion
+CHECK: grep -q "animation-duration: 0.01ms" src/app/globals.css && echo "REDUCED_MOTION_GLOBAL_ACTIF"
+EXPECT: REDUCED_MOTION_GLOBAL_ACTIF
+EVIDENCE: La désactivation globale des transitions et animations sous prefers-reduced-motion est active dans globals.css.
+
+### Gate : Présence des Hooks Cinétiques sans Dépendance
+CHECK: test -f src/hooks/useReveal.ts && test -f src/hooks/useScrollProgress.ts && echo "HOOKS_CINETIQUES_PRESENTS"
+EXPECT: HOOKS_CINETIQUES_PRESENTS
+EVIDENCE: Les hooks useReveal.ts et useScrollProgress.ts sont présents dans src/hooks/.
+
+---
+
+## 📜 5. Journal d'Exécution des Oracles
 
 | Date d'Exécution | Oracle / Commande | Opérateur | Statut | Bilan / Preuve |
 |---|---|---|---|---|
@@ -95,3 +119,6 @@ EVIDENCE: La fonction get_user_profil avec SECURITY DEFINER est déclarée dans 
 | 2026-10-09 | `npm run build` | `ts_quality_gate` | **SUCCÈS** | 12 routes compilées avec Turbopack |
 | 2026-10-09 | `npm run lint` | `ts_quality_gate` | **SUCCÈS** | Flat config ESLint validée à 100% |
 | 2026-10-09 | `node scripts/verify-gates.mjs` | `ts_quality_gate` | **SUCCÈS** | Toutes les assertions vérifiées |
+| 2026-11-16 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript sur `src/` et `src/hooks/` |
+| 2026-11-16 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 9.7s`) |
+| 2026-11-16 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |

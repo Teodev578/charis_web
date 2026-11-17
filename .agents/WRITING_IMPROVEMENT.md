@@ -44,3 +44,28 @@ Le dépôt disposait d'éléments agentiques dispersés mais manquait d'un cadre
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Vérification TypeScript stricte sans erreur (`tsc --noEmit`), build de production Next.js 16 compilé sans avertissement, script `verify-gates.mjs` opérationnel.
 - **Leçon retenue** : La formalisation de gates claires dès l'amorce élimine les faux positifs et stabilise durablement le flux de développement.
+
+---
+
+### [2026-11-16] Préparation du Terrain Design System & Socle Cinétique (Sans Modification Visuelle)
+
+- **Complexité** : Complexe (Niveau 4 — multi-fichiers : `DESIGN.md`, `.impeccable/design.json`, `globals.css`, `src/hooks/`, `.agents/rules/ui_motion.md`, `GATES.md`)
+- **Périmètre** : Contrat visuel et cinétique (`DESIGN.md` + sidecar), tokens CSS et primitives opt-in dans `src/app/globals.css`, hooks de révélation et de progression au scroll dans `src/hooks/`.
+
+#### 1. Problème Réel & Contrainte Principale
+Le dépôt possède déjà des règles éparses (`aesthetic_standards.md`, `ui_motion.md`, `ui_forbidden.md`) mais manque d'un contrat unifié racine (`DESIGN.md`) exploitable par les outils et agents, ainsi que de l'infrastructure technique promise par ces règles (les tokens `--duration-*` / `--ease-*`, le garde-fou global `prefers-reduced-motion`, les classes primitives GPU-only et `src/hooks/useReveal.ts` n'existaient pas dans `src/`). Deux contraintes strictes s'imposent : ne modifier aucun rendu visuel actuel (« préparer le terrain sans toucher au design ») et ne toucher aucune dépendance dans `package.json` sans consentement explicite de l'utilisateur.
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Installer dès maintenant `motion` (Framer Motion) et `lenis`, et créer des composants wrapper abstraits (`ScrollScaleStage`, `TextReveal`) prêts à l'emploi.
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : L'ajout unilatéral de dépendances dans `package.json` viole l'invariant de gouvernance des versions (`AGENTS.md` §2). De plus, créer des composants UI non consommés avant la refonte effective des sections contreviendrait au principe YAGNI (`01-engineering-standards.md` §2.1) en figeant des APIs prématurées.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : Préparation en trois couches purement additives et sans dépendance :
+  1. **Contrat documentaire & machine-readable** : `DESIGN.md` à la racine et `.impeccable/design.json` alignant les tokens réels de `globals.css` avec la grammaire éditoriale et cinétique cible.
+  2. **Socle CSS opt-in dans `src/app/globals.css`** : ajout de variables de durée/courbes harmonisées (`--ease-out`, `--ease-in-out`, `--ease-editorial`, `--ease-drawer`), d'une échelle typographique fluide tenant compte des diacritiques français (`--leading-display: 1.12`), de primitives GPU-only inertes tant que non appliquées, des règles View Transitions et du garde-fou global `prefers-reduced-motion`.
+  3. **Hooks profonds sans re-render dans `src/hooks/`** : `useReveal.ts` (`IntersectionObserver`, manipulation directe de `data-visible`) et `useScrollProgress.ts` (`requestAnimationFrame` passif, mutation DOM directe sans `setState` à haute fréquence, philosophie Ousterhout).
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : `DESIGN.md`, `.impeccable/design.json`, `src/app/globals.css` (tokens et primitives opt-in), `src/hooks/useReveal.ts`, `src/hooks/useScrollProgress.ts`, `src/hooks/index.ts`, `.agents/rules/ui_motion.md` et `GATES.md` validés sans modification visuelle sur les pages actuelles et sans aucune altération de `package.json`. `npx tsc --noEmit`, `npm run lint`, `impeccable detect` et `npm run build` passés à 0 erreur.
+- **Leçon retenue** : Harmoniser les courbes d'animation (`--ease-editorial`, `--ease-out`, `--ease-expo`) dès la phase de socle évite les contradictions entre règles (`ui_motion.md`) et détecteurs automatiques (`impeccable detect`), et protège les diacritiques français (`É`, `À`, `È`) sous masque `overflow: hidden`.
