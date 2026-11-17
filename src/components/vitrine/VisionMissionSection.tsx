@@ -18,21 +18,21 @@ export default function VisionMissionSection() {
   };
 
   return (
-    <section id="vision" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
-      {/* Background soft lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#572269]/20 rounded-full blur-[130px] pointer-events-none" />
+    <section id="vision" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#f2f2f2] border-t border-[#111111]/8 overflow-hidden">
+      {/* Lumière d'ambiance diffuse issue du Hero (#ebe3f2 / #f8dfd2) */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_12%_35%,rgba(235,227,242,0.85),transparent)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#FBC906]/20 text-[#FBC906] text-xs font-semibold uppercase tracking-widest mb-4">
-            <Compass className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#111111]/10 text-[#6C288B] text-xs font-semibold uppercase tracking-widest mb-4 shadow-xs">
+            <Compass className="w-3.5 h-3.5 text-[#fc7d42]" />
             <span>Fondements & Convictions</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#F7F5F2] tracking-tight mb-6">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#111111] tracking-tight mb-6">
             Vision & Mission de l’Église
           </h2>
-          <p className="text-base sm:text-lg text-[#F7F5F2]/75 leading-relaxed">
+          <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed">
             {VITRINE_CONFIG.missionText}
           </p>
         </div>
@@ -44,26 +44,26 @@ export default function VisionMissionSection() {
             return (
               <div
                 key={val.id}
-                className="group relative p-8 rounded-3xl bg-[#251230]/60 border border-white/10 hover:border-[#FBC906]/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(87,34,105,0.25)] flex flex-col justify-between"
+                className="group relative p-8 rounded-3xl bg-white border border-[#111111]/8 hover:border-[#6C288B]/35 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_38px_rgba(108,40,139,0.10)] flex flex-col justify-between"
               >
                 {/* Glow on hover */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#FBC906]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#ebe3f2]/55 via-transparent to-[#f8dfd2]/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#572269] to-[#7a3d91] flex items-center justify-center mb-6 shadow-md shadow-[#572269]/40 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-7 h-7 text-[#FBC906]" />
+                <div className="relative">
+                  <div className="w-14 h-14 rounded-2xl bg-[#111111] group-hover:bg-[#6C288B] flex items-center justify-center mb-6 shadow-md shadow-[#111111]/15 transition-all duration-300 group-hover:scale-105">
+                    <IconComponent className="w-7 h-7 text-[#fc7d42] group-hover:text-[#f2f2f2] transition-colors" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-[#F7F5F2] mb-3 group-hover:text-[#FBC906] transition-colors">
+                  <h3 className="font-serif text-xl font-bold text-[#111111] mb-3 group-hover:text-[#6C288B] transition-colors">
                     {val.title}
                   </h3>
-                  <p className="text-sm text-[#F7F5F2]/70 leading-relaxed">
+                  <p className="text-sm text-[#111111]/70 leading-relaxed">
                     {val.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/5 flex items-center gap-2 text-xs font-bold text-[#FBC906]/80 group-hover:text-[#FBC906]">
+                <div className="relative pt-6 mt-6 border-t border-[#111111]/8 flex items-center gap-2 text-xs font-bold text-[#6C288B]">
                   <span>En savoir plus</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#fc7d42] transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             );
@@ -71,18 +71,18 @@ export default function VisionMissionSection() {
         </div>
 
         {/* Bottom Callout */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#251230] via-[#331942] to-[#251230] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#111111] border border-[#111111]/15 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl text-[#f2f2f2]">
           <div className="max-w-2xl text-center md:text-left">
-            <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#F7F5F2] mb-2">
+            <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#f2f2f2] mb-2">
               Une histoire de grâce écrite chaque jour
             </h4>
-            <p className="text-sm text-[#F7F5F2]/75">
+            <p className="text-sm text-[#f2f2f2]/75">
               Rencontrez les serviteurs et pasteurs consacrés qui conduisent l’assemblée dans la prière et la fidélité.
             </p>
           </div>
           <button
             onClick={scrollToTeam}
-            className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[#F7F5F2] font-semibold text-sm border border-white/20 backdrop-blur-md transition-all cursor-pointer whitespace-nowrap hover:border-[#FBC906]/50"
+            className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-[#fc7d42] text-[#f2f2f2] hover:text-[#111111] font-semibold text-sm border border-white/20 hover:border-[#fc7d42] backdrop-blur-md transition-all cursor-pointer whitespace-nowrap"
           >
             Découvrir notre équipe pastorale
           </button>

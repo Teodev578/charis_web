@@ -274,19 +274,19 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="font-serif font-bold text-xl tracking-tight text-[#1A1A1A] no-underline hover:opacity-80 transition-opacity"
+            className="vitrine-wordmark text-[#1A1A1A] no-underline hover:opacity-80 transition-opacity"
           >
             Charis Nation
           </a>
 
           {/* Navigation centrale */}
-          <nav className="flex items-center gap-6 sm:gap-9">
+          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
             {navLinks.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-sm font-medium transition-colors no-underline ${
+                className={`vitrine-nav-link transition-colors no-underline ${
                   item.active
                     ? 'text-[#fc7d42] font-semibold'
                     : 'text-[#333333] hover:text-[#fc7d42]'
@@ -305,7 +305,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                   e.stopPropagation();
                   replayAnimation();
                 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+                className="vitrine-nav-cta inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
                 title="Rejouer l'animation de présentation"
               >
                 <RotateCcw className="w-3.5 h-3.5" />

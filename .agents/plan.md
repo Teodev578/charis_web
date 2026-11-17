@@ -60,3 +60,36 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 4** : Ajout des tokens cinétiques, échelle typographique opt-in, primitives GPU-only, View Transitions et garde-fou global `prefers-reduced-motion` dans `src/app/globals.css`.
 - [x] **Étape 5** : Implémentation de `src/hooks/useReveal.ts`, `src/hooks/useScrollProgress.ts` et `src/hooks/index.ts`.
 - [x] **Étape 6** : Ajout des oracles dans `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs` et clôture dans `WRITING_IMPROVEMENT.md`.
+
+---
+
+## 📌 Tâche Active : Unification Chromatique Globale sur la Base du Hero (`COLOR-COHERENCE-01`)
+
+- **Identifiant** : `COLOR-COHERENCE-01`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Ne jamais modifier `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*`, ni `package.json`.
+- **Référence Gates** : Section « Cohérence Chromatique Base Hero » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Audit exhaustif des couleurs du Hero et des divergences dans la Vitrine et l'Espace Écoute ; inscription de l'arbitrage dans `WRITING_IMPROVEMENT.md`.
+- [x] **Étape 2** : Consolidation des tokens lumière/sombre, accents `#6C288B` / `#fc7d42` et alias `@theme` dans `src/app/globals.css` (et `src/app/dashboard/dashboard.css`).
+- [x] **Étape 3** : Harmonisation de `src/app/page.tsx`, `VitrineHeader.tsx`, `VitrineFooter.tsx` et des 6 sections Vitrine hors Hero (`VisionMissionSection`, `PastoralTeamSection`, `AudioExtractsSection`, `EventsSection`, `LocationHoursSection`, `DonationsSection`).
+- [x] **Étape 4** : Harmonisation de l'Espace Écoute et des composants communs (`NavigationSidebar`, `NavigationDrawer`, `StickyAudioPlayer`, `RightPanel`, `TrackCard`, `Announcements`, `AnnouncementCard`, `ecouter/page.tsx`, `explorer/page.tsx`, `message/[id]/page.tsx`, `ui/Header.tsx`).
+- [x] **Étape 5** : Mise à jour de `DESIGN.md`, `.impeccable/design.json` et des règles `.agents/rules/aesthetic_standards.md` / `ui_forbidden.md`.
+- [x] **Étape 6** : Ajout des gates chromatiques dans `GATES.md` et validation complète (`tsc --noEmit`, `lint`, `impeccable detect`, `npm run build`, `verify-gates.mjs`).
+
+---
+
+## 📌 Tâche Active : Alignement Typographique des En-Têtes Vitrine (`HEADER-TYPO-01`)
+
+- **Identifiant** : `HEADER-TYPO-01`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Préserver les animations, l'anneau Hero, le grain et les couleurs du Hero ; zéro modification de `package.json`.
+- **Référence Gates** : Section « Typographie des En-Têtes Vitrine » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Diagnostic de la collision `--font-jakarta` (`layout.tsx` vs `globals.css`), validation de la direction avec l'utilisateur et inscription de l'arbitrage dans `WRITING_IMPROVEMENT.md`.
+- [x] **Étape 2** : Correction de la variable `--font-jakarta-sans` dans `src/app/layout.tsx` et ajout des rôles `.vitrine-wordmark`, `.vitrine-nav-link`, `.vitrine-nav-cta` dans `src/app/globals.css`.
+- [x] **Étape 3** : Application unifiée sur le `<header>` de `HeroSection.tsx` (sans altérer ses couleurs ni animations) et sur `VitrineHeader.tsx`.
+- [x] **Étape 4** : Mise à jour de la rampe typographique (`wordmark`, `nav`) dans `DESIGN.md` et `.impeccable/design.json`.
+- [x] **Étape 5** : Ajout des oracles typographiques dans `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, `impeccable detect --scope type`, `node scripts/verify-gates.mjs` et clôture.

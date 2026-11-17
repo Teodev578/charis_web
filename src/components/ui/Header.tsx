@@ -49,7 +49,7 @@ export default function Header({ onSearch, onMenuOpen }: HeaderProps) {
                 <input
                     type="text"
                     placeholder="Qu'allons nous écouter aujourd'hui?"
-                    className="w-full py-3 px-5 pl-11 rounded-full border border-transparent bg-bg-surface text-text-main font-[family-name:inherit] text-[0.95rem] outline-none transition-all duration-200 focus:bg-bg-color focus:border-text-main focus:shadow-[0_0_0_3px_rgba(19,7,23,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
+                    className="w-full py-3 px-5 pl-11 rounded-full border border-transparent bg-bg-surface text-text-main font-[family-name:inherit] text-[0.95rem] outline-none transition-all duration-200 focus:bg-bg-color focus:border-text-main focus:shadow-[0_0_0_3px_rgba(17,17,17,0.06)] dark:focus:shadow-[0_0_0_3px_rgba(242,242,242,0.06)]"
                     value={searchVal}
                     onChange={handleSearchChange}
                 />

@@ -33,21 +33,21 @@ Le viewport initial (Hero) est un espace sacré de première impression. Il est 
 
 ---
 
-## 🎨 Règle 2 — Harmonie Chromatique & Atmosphère Lumineuse
+## 🎨 Règle 2 — Harmonie Chromatique Ancrée sur le Hero
 
-### 2.1 Palette nocturne raffinée
-Finis les aplats violets froids et saturés façon néon d'arcade. La palette de Charis Nation s'ancre dans des profondeurs organiques :
-- **Fond principal (Base)** : Obsidienne profonde et chaleureuse (`#0D0714` ou `#120919`), évitant le noir pur `#000000` et les violets criards.
-- **Surfaces et Cartes** : Teintes subtilement relevées avec transparence optique (`rgba(255, 255, 255, 0.03)` à `0.05`), avec une bordure délicate (`rgba(255, 255, 255, 0.08)`).
-- **Accents Dorés & Solennels** : Or champagne, écru et ambre feutré (`#E6C687`, `#F5EBD9`, `#D4AF37`). L'or doit évoquer la lumière et l'élévation, jamais un jaune canari ou fluorescent.
-- **Pourpre Spirituel** : Pourpre impérial très assourdi et profond (`#2C1236`, `#3B1A48`), utilisé en ambiance de fond et non en teinte saturée éclatante.
+### 2.1 Palette galerie unifiée (Source de vérité : le Hero)
+Finis les aplats violet-sombre `#1A0A21` et les jaunes canari massifs `#FBC906` qui créaient une rupture brutale après le Hero. L'ensemble du site s'aligne sur la palette du Hero :
+- **Base galerie claire (`#f2f2f2`) & Surfaces pures (`#ffffff`)** : fond principal du Hero, des sections claires de la Vitrine et du mode clair applicatif.
+- **Encre & Ancrage sombre (`#111111`, `#1A1A1A`, `#242424`)** : typographie principale sur clair, boutons primaires, sections d'ancrage sombre (*Enseignements*, *Footer*) et mode sombre applicatif.
+- **Pourpre Hero (`#6C288B`, lumineux `#893FB0`, voile `#ebe3f2`)** : couleur de marque principale accessible (`7.9:1` sur `#f2f2f2`).
+- **Orange Hero (`#fc7d42`, profond `#FB5E17`, voile `#f8dfd2`)** : accent dynamique pour liens actifs de navigation, barres de progression audio, icônes et actions sur fond `#111111`.
 
 ### 2.2 Gestion de la lumière d'ambiance
 - **Halos lumineux structurés** : Les « blobs » circulaires ultra-saturés à 40% d'opacité avec `blur-[140px]` sont proscrits. Ils génèrent un rendu boueux et désordonné.
-- **La bonne méthode** : Employer de grands gradients radiaux à diffusion lente avec une opacité contenue (entre 6% et 18% maximum), combinés si nécessaire à une texture de grain ultra-fine pour éliminer tout effet de banding (marches d'escalier de couleur).
+- **La bonne méthode** : Employer de grands gradients radiaux diffus issus des voiles `#ebe3f2` et `#f8dfd2` du Hero (ou `#6C288B` à opacité < 22% sur fond `#111111`).
 
-### 2.3 Traitement des dégradés de texte
-- Un dégradé sur un titre doit être d'une douceur absolue : un fondu vertical ou légèrement en diagonale allant d'un écru chaleureux (`#FDFBF7`) vers un or doux (`#E6C687`).
+### 2.3 Traitement des dégradés et contrastes
+- Sur fond clair (`#f2f2f2` / `#ffffff`), privilégier `#111111` et `#6C288B` pour le texte et réserver `#fc7d42` aux icônes, traits actifs, bordures et survols de navigation.
 - Ne jamais juxtaposer dans un même mot ou une même phrase un blanc cru (`#FFFFFF`) avec un jaune vif criard (`#FBC906`), ce qui brise l'harmonie et donne un aspect amateur.
 
 ---
@@ -80,13 +80,12 @@ Finis les aplats violets froids et saturés façon néon d'arcade. La palette de
 - Forme : `rounded-full` ou `rounded-2xl` avec une courbure douce.
 - Padding proportionné : par exemple `padding: 0.875rem 2rem` (14px vertical, 32px horizontal). Jamais de boutons étroits ou étouffés.
 - Traitement de surface :
-  - **Bouton primaire** : Dégradé sombre et royal (`#381547` vers `#4E1F63`) rehaussé d'une bordure fine dorée semi-transparente et d'une ombre feutrée diffuse (`box-shadow: 0 10px 25px -5px rgba(56, 21, 71, 0.5)`).
-  - **Bouton secondaire** : Fond transparent ou verre dépoli subtil (`rgba(255, 255, 255, 0.04)`), bordure fine (`rgba(255, 255, 255, 0.12)`), texte lumineux au survol.
+  - **Bouton primaire** : Fond encre noire du Hero (`#111111`) avec survol vers pourpre Hero (`#6C288B`), texte `#f2f2f2`, rehaussé d'une icône soulignée par `#fc7d42` et d'une ombre feutrée (`box-shadow: 0 10px 25px -5px rgba(108, 40, 139, 0.35)`).
+  - **Bouton secondaire** : Fond clair translucide (`bg-white/50` / `bg-white`), bordure fine (`rgba(17, 17, 17, 0.25)`), survol net vers `#111111` ou `#6C288B`.
 - Typographie du bouton : Poids `medium` (500) ou `semibold` (600), taille `0.9375rem` (15px), interlettrage légèrement délié (`tracking-wide`).
 
 ### 4.3 Cartes & Conteneurs d'information
-- Jamais de fond blanc opaque sur thème sombre, ni d'aplats violets trop agressifs.
-- Utiliser le principe du « verre architectural » : fond sombre translucide, `backdrop-filter: blur(16px)`, bordure subtile de 1px avec gradient linéaire simulant un reflet de lumière en haut.
+- Sur fond clair `#f2f2f2`, privilégier des surfaces nettes (`#ffffff`) avec bordure discrète (`rgba(17, 17, 17, 0.08)`). Sur fond sombre `#111111`, privilégier `#1A1A1A` avec bordure fine (`rgba(242, 242, 242, 0.10)`).
 
 ---
 
@@ -96,7 +95,7 @@ Avant de déclarer toute tâche front-end ou vitrine terminée, l'agent valide l
 - [ ] Le premier écran (Hero) respire-t-il sans aucune sensation d'étouffement ?
 - [ ] Les boutons d'action sont-ils parfaitement dégagés de tout élément adjacent (aucun chevauchement à 100%, 75% ou 125% de zoom) ?
 - [ ] Les 3 cartes de piliers sont-elles dans leur propre section avec leur propre espace ?
-- [ ] Le fond évite-t-il les taches circulaires saturées et propose-t-il une atmosphère profonde, feutrée et noble ?
+- [ ] Le fond évite-t-il les taches circulaires saturées et reprend-il fidèlement la palette du Hero (`#f2f2f2`, `#ffffff`, `#111111`, `#6C288B`, `#fc7d42`) ?
 - [ ] Aucun émoji n'apparaît dans les boutons ou étiquettes interactives ?
-- [ ] La titraille utilise-t-elle le duo typographique avec le contraste or/écru doux sans jaune criard ?
+- [ ] La titraille utilise-t-elle le duo typographique avec des contrastes conformes WCAG sans jaune criard ?
 - [ ] Le padding vertical de chaque section est-il d'au moins 80px sur mobile et 120px sur desktop ?

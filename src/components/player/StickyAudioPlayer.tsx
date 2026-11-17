@@ -45,12 +45,12 @@ export default function StickyAudioPlayer() {
         >
           <div className="w-full h-1 bg-card rounded-full relative overflow-hidden group-hover:h-1.5 transition-all">
             <div 
-              className="h-full bg-brand-yellow rounded-full" 
+              className="h-full bg-hero-orange rounded-full" 
               style={{ width: `${progressPercent}%` }}
             />
           </div>
           <div 
-            className="absolute w-2.5 h-2.5 rounded-full bg-brand-yellow opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            className="absolute w-2.5 h-2.5 rounded-full bg-hero-orange opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
             style={{ left: `calc(${progressPercent}% - 5px)` }}
           />
         </div>

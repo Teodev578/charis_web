@@ -45,7 +45,7 @@ export default function TrackCard({
 
     return (
         <div 
-            className={`group flex items-center justify-between bg-bg-surface p-3 rounded-[15px] cursor-pointer transition-all duration-200 border animate-[fadeIn_0.3s_ease_both] hover:bg-bg-surface-hover hover:shadow-md ${isPlaying ? 'border-brand-purple bg-bg-surface-hover shadow-[0_0_0_1px_var(--brand-purple),0_0_20px_rgba(87,34,105,0.15)]' : 'border-transparent'}`}
+            className={`group flex items-center justify-between bg-bg-surface p-3 rounded-[15px] cursor-pointer transition-all duration-200 border animate-[fadeIn_0.3s_ease_both] hover:bg-bg-surface-hover hover:shadow-md ${isPlaying ? 'border-brand-purple bg-bg-surface-hover shadow-[0_0_0_1px_var(--brand-purple),0_0_20px_rgba(108,40,139,0.15)]' : 'border-transparent'}`}
             onClick={handleClick}
         >
             <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -56,7 +56,7 @@ export default function TrackCard({
                         className="w-full h-full object-cover bg-black/5 transition-transform duration-300 group-hover:scale-110" 
                     />
                     {layout !== 'list' && (
-                        <div className={`absolute inset-0 bg-[#0F0F23]/60 flex items-center justify-center transition-opacity duration-200 ${isPlaying ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                        <div className={`absolute inset-0 bg-[#111111]/60 flex items-center justify-center transition-opacity duration-200 ${isPlaying ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                             {isPlaying ? (
                                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 fill-white drop-shadow-[0_0_4px_rgba(255,255,255,0.5)] transition-transform duration-200 group-hover:scale-110">
                                     <rect x="6" y="4" width="4" height="16" />

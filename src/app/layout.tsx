@@ -5,7 +5,7 @@ import { Plus_Jakarta_Sans, Cinzel, Playfair_Display } from 'next/font/google';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-jakarta',
+  variable: '--font-jakarta-sans',
   display: 'swap',
 });
 

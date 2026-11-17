@@ -76,21 +76,21 @@ export default function AudioExtractsSection() {
   };
 
   return (
-    <section id="enseignements" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#1A0A21] border-t border-white/5 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-[#572269]/30 rounded-full blur-[140px] pointer-events-none" />
+    <section id="enseignements" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#111111] border-t border-white/10 text-[#f2f2f2] overflow-hidden">
+      {/* Gradient radial diffus ancré sur #6C288B & #fc7d42 */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_35%_45%,rgba(108,40,139,0.20),transparent)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#FBC906]/20 text-[#FBC906] text-xs font-semibold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#fc7d42]/30 text-[#fc7d42] text-xs font-semibold uppercase tracking-widest mb-4">
             <Volume2 className="w-3.5 h-3.5" />
             <span>Édification Quotidienne</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#F7F5F2] tracking-tight mb-6">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#f2f2f2] tracking-tight mb-6">
             Nos Derniers Enseignements
           </h2>
-          <p className="text-base sm:text-lg text-[#F7F5F2]/75 leading-relaxed">
+          <p className="text-base sm:text-lg text-[#f2f2f2]/75 leading-relaxed">
             Plongez dans la richesse de la prédication apostolique. Lancez un extrait instantanément sans interrompre votre lecture.
           </p>
         </div>
@@ -107,8 +107,8 @@ export default function AudioExtractsSection() {
                 onClick={() => handleTrackClick(track)}
                 className={`group relative p-6 rounded-3xl cursor-pointer transition-all duration-300 border ${
                   isThisCurrent
-                    ? 'bg-[#331942] border-[#FBC906] shadow-[0_15px_35px_rgba(251,201,6,0.2)]'
-                    : 'bg-[#251230]/70 border-white/10 hover:border-white/20 hover:bg-[#2b1539] hover:-translate-y-1'
+                    ? 'bg-[#1f1326] border-[#fc7d42] shadow-[0_15px_35px_rgba(252,125,66,0.18)]'
+                    : 'bg-[#1A1A1A] border-white/10 hover:border-[#6C288B]/60 hover:bg-[#221a28] hover:-translate-y-1'
                 }`}
               >
                 {/* Image Cover */}
@@ -129,8 +129,8 @@ export default function AudioExtractsSection() {
                       }}
                       className={`w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-all cursor-pointer ${
                         isThisPlaying
-                          ? 'bg-[#FBC906] text-[#1A0A21] scale-110 shadow-[0_0_25px_rgba(251,201,6,0.6)]'
-                          : 'bg-white/20 hover:bg-[#FBC906] text-white hover:text-[#1A0A21] backdrop-blur-md border border-white/30 hover:scale-110'
+                          ? 'bg-[#fc7d42] text-[#111111] scale-110 shadow-[0_0_25px_rgba(252,125,66,0.5)]'
+                          : 'bg-white/20 hover:bg-[#fc7d42] text-white hover:text-[#111111] backdrop-blur-md border border-white/30 hover:scale-110'
                       }`}
                       aria-label={isThisPlaying ? 'Pause' : 'Lire'}
                     >
@@ -143,25 +143,25 @@ export default function AudioExtractsSection() {
                   </div>
 
                   {/* Duration Tag */}
-                  <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-sm text-[11px] font-semibold text-white/90 flex items-center gap-1.5">
-                    <Clock className="w-3 h-3 text-[#FBC906]" />
+                  <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/65 backdrop-blur-sm text-[11px] font-semibold text-white/90 flex items-center gap-1.5">
+                    <Clock className="w-3 h-3 text-[#fc7d42]" />
                     <span>{formatDuration(track.duration)}</span>
                   </div>
 
                   {/* Live Pulse when playing */}
                   {isThisPlaying && (
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#572269]/90 border border-[#FBC906]/50 text-[11px] font-bold text-[#FBC906] flex items-center gap-1.5 animate-pulse">
-                      <Sparkles className="w-3 h-3" />
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#6C288B]/95 border border-[#fc7d42]/50 text-[11px] font-bold text-[#f2f2f2] flex items-center gap-1.5 animate-pulse">
+                      <Sparkles className="w-3 h-3 text-[#fc7d42]" />
                       <span>Lecture en cours</span>
                     </div>
                   )}
                 </div>
 
                 {/* Track Details */}
-                <h3 className="font-serif text-lg font-bold text-[#F7F5F2] mb-1.5 line-clamp-1 group-hover:text-[#FBC906] transition-colors">
+                <h3 className="font-serif text-lg font-bold text-[#f2f2f2] mb-1.5 line-clamp-1 group-hover:text-[#fc7d42] transition-colors">
                   {track.title}
                 </h3>
-                <p className="text-xs text-[#F7F5F2]/70 font-medium line-clamp-1">
+                <p className="text-xs text-[#f2f2f2]/70 font-medium line-clamp-1">
                   {track.subtitle}
                 </p>
               </div>
@@ -173,10 +173,10 @@ export default function AudioExtractsSection() {
         <div className="text-center">
           <Link
             href="/ecouter"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#572269] to-[#7a3d91] text-[#F7F5F2] font-bold text-sm shadow-[0_6px_25px_rgba(87,34,105,0.4)] hover:shadow-[0_8px_30px_rgba(251,201,6,0.3)] hover:scale-105 active:scale-95 transition-all border border-white/10 no-underline"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#6C288B] to-[#893FB0] text-[#f2f2f2] font-bold text-sm shadow-[0_6px_25px_rgba(108,40,139,0.4)] hover:shadow-[0_8px_30px_rgba(252,125,66,0.28)] hover:scale-105 active:scale-95 transition-all border border-white/10 no-underline"
           >
-            <Headphones className="w-4 h-4 text-[#FBC906]" />
-            <span>🎧 Explorer tous les enseignements</span>
+            <Headphones className="w-4 h-4 text-[#fc7d42]" />
+            <span>Explorer tous les enseignements</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

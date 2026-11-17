@@ -177,7 +177,7 @@ export default function RightPanel() {
                 value={noteText}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setNoteText(e.target.value)}
                 placeholder="Prendre une note synchronisée..."
-                className="flex-1 text-sm py-3 px-4 rounded-xl border border-border bg-card text-main outline-none focus:border-brand-purple focus:shadow-[0_0_0_3px_rgba(87,34,105,0.05)] transition-all"
+                className="flex-1 text-sm py-3 px-4 rounded-xl border border-border bg-card text-main outline-none focus:border-brand-purple focus:shadow-[0_0_0_3px_rgba(108,40,139,0.08)] transition-all"
               />
               <button
                 type="submit"

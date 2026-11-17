@@ -16,7 +16,7 @@ const MOCK_ANNOUNCEMENTS: AnnonceRow[] = [
     subtitle: 'AUDITORIUM CHARIS NATION | HOUSE OF EXCELLENCE',
     date_text: '18H45 - VEN. 29 MAI',
     bg_image: '/images/worship_woman.png',
-    accent_color: 'var(--brand-yellow)',
+    accent_color: 'var(--brand-orange)',
     is_cursive_title: true,
     footer_text: 'CHARIS NATION HOUSE OF EXCELLENCE',
     socials: true,
@@ -124,13 +124,13 @@ export default function Announcements() {
     return (
       <section className="mb-8 animate-pulse">
         <div className="flex justify-between items-center mb-4">
-          <div className="h-6 w-24 bg-[#EAE8E4] dark:bg-[#1E1E1F] rounded" />
-          <div className="h-4 w-16 bg-[#EAE8E4] dark:bg-[#1E1E1F] rounded" />
+          <div className="h-6 w-24 bg-surface rounded" />
+          <div className="h-4 w-16 bg-surface rounded" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="aspect-[1.15] bg-[#EAE8E4] dark:bg-[#1E1E1F] rounded-2xl" />
-          <div className="aspect-[1.15] bg-[#EAE8E4] dark:bg-[#1E1E1F] rounded-2xl hidden md:block" />
-          <div className="aspect-[1.15] bg-[#EAE8E4] dark:bg-[#1E1E1F] rounded-2xl hidden md:block" />
+          <div className="aspect-[1.15] bg-surface rounded-2xl" />
+          <div className="aspect-[1.15] bg-surface rounded-2xl hidden md:block" />
+          <div className="aspect-[1.15] bg-surface rounded-2xl hidden md:block" />
         </div>
       </section>
     );
@@ -142,7 +142,7 @@ export default function Announcements() {
         <h2 className="m-0 text-xl font-bold flex items-center gap-2">
           Bientôt !
         </h2>
-        <span className="text-xs font-semibold text-[#A09E9B] hover:text-[#572269] transition-colors cursor-pointer select-none">
+        <span className="text-xs font-semibold text-muted hover:text-brand-purple transition-colors cursor-pointer select-none">
           Tout afficher
         </span>
       </div>
@@ -164,7 +164,7 @@ export default function Announcements() {
           <button
             key={idx}
             className={`w-2.5 h-2.5 rounded-full border-0 cursor-pointer transition-all ${
-              activeIndex === idx ? 'bg-[#572269] scale-120' : 'bg-[#E2E0DC] dark:bg-[#29292A]'
+              activeIndex === idx ? 'bg-brand-purple scale-120' : 'bg-card'
             }`}
             onClick={() => scrollToSlide(idx)}
             aria-label={`Aller au slide ${idx + 1}`}

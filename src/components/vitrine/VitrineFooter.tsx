@@ -13,23 +13,23 @@ export default function VitrineFooter() {
   };
 
   return (
-    <footer className="relative bg-[#14071a] border-t border-white/10 pt-20 pb-12 px-4 sm:px-6 lg:px-8 text-[#F7F5F2]">
+    <footer className="relative bg-[#111111] border-t border-white/10 pt-20 pb-12 px-4 sm:px-6 lg:px-8 text-[#f2f2f2]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand Info (2 cols) */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 no-underline">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#572269] to-[#FBC906] p-[1.5px] shadow-lg">
-                <div className="w-full h-full bg-[#1A0A21] rounded-[14px] flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-[#FBC906]" />
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#6C288B] to-[#fc7d42] p-[1.5px] shadow-lg">
+                <div className="w-full h-full bg-[#111111] rounded-[14px] flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-[#fc7d42]" />
                 </div>
               </div>
-              <span className="font-serif font-bold text-xl tracking-wide text-[#F7F5F2]">
+              <span className="font-serif font-bold text-xl tracking-wide text-[#f2f2f2]">
                 {VITRINE_CONFIG.churchName}
               </span>
             </Link>
 
-            <p className="text-sm text-[#F7F5F2]/70 leading-relaxed max-w-sm mb-6">
+            <p className="text-sm text-[#f2f2f2]/70 leading-relaxed max-w-sm mb-6">
               {VITRINE_CONFIG.tagline}
             </p>
 
@@ -40,7 +40,7 @@ export default function VitrineFooter() {
                   href={VITRINE_CONFIG.socials.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#572269] border border-white/10 flex items-center justify-center text-[#F7F5F2] hover:text-[#FBC906] transition-all"
+                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
                   aria-label="YouTube"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@ export default function VitrineFooter() {
                   href={VITRINE_CONFIG.socials.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#572269] border border-white/10 flex items-center justify-center text-[#F7F5F2] hover:text-[#FBC906] transition-all"
+                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
                   aria-label="Facebook"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -66,7 +66,7 @@ export default function VitrineFooter() {
                   href={VITRINE_CONFIG.socials.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#572269] border border-white/10 flex items-center justify-center text-[#F7F5F2] hover:text-[#FBC906] transition-all"
+                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
                   aria-label="WhatsApp"
                 >
                   <MessageCircle className="w-5 h-5" />
@@ -77,7 +77,7 @@ export default function VitrineFooter() {
                   href={VITRINE_CONFIG.socials.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#572269] border border-white/10 flex items-center justify-center text-[#F7F5F2] hover:text-[#FBC906] transition-all"
+                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
                   aria-label="Instagram"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -90,7 +90,7 @@ export default function VitrineFooter() {
 
           {/* Navigation Links */}
           <div>
-            <h4 className="font-serif font-bold text-sm text-[#FBC906] uppercase tracking-wider mb-5">
+            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
               L’Église
             </h4>
             <ul className="space-y-3 text-sm list-none p-0 m-0">
@@ -98,7 +98,7 @@ export default function VitrineFooter() {
                 <a
                   href="#vision"
                   onClick={(e) => handleScrollTo(e, '#vision')}
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Vision & Valeurs
                 </a>
@@ -107,7 +107,7 @@ export default function VitrineFooter() {
                 <a
                   href="#equipe"
                   onClick={(e) => handleScrollTo(e, '#equipe')}
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Équipe Pastorale
                 </a>
@@ -116,7 +116,7 @@ export default function VitrineFooter() {
                 <a
                   href="#cultes"
                   onClick={(e) => handleScrollTo(e, '#cultes')}
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Cultes & Rendez-vous
                 </a>
@@ -125,7 +125,7 @@ export default function VitrineFooter() {
                 <a
                   href="#localisation"
                   onClick={(e) => handleScrollTo(e, '#localisation')}
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Plan d’accès & Contact
                 </a>
@@ -134,7 +134,7 @@ export default function VitrineFooter() {
                 <a
                   href="#dons"
                   onClick={(e) => handleScrollTo(e, '#dons')}
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Faire un don
                 </a>
@@ -144,14 +144,14 @@ export default function VitrineFooter() {
 
           {/* Spiritual Media Links */}
           <div>
-            <h4 className="font-serif font-bold text-sm text-[#FBC906] uppercase tracking-wider mb-5">
+            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
               Plateforme Audio
             </h4>
             <ul className="space-y-3 text-sm list-none p-0 m-0">
               <li>
                 <Link
                   href="/ecouter"
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Espace Écoute & Notes
                 </Link>
@@ -159,7 +159,7 @@ export default function VitrineFooter() {
               <li>
                 <Link
                   href="/explorer"
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Catalogue des Enseignements
                 </Link>
@@ -167,7 +167,7 @@ export default function VitrineFooter() {
               <li>
                 <Link
                   href="/auth/login"
-                  className="text-[#F7F5F2]/70 hover:text-[#FBC906] transition-colors no-underline"
+                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
                   Connexion Membre
                 </Link>
@@ -175,7 +175,7 @@ export default function VitrineFooter() {
               <li>
                 <Link
                   href="/dashboard"
-                  className="text-[#F7F5F2]/40 hover:text-[#FBC906] transition-colors no-underline text-xs"
+                  className="text-[#f2f2f2]/40 hover:text-[#fc7d42] transition-colors no-underline text-xs"
                 >
                   Administration
                 </Link>
@@ -185,23 +185,23 @@ export default function VitrineFooter() {
 
           {/* Contact Details */}
           <div>
-            <h4 className="font-serif font-bold text-sm text-[#FBC906] uppercase tracking-wider mb-5">
+            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
               Nous Joindre
             </h4>
-            <div className="space-y-3 text-xs text-[#F7F5F2]/70">
+            <div className="space-y-3 text-xs text-[#f2f2f2]/70">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#FBC906] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#fc7d42] shrink-0 mt-0.5" />
                 <span>{VITRINE_CONFIG.address.street}, {VITRINE_CONFIG.address.city}</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#FBC906] shrink-0" />
-                <a href={`tel:${VITRINE_CONFIG.contact.phone}`} className="hover:text-[#FBC906] transition-colors no-underline text-inherit">
+                <Phone className="w-4 h-4 text-[#fc7d42] shrink-0" />
+                <a href={`tel:${VITRINE_CONFIG.contact.phone}`} className="hover:text-[#fc7d42] transition-colors no-underline text-inherit">
                   {VITRINE_CONFIG.contact.phone}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#FBC906] shrink-0" />
-                <a href={`mailto:${VITRINE_CONFIG.contact.email}`} className="hover:text-[#FBC906] transition-colors no-underline text-inherit">
+                <Mail className="w-4 h-4 text-[#fc7d42] shrink-0" />
+                <a href={`mailto:${VITRINE_CONFIG.contact.email}`} className="hover:text-[#fc7d42] transition-colors no-underline text-inherit">
                   {VITRINE_CONFIG.contact.email}
                 </a>
               </div>
@@ -210,11 +210,11 @@ export default function VitrineFooter() {
         </div>
 
         {/* Bottom Bar & Copyright */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#F7F5F2]/50">
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#f2f2f2]/55">
           <p>© {new Date().getFullYear()} {VITRINE_CONFIG.churchName}. Tous droits réservés.</p>
           <div className="flex items-center gap-1">
             <span>Bâti avec grâce et foi</span>
-            <Heart className="w-3.5 h-3.5 text-[#FBC906] fill-[#FBC906]" />
+            <Heart className="w-3.5 h-3.5 text-[#fc7d42] fill-[#fc7d42]" />
             <span>pour l’Église de Christ</span>
           </div>
         </div>

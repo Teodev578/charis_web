@@ -17,7 +17,7 @@ export default function VitrinePage() {
   const { currentTrack } = useAudio();
 
   return (
-    <div className="relative min-h-screen bg-[#1A0A21] text-[#F7F5F2] font-jakarta selection:bg-[#FBC906]/30 selection:text-[#FBC906] overflow-x-clip">
+    <div className="relative min-h-screen bg-[#f2f2f2] text-[#111111] font-jakarta selection:bg-[#6C288B]/15 selection:text-[#6C288B] overflow-x-clip">
       {/* 1. Sticky Navigation Header */}
       <VitrineHeader />
 
@@ -50,7 +50,7 @@ export default function VitrinePage() {
 
       {/* 4. Sticky Floating Player (Active whenever audio is loaded/playing) */}
       {currentTrack && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.7)] border-t border-white/10 backdrop-blur-xl bg-[#1A0A21]/95 transition-all">
+        <div className="fixed bottom-0 left-0 right-0 z-50 shadow-[0_-10px_30px_rgba(17,17,17,0.14)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.7)] border-t border-border backdrop-blur-xl bg-surface/95 transition-all">
           <div className="max-w-5xl mx-auto">
             <StickyAudioPlayer />
           </div>

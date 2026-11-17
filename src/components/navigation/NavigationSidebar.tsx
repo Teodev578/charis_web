@@ -81,22 +81,22 @@ function NavContent() {
   return (
     <>
       {/* Brand Header */}
-      <div className="p-6 flex items-center justify-between border-b border-[#29292A]">
+      <div className="p-6 flex items-center justify-between border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#572269] to-[#7a3d91] flex items-center justify-center text-white shadow-md">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-purple to-brand-purple-light flex items-center justify-center text-white shadow-md">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M9 18V5l12-2v13" />
               <circle cx="6" cy="18" r="3" />
               <circle cx="18" cy="16" r="3" />
             </svg>
           </div>
-          <span className="font-bold text-lg tracking-tight font-sans">Charis Nation</span>
+          <span className="font-bold text-lg tracking-tight font-sans text-main">Charis Nation</span>
         </div>
         
         {/* Theme Toggle */}
         <button 
           onClick={toggleTheme} 
-          className="p-2 rounded-lg bg-[#29292A] hover:bg-[#3E3E40] text-[#A09E9B] hover:text-[#F8F7F4] transition-colors cursor-pointer"
+          className="p-2 rounded-lg bg-card hover:bg-bg-surface-hover text-muted hover:text-main transition-colors cursor-pointer"
           aria-label="Changer le thème"
         >
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -106,7 +106,7 @@ function NavContent() {
       {/* Navigation List */}
       <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
         <div>
-          <p className="px-3 text-xs font-semibold text-[#A09E9B] uppercase tracking-wider mb-3">Navigation</p>
+          <p className="px-3 text-xs font-semibold text-muted uppercase tracking-wider mb-3">Navigation</p>
           <ul className="space-y-1.5">
             {NAV_ITEMS.map((item) => {
               const isActive = getIsActive(item);
@@ -116,15 +116,15 @@ function NavContent() {
                     onClick={() => handleNavClick(item)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                       isActive 
-                        ? 'bg-gradient-to-r from-[rgba(87,34,105,0.12)] to-[rgba(87,34,105,0.02)] text-[#FBC906]' 
-                        : 'text-[#A09E9B] hover:bg-[#29292A] hover:text-[#F8F7F4] hover:translate-x-1'
+                        ? 'bg-gradient-to-r from-[rgba(108,40,139,0.14)] to-[rgba(108,40,139,0.03)] text-brand-purple dark:text-hero-orange' 
+                        : 'text-muted hover:bg-card hover:text-main hover:translate-x-1'
                     }`}
                   >
-                    <span className={`transition-transform duration-250 ${isActive ? 'text-[#FBC906]' : 'opacity-70 group-hover:opacity-100'}`}>
+                    <span className={`transition-transform duration-250 ${isActive ? 'text-brand-purple dark:text-hero-orange' : 'opacity-70 group-hover:opacity-100'}`}>
                       {item.icon}
                     </span>
                     <span className="flex-1 text-left">{item.label}</span>
-                    {isActive && <div className="w-1.5 h-1.5 rounded-full bg-[#FBC906]" />}
+                    {isActive && <div className="w-1.5 h-1.5 rounded-full bg-hero-orange" />}
                   </button>
                 </li>
               );
@@ -135,7 +135,7 @@ function NavContent() {
         {/* Admin Dashboard Navigation */}
         {isAdmin && (
           <div>
-            <p className="px-3 text-xs font-semibold text-[#A09E9B] uppercase tracking-wider mb-3">Administration</p>
+            <p className="px-3 text-xs font-semibold text-muted uppercase tracking-wider mb-3">Administration</p>
             <ul>
               <li>
                 <Link
@@ -143,13 +143,13 @@ function NavContent() {
                   onClick={closeMobileMenu}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                     pathname.startsWith('/dashboard')
-                      ? 'bg-gradient-to-r from-[rgba(87,34,105,0.15)] to-[rgba(122,61,145,0.08)] text-[#FBC906]'
-                      : 'text-[#A09E9B] hover:bg-[#29292A] hover:text-[#F8F7F4] hover:translate-x-1'
+                      ? 'bg-gradient-to-r from-[rgba(108,40,139,0.16)] to-[rgba(137,63,176,0.08)] text-brand-purple dark:text-hero-orange'
+                      : 'text-muted hover:bg-card hover:text-main hover:translate-x-1'
                   }`}
                 >
                   <LayoutDashboard className="w-5 h-5" />
                   <span className="flex-1 text-left">Dashboard Admin</span>
-                  <span className="text-[10px] font-bold uppercase bg-gradient-to-br from-[#572269] to-[#7a3d91] text-white px-2 py-0.5 rounded-full">Admin</span>
+                  <span className="text-[10px] font-bold uppercase bg-gradient-to-br from-brand-purple to-brand-purple-light text-white px-2 py-0.5 rounded-full">Admin</span>
                 </Link>
               </li>
             </ul>
@@ -158,22 +158,22 @@ function NavContent() {
       </nav>
 
       {/* User Profile Footer */}
-      <div className="p-4 border-t border-[#29292A] bg-[#141415]">
+      <div className="p-4 border-t border-border bg-base/50">
         {isAuthenticated ? (
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#572269] to-[#7a3d91] flex items-center justify-center text-white shadow-sm flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple to-brand-purple-light flex items-center justify-center text-white shadow-sm flex-shrink-0">
                 <span className="text-xs font-bold">{getInitials()}</span>
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-bold truncate text-[#F8F7F4]">{profile?.nom_complet || 'Utilisateur'}</p>
-                <p className="text-[11px] text-[#A09E9B] truncate">{user?.email}</p>
+                <p className="text-sm font-bold truncate text-main">{profile?.nom_complet || 'Utilisateur'}</p>
+                <p className="text-[11px] text-muted truncate">{user?.email}</p>
               </div>
             </div>
             
             <button 
               onClick={() => { signOut(); closeMobileMenu(); }}
-              className="p-2 rounded-lg hover:bg-red-950/40 text-[#A09E9B] hover:text-[#FE3434] transition-colors cursor-pointer"
+              className="p-2 rounded-lg hover:bg-attention/10 text-muted hover:text-attention transition-colors cursor-pointer"
               title="Se déconnecter"
             >
               <LogOut className="w-4 h-4" />
@@ -184,14 +184,14 @@ function NavContent() {
             <Link 
               href="/auth/login" 
               onClick={closeMobileMenu}
-              className="w-full py-2 rounded-xl bg-gradient-to-r from-[#572269] to-[#7a3d91] text-center text-xs font-semibold hover:opacity-95 shadow-md transition-all active:scale-98"
+              className="w-full py-2 rounded-xl bg-gradient-to-r from-brand-purple to-brand-purple-light text-white text-center text-xs font-semibold hover:opacity-95 shadow-md transition-all active:scale-98"
             >
               Se connecter
             </Link>
             <Link 
               href="/auth/signup" 
               onClick={closeMobileMenu}
-              className="w-full py-2 rounded-xl bg-[#29292A] hover:bg-[#3E3E40] text-center text-xs font-semibold text-[#F8F7F4] transition-colors active:scale-98"
+              className="w-full py-2 rounded-xl bg-card hover:bg-bg-surface-hover text-center text-xs font-semibold text-main transition-colors active:scale-98"
             >
               Créer un compte
             </Link>
@@ -208,7 +208,7 @@ export default function NavigationSidebar() {
   return (
     <>
       {/* --- VUE DESKTOP (Fixe, toujours là) --- */}
-      <aside className="hidden md:flex w-[260px] flex-col h-full bg-[#1A1A1B] border-r border-[#29292A] text-[#F8F7F4] flex-shrink-0 z-10">
+      <aside className="hidden md:flex w-[260px] flex-col h-full bg-surface border-r border-border text-main flex-shrink-0 z-10">
         <NavContent />
       </aside>
 
@@ -223,7 +223,7 @@ export default function NavigationSidebar() {
         )}
         
         {/* Drawer Mobile */}
-        <aside className={`fixed inset-y-0 left-0 w-[260px] flex flex-col bg-[#1A1A1B] border-r border-[#29292A] text-[#F8F7F4] z-50 select-none transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <aside className={`fixed inset-y-0 left-0 w-[260px] flex flex-col bg-surface border-r border-border text-main z-50 select-none transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <NavContent />
         </aside>
       </div>

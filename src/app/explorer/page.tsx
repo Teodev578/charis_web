@@ -136,7 +136,7 @@ export default function ExplorerPage() {
                     placeholder="Rechercher un enseignement..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full py-4 px-5 pl-12 rounded-[15px] border border-border-color bg-bg-surface font-[family-name:inherit] text-text-main text-[0.95rem] outline-none transition-all duration-200 focus:bg-bg-color focus:border-brand-purple focus:shadow-[0_0_0_3px_rgba(87,34,105,0.1)]"
+                    className="w-full py-4 px-5 pl-12 rounded-[15px] border border-border-color bg-bg-surface font-[family-name:inherit] text-text-main text-[0.95rem] outline-none transition-all duration-200 focus:bg-bg-color focus:border-brand-purple focus:shadow-[0_0_0_3px_rgba(108,40,139,0.12)]"
                 />
             </div>
 
@@ -149,7 +149,7 @@ export default function ExplorerPage() {
                 {(loading ? MOCK_CATEGORIES : categories).map(cat => (
                     <button
                         key={cat.id}
-                        className={`flex flex-col items-center justify-center p-4 rounded-[15px] border border-border-color bg-bg-surface cursor-pointer transition-all duration-200 hover:-translate-y-[2px] hover:shadow-md hover:border-brand-purple/30 ${selectedCategory === cat.id ? 'border-brand-purple bg-brand-purple/5 shadow-[0_4px_12px_rgba(87,34,105,0.1)]' : ''}`}
+                        className={`flex flex-col items-center justify-center p-4 rounded-[15px] border border-border-color bg-bg-surface cursor-pointer transition-all duration-200 hover:-translate-y-[2px] hover:shadow-md hover:border-brand-purple/30 ${selectedCategory === cat.id ? 'border-brand-purple bg-brand-purple/5 shadow-[0_4px_12px_rgba(108,40,139,0.12)]' : ''}`}
                         onClick={() => setSelectedCategory(selectedCategory === cat.id ? null : cat.id)}
                     >
                         <span className="text-[2rem] mb-2">{CATEGORY_ICONS[cat.slug] || '📖'}</span>

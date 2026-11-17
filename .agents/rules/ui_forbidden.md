@@ -210,8 +210,8 @@ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 <div className="absolute w-[650px] h-[650px] bg-[#572269]/40 rounded-full blur-[140px]" />
 <div className="absolute w-[380px] h-[380px] bg-[#FBC906]/15 rounded-full blur-[120px]" />
 
-/* ✅ OBLIGATOIRE — gradients amples, diffus, basse opacité avec grain subtil */
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(44,18,54,0.35),rgba(13,7,20,0))]" />
+/* ✅ OBLIGATOIRE — gradients amples et diffus ancrés sur la palette du Hero */
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_12%_35%,rgba(235,227,242,0.85),transparent)]" />
 ```
 
 **Pourquoi** : Les cercles individuels floutés avec `blur-[140px]` à forte saturation créent des taches de couleur locales qui entrent en collision avec le texte et provoquent une impression de saleté visuelle et de bruit chromatique.

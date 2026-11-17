@@ -111,7 +111,35 @@ EVIDENCE: Les hooks useReveal.ts et useScrollProgress.ts sont présents dans src
 
 ---
 
-## 📜 5. Journal d'Exécution des Oracles
+## 🌈 5. Gates Cohérence Chromatique Base Hero
+
+### Gate : Ancrage des Tokens Globaux sur la Palette Hero
+CHECK: grep -q -- "--bg-base: #f2f2f2" src/app/globals.css && grep -q -- "--brand-purple: #6C288B" src/app/globals.css && grep -q -- "--brand-orange: #fc7d42" src/app/globals.css && echo "BASE_HERO_COHERENTE"
+EXPECT: BASE_HERO_COHERENTE
+EVIDENCE: Les tokens racine de src/app/globals.css reposent sur #f2f2f2, #111111, #6C288B et #fc7d42.
+
+### Gate : Éradication de l'Ancienne Palette Dissidente Hors Hero
+CHECK: grep -rnE "1A0A21|251230|331942|572269|7a3d91|14071a" src/ --exclude=HeroSection.tsx --exclude=HeroGrainSurface.tsx || echo "AUCUNE_DIVERGENCE_PALETTE"
+EXPECT: AUCUNE_DIVERGENCE_PALETTE
+EVIDENCE: Aucune référence hex de l'ancien thème violet-jaune ne subsiste hors des fichiers Hero intacts.
+
+---
+
+## ✍️ 6. Gates Typographie des En-Têtes Vitrine
+
+### Gate : Absence de Collision sur --font-jakarta entre layout.tsx et globals.css
+CHECK: grep -q "variable: '--font-jakarta-sans'" src/app/layout.tsx && grep -q "var(--font-jakarta-sans)" src/app/globals.css && echo "FONT_JAKARTA_RESOLUE"
+EXPECT: FONT_JAKARTA_RESOLUE
+EVIDENCE: layout.tsx injecte --font-jakarta-sans et globals.css l'alimente sans cycle CSS dans --font-jakarta.
+
+### Gate : Alignement Typographique Partagé entre HeroSection et VitrineHeader
+CHECK: grep -q "vitrine-wordmark" src/components/vitrine/HeroSection.tsx && grep -q "vitrine-wordmark" src/components/vitrine/VitrineHeader.tsx && grep -q "vitrine-nav-link" src/components/vitrine/HeroSection.tsx && grep -q "vitrine-nav-link" src/components/vitrine/VitrineHeader.tsx && echo "HEADERS_TYPO_ALIGNES"
+EXPECT: HEADERS_TYPO_ALIGNES
+EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wordmark et .vitrine-nav-link.
+
+---
+
+## 📜 7. Journal d'Exécution des Oracles
 
 | Date d'Exécution | Oracle / Commande | Opérateur | Statut | Bilan / Preuve |
 |---|---|---|---|---|

@@ -191,10 +191,10 @@ export default function NavigationDrawer({ isOpen, onClose, activeTab, onTabChan
                 </div>
 
                 {/* ── USER PROFILE SECTION ── */}
-                <div className="flex items-center gap-[0.9rem] p-[1.1rem_1.25rem_1.25rem_1.25rem] bg-gradient-to-br from-[rgba(87,34,105,0.06)] to-[rgba(87,34,105,0.02)] border-b border-border-color">
+                <div className="flex items-center gap-[0.9rem] p-[1.1rem_1.25rem_1.25rem_1.25rem] bg-gradient-to-br from-[rgba(108,40,139,0.06)] to-[rgba(108,40,139,0.02)] border-b border-border-color">
                     {isAuthenticated ? (
                         <>
-                            <div className="w-[50px] h-[50px] rounded-[15px] bg-gradient-to-br from-brand-purple to-brand-purple-light flex items-center justify-center text-white shrink-0 shadow-[0_4px_12px_rgba(87,34,105,0.3)]">
+                            <div className="w-[50px] h-[50px] rounded-[15px] bg-gradient-to-br from-brand-purple to-brand-purple-light flex items-center justify-center text-white shrink-0 shadow-[0_4px_12px_rgba(108,40,139,0.3)]">
                                 <span className="text-base font-bold tracking-[0.02em]">{getInitials()}</span>
                             </div>
                             <div className="flex flex-col gap-[0.2rem] min-w-0">
@@ -211,7 +211,7 @@ export default function NavigationDrawer({ isOpen, onClose, activeTab, onTabChan
                                 </svg>
                             </div>
                             <div className="flex flex-col gap-[0.2rem] min-w-0">
-                                <span className="text-[0.95rem] font-bold text-text-main font-[family-name:var(--font-plus-jakarta)] truncate">Bienvenue 👋</span>
+                                <span className="text-[0.95rem] font-bold text-text-main font-[family-name:var(--font-plus-jakarta)] truncate">Bienvenue</span>
                                 <span className="text-[0.75rem] text-text-muted font-normal truncate">Pas encore connecté</span>
                             </div>
                         </>
@@ -221,7 +221,7 @@ export default function NavigationDrawer({ isOpen, onClose, activeTab, onTabChan
                 {/* ── AUTH ACTIONS (non connecté) ── */}
                 {!isAuthenticated && (
                     <div className="flex flex-col gap-2 p-4 px-5">
-                        <Link href="/auth/login" className="flex items-center gap-[0.6rem] px-4 py-[0.7rem] rounded-[10px] text-[0.875rem] font-semibold font-[family-name:var(--font-plus-jakarta)] w-full justify-center transition-all duration-150 bg-gradient-to-br from-brand-purple to-brand-purple-light text-white shadow-[0_4px_10px_rgba(87,34,105,0.2)] hover:opacity-95 hover:-translate-y-[2px] hover:shadow-[0_6px_16px_rgba(87,34,105,0.35)]" onClick={onClose}>
+                        <Link href="/auth/login" className="flex items-center gap-[0.6rem] px-4 py-[0.7rem] rounded-[10px] text-[0.875rem] font-semibold font-[family-name:var(--font-plus-jakarta)] w-full justify-center transition-all duration-150 bg-gradient-to-br from-brand-purple to-brand-purple-light text-white shadow-[0_4px_10px_rgba(108,40,139,0.2)] hover:opacity-95 hover:-translate-y-[2px] hover:shadow-[0_6px_16px_rgba(108,40,139,0.35)]" onClick={onClose}>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
                                 <polyline points="10 17 15 12 10 7" />
@@ -252,12 +252,12 @@ export default function NavigationDrawer({ isOpen, onClose, activeTab, onTabChan
                             return (
                                 <li key={item.id} className="group">
                                     <button
-                                        className={`flex items-center gap-[0.8rem] px-4 py-[0.85rem] rounded-[14px] bg-transparent text-[0.95rem] font-[family-name:var(--font-plus-jakarta)] w-full text-left transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${isActive ? 'bg-gradient-to-br from-[rgba(87,34,105,0.08)] to-[rgba(87,34,105,0.02)] text-brand-purple font-bold' : 'text-text-muted font-semibold hover:bg-bg-surface hover:text-text-main hover:translate-x-1'}`}
+                                        className={`flex items-center gap-[0.8rem] px-4 py-[0.85rem] rounded-[14px] bg-transparent text-[0.95rem] font-[family-name:var(--font-plus-jakarta)] w-full text-left transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${isActive ? 'bg-gradient-to-br from-[rgba(108,40,139,0.10)] to-[rgba(108,40,139,0.03)] text-brand-purple font-bold' : 'text-text-muted font-semibold hover:bg-bg-surface hover:text-text-main hover:translate-x-1'}`}
                                         onClick={() => handleNavClick(item)}
                                     >
                                         <span className={`flex items-center justify-center shrink-0 transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? 'opacity-100 text-brand-purple' : 'opacity-70 group-hover:opacity-100 group-hover:scale-[1.15] group-hover:-rotate-2'}`}>{item.icon}</span>
                                         <span className="flex-1">{item.label}</span>
-                                        {isActive && <span className="w-1.5 h-1.5 rounded-full bg-brand-purple shrink-0" />}
+                                        {isActive && <span className="w-1.5 h-1.5 rounded-full bg-hero-orange shrink-0" />}
                                     </button>
                                 </li>
                             );
@@ -273,7 +273,7 @@ export default function NavigationDrawer({ isOpen, onClose, activeTab, onTabChan
                                 <li className="group">
                                     <Link
                                         href={DASHBOARD_ITEM.path}
-                                        className={`flex items-center gap-[0.8rem] px-4 py-[0.85rem] rounded-[14px] bg-transparent text-[0.95rem] font-[family-name:var(--font-plus-jakarta)] w-full text-left transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${pathname.startsWith('/dashboard') ? 'bg-gradient-to-br from-[rgba(87,34,105,0.12)] to-[rgba(122,61,145,0.08)] text-brand-purple font-bold translate-x-1' : 'text-text-muted font-semibold hover:bg-gradient-to-br hover:from-[rgba(87,34,105,0.12)] hover:to-[rgba(122,61,145,0.08)] hover:text-brand-purple hover:translate-x-1'}`}
+                                        className={`flex items-center gap-[0.8rem] px-4 py-[0.85rem] rounded-[14px] bg-transparent text-[0.95rem] font-[family-name:var(--font-plus-jakarta)] w-full text-left transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${pathname.startsWith('/dashboard') ? 'bg-gradient-to-br from-[rgba(108,40,139,0.12)] to-[rgba(137,63,176,0.08)] text-brand-purple font-bold translate-x-1' : 'text-text-muted font-semibold hover:bg-gradient-to-br hover:from-[rgba(108,40,139,0.12)] hover:to-[rgba(137,63,176,0.08)] hover:text-brand-purple hover:translate-x-1'}`}
                                         onClick={onClose}
                                     >
                                         <span className={`flex items-center justify-center shrink-0 transition-all duration-[0.25s] ease-[cubic-bezier(0.16,1,0.3,1)] ${pathname.startsWith('/dashboard') ? 'opacity-100 text-brand-purple' : 'opacity-70 group-hover:opacity-100 group-hover:scale-[1.15] group-hover:-rotate-2'}`}>{DASHBOARD_ITEM.icon}</span>

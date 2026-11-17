@@ -1,32 +1,32 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-16T23:55:00Z",
+  "generatedAt": "2026-11-17T00:14:00Z",
   "title": "Design System: Charis Nation",
   "extensions": {
     "colorMeta": {
       "brand-purple": {
         "role": "primary",
-        "displayName": "Imperial Sanctuary Purple",
-        "canonical": "#572269",
-        "tonalRamp": ["#1d0924", "#32123d", "#451a54", "#572269", "#7a3d91", "#9b62b0", "#c299d1", "#efe3f4"]
+        "displayName": "Hero Imperial Purple",
+        "canonical": "#6C288B",
+        "tonalRamp": ["#200a2b", "#371347", "#501c68", "#6c288b", "#893fb0", "#a664c7", "#cba2df", "#ebe3f2"]
       },
-      "brand-yellow": {
+      "brand-orange": {
         "role": "secondary",
-        "displayName": "Sanctuary Gold",
-        "canonical": "#FBC906",
-        "tonalRamp": ["#3b2e00", "#614c00", "#8a6d02", "#b89204", "#fbc906", "#fcd94d", "#fde896", "#fef7db"]
+        "displayName": "Hero Coral Orange",
+        "canonical": "#fc7d42",
+        "tonalRamp": ["#4a1a05", "#7a2b09", "#b03e0d", "#fb5e17", "#fc7d42", "#fd9e70", "#fec2a4", "#f8dfd2"]
       },
       "vitrine-dark": {
         "role": "neutral",
-        "displayName": "Vitrine Nocturne",
-        "canonical": "#1A0A21",
-        "tonalRamp": ["#0d0511", "#1a0a21", "#251230", "#331942", "#4b2c5c", "#745785", "#b29ec0", "#f7f5f2"]
+        "displayName": "Hero Ink Noir",
+        "canonical": "#111111",
+        "tonalRamp": ["#0a0a0a", "#111111", "#1a1a1a", "#242424", "#525252", "#888888", "#c7c7c7", "#f2f2f2"]
       },
       "light-base": {
         "role": "neutral",
-        "displayName": "Parchment Light",
-        "canonical": "#F8F7F4",
-        "tonalRamp": ["#130717", "#362b3a", "#706e6b", "#9b9995", "#c8c5c0", "#e2e0dc", "#eae8e4", "#f8f7f4"]
+        "displayName": "Hero Gallery Base",
+        "canonical": "#f2f2f2",
+        "tonalRamp": ["#111111", "#333333", "#525252", "#787878", "#a3a3a3", "#d4d4d4", "#e7e7e7", "#f2f2f2"]
       }
     },
     "typographyMeta": {
@@ -49,17 +49,25 @@
       "label": {
         "displayName": "Label",
         "purpose": "Micro-métadonnées, repères de navigation et horodatages."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Signature éditoriale Charis Nation partagée dans les en-têtes Vitrine."
+      },
+      "nav": {
+        "displayName": "Navigation",
+        "purpose": "Liens et CTA compacts des en-têtes Vitrine (13px Plus Jakarta Sans)."
       }
     },
     "shadows": [
       {
         "name": "floating-player",
-        "value": "0 -10px 30px rgba(0, 0, 0, 0.7)",
+        "value": "0 -10px 30px rgba(17, 17, 17, 0.14)",
         "purpose": "Séparation du lecteur audio flottant sur la Vitrine."
       },
       {
         "name": "interactive-lift",
-        "value": "0 20px 40px rgba(87, 34, 105, 0.3)",
+        "value": "0 18px 38px rgba(108, 40, 139, 0.10)",
         "purpose": "Élévation ciblée au survol d'une unité d'action interactive."
       }
     ],
@@ -132,9 +140,9 @@
       "name": "Vitrine Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Bouton d'action principal de la Vitrine vers l'espace d'écoute.",
+      "description": "Bouton d'action principal de la Vitrine aligné sur les CTA du Hero.",
       "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3\"/></svg><span>Écouter nos messages</span></button>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 9999px; background: linear-gradient(90deg, #572269, #7a3d91); color: #F7F5F2; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(87, 34, 105, 0.5); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #FBC906; outline-offset: 3px; }"
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 9999px; background: #111111; color: #f2f2f2; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; border: 1px solid rgba(17,17,17,0.1); cursor: pointer; transition: background-color 150ms cubic-bezier(0.23, 1, 0.32, 1), transform 150ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-primary svg { color: #fc7d42; } .ds-btn-primary:hover { background: #6C288B; transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(108, 40, 139, 0.35); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #fc7d42; outline-offset: 3px; }"
     },
     {
       "name": "Track Card Row",
@@ -142,29 +150,34 @@
       "refersTo": "track-card",
       "description": "Ligne compacte d'enseignement dans l'espace d'écoute quotidien.",
       "html": "<div class=\"ds-track-card\"><div class=\"ds-track-thumb\"></div><div class=\"ds-track-meta\"><div class=\"ds-track-title\">La foi qui déplace les montagnes</div><div class=\"ds-track-sub\">Rev. Israel Watchman</div></div><span class=\"ds-track-dur\">30:00</span></div>",
-      "css": ".ds-track-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 15px; background: var(--bg-surface, #EAE8E4); color: var(--text-main, #130717); font-family: 'Plus Jakarta Sans', sans-serif; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-track-card:hover { transform: translateY(-2px); } .ds-track-thumb { width: 50px; height: 50px; border-radius: 10px; background: #572269; flex-shrink: 0; } .ds-track-meta { flex: 1; min-width: 0; } .ds-track-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-track-sub { font-size: 12px; opacity: 0.7; } .ds-track-dur { font-size: 12px; font-weight: 600; opacity: 0.65; }"
+      "css": ".ds-track-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 15px; background: var(--bg-surface, #ffffff); color: var(--text-main, #111111); border: 1px solid rgba(17,17,17,0.08); font-family: 'Plus Jakarta Sans', sans-serif; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), border-color 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-track-card:hover { transform: translateY(-2px); border-color: rgba(108,40,139,0.35); } .ds-track-thumb { width: 50px; height: 50px; border-radius: 10px; background: #6C288B; flex-shrink: 0; } .ds-track-meta { flex: 1; min-width: 0; } .ds-track-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-track-sub { font-size: 12px; color: #525252; } .ds-track-dur { font-size: 12px; font-weight: 600; color: #525252; }"
     },
     {
       "name": "Editorial Micro Label",
       "kind": "chip",
-      "description": "Repère contextuel typographique sans emphase tapageuse.",
+      "description": "Repère contextuel typographique aligné sur les badges clairs de la Vitrine.",
       "html": "<span class=\"ds-micro-label\">Sanctuaire de Grâce</span>",
-      "css": ".ds-micro-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(251,201,6,0.2); color: #FBC906; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }"
+      "css": ".ds-micro-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background: #ffffff; border: 1px solid rgba(17,17,17,0.1); color: #6C288B; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }"
     }
   ],
   "narrative": {
     "northStar": "The Editorial Sanctuary",
-    "overview": "Charis Nation réunit deux surfaces complémentaires qui obéissent à une même exigence de retenue et de clarté : une Vitrine institutionnelle publique destinée à accueillir et situer la communauté, et un Espace Écoute applicatif pensé pour l'étude quotidienne, l'écoute d'enseignements audio et la prise de notes synchronisée. L'ambition esthétique repose sur un minimalisme éditorial à forte tension spatiale : laisser parler la typographie, le vide architectural et la photographie plein cadre plutôt que d'empiler des cartes encadrées et des ornements lumineux. Lorsque l'interface s'anime, le mouvement suit une grammaire cinétique sobre, exclusivement exécutée sur le thread compositeur (transform, opacity, clip-path), avec une décélération franche et sans à-coup qui oriente l'attention vers le contenu spirituel sans jamais se donner en spectacle.",
+    "overview": "Charis Nation réunit deux surfaces complémentaires qui obéissent à une même identité chromatique et typographique ancrée directement sur la palette du Hero : une Vitrine institutionnelle publique à dominante galerie claire (#f2f2f2 / #ffffff) rythmée par des ancrages noirs francs (#111111), et un Espace Écoute applicatif bithème clair/sombre pensé pour l'étude quotidienne, l'écoute audio et la prise de notes synchronisée. L'ambition esthétique repose sur un minimalisme éditorial à forte tension spatiale : laisser parler la typographie, le vide architectural et la photographie plein cadre plutôt que d'empiler des ornements saturés.",
     "keyCharacteristics": [
+      "Continuité chromatique totale avec le Hero (#f2f2f2, #111111, #6C288B, #fc7d42).",
       "Tension éditoriale entre grands titres serif (Playfair Display / Cinzel) et micro-métadonnées géométriques (Plus Jakarta Sans).",
-      "Respiration spatiale assumée, inspirée des publications éditoriales et de l'architecture de sanctuaire.",
-      "Double surface maîtrisée : Vitrine sombre et théâtrale (#1A0A21) face à un Espace Écoute bithème clair/sombre (#F8F7F4 / #171717).",
+      "Respiration spatiale assumée alternant surfaces claires (#f2f2f2 / #ffffff) et ancrages noirs profonds (#111111).",
       "Grammaire de mouvement frugale limitée à trois primitives GPU-only (Mask Reveal, Scroll Scale-Through, Non-Blocking Hover Preview)."
     ],
     "rules": [
       {
-        "name": "The Rarity of Gold Rule",
-        "body": "L'accent doré (#FBC906 et déclinaisons adoucies) ne doit jamais occuper plus de 10 % d'un écran ; il ponctue un repère ou un état actif sans concurrencer la hiérarchie typographique.",
+        "name": "The Hero Continuity Rule",
+        "body": "Aucune section de la Vitrine ni aucun composant applicatif ne doit introduire de teinte étrangère à la base du Hero (#f2f2f2, #ffffff, #111111, #6C288B, #fc7d42) ; le passage entre le Hero et le reste du défilement doit paraître continu et intentionnel.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast-Aware Accent Rule",
+        "body": "Sur fond clair (#f2f2f2 / #ffffff), #6C288B porte le texte et les liens d'accent (> 7:1) tandis que #fc7d42 ponctue icônes, bordures, points actifs et survols de navigation ; sur fond noir (#111111), #fc7d42 porte directement les labels, icônes et actions (7.5:1).",
         "section": "colors"
       },
       {
@@ -184,6 +197,7 @@
       }
     ],
     "dos": [
+      "Do conserver intacte l'implémentation du Hero (HeroSection.tsx et HeroGrainSurface.tsx) et aligner toute nouvelle surface sur sa palette (#f2f2f2, #ffffff, #111111, #6C288B, #fc7d42).",
       "Do restreindre les animations de la Vitrine aux trois primitives GPU-only définies dans globals.css (Mask Reveal, Scroll Scale-Through, Hover Preview), en n'animant que transform, opacity et clip-path.",
       "Do déclencher les révélations de section une seule fois via useReveal (IntersectionObserver avec once: true), jamais en boucle à chaque aller-retour de scroll.",
       "Do réserver les micro-aperçus au survol (hover-preview) aux pointeurs précis (@media (hover: hover) and (pointer: fine)).",
@@ -191,6 +205,8 @@
       "Do garantir l'accessibilité vestibulaire via @media (prefers-reduced-motion: reduce) dans globals.css et les hooks React associés."
     ],
     "donts": [
+      "Don't réintroduire l'ancienne palette violet-jaune saturée (#1A0A21, #251230, #572269, #FBC906 massif).",
+      "Don't poser du texte courant #fc7d42 de petite taille sur fond clair #f2f2f2 / #ffffff (réserver #fc7d42 aux icônes, bordures, traits actifs ou fonds sombres #111111, et utiliser #6C288B ou #111111 pour le texte sur clair).",
       "Don't installer ou empiler des bibliothèques d'animation tierces sans validation préalable explicite sur package.json.",
       "Don't utiliser transition: all, ni animer width, height, top, left ou margin.",
       "Don't introduire de curseur personnalisé bloquant ni de preloader plein écran retardant le Largest Contentful Paint.",

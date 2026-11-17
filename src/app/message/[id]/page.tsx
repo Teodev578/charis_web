@@ -198,7 +198,7 @@ export default function MessageDetailPage() {
                     />
                     <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40" />
                     <button
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-brand-purple text-white border-none flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(87,34,105,0.4)] transition-all duration-300 hover:scale-110 active:scale-95"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-brand-purple text-white border-none flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(108,40,139,0.4)] transition-all duration-300 hover:scale-110 active:scale-95"
                         onClick={() => handlePlay()}
                     >
                         {isCurrentMessage && isPlaying ? (
@@ -284,7 +284,7 @@ export default function MessageDetailPage() {
                                 <Link
                                     key={ep.id}
                                     href={`/message/${ep.id}`}
-                                    className={`flex items-center gap-4 p-4 rounded-[15px] bg-bg-surface border cursor-pointer transition-all duration-200 no-underline hover:-translate-y-[2px] hover:shadow-md hover:border-brand-purple/30 ${ep.id === messageId ? 'border-brand-purple bg-brand-purple/5 shadow-[0_4px_12px_rgba(87,34,105,0.1)]' : 'border-border-color'}`}
+                                    className={`flex items-center gap-4 p-4 rounded-[15px] bg-bg-surface border cursor-pointer transition-all duration-200 no-underline hover:-translate-y-[2px] hover:shadow-md hover:border-brand-purple/30 ${ep.id === messageId ? 'border-brand-purple bg-brand-purple/5 shadow-[0_4px_12px_rgba(108,40,139,0.12)]' : 'border-border-color'}`}
                                 >
                                     <span className="w-8 h-8 rounded-full bg-bg-color text-text-muted text-[0.85rem] font-bold flex items-center justify-center shrink-0">{ep.ordre_dans_la_serie || '—'}</span>
                                     <div className="flex-1 min-w-0">
@@ -314,7 +314,7 @@ export default function MessageDetailPage() {
                             placeholder="Prendre une note à ce moment..."
                             className="flex-1 bg-transparent border-none outline-none font-[family-name:inherit] text-text-main text-[0.95rem] placeholder:text-text-muted/60"
                         />
-                        <button type="submit" className="w-10 h-10 rounded-xl border-none bg-brand-yellow text-black flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" disabled={!noteText.trim()}>
+                        <button type="submit" className="w-10 h-10 rounded-xl border-none bg-brand-purple text-white flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" disabled={!noteText.trim()}>
                             <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
                                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                             </svg>
