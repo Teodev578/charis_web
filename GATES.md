@@ -171,6 +171,11 @@ CHECK: grep -q "mix-blend-difference" src/components/sections/vitrine/hero/HeroS
 EXPECT: HERO_OVERLAP_NEGATIVE_ACTIF
 EVIDENCE: L'image centrale active déborde sur le titre Charis Nation via --hero-title-overlap-offset et --hero-card-w-active (550px desktop) avec fusion négative mix-blend-difference isolée des CTA.
 
+### Gate : Empilement Sticky Multi-Sections de la Vitrine (VITRINE-STACK-01)
+CHECK: grep -q "hero-stack-panel" src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "hero-stack-sentinel" src/app/globals.css && echo "VITRINE_STACK_ACTIF"
+EXPECT: VITRINE_STACK_ACTIF
+EVIDENCE: HeroCurtainStage orchestre chaque section de la Vitrine en panneau sticky empilable avec sentinelle d'ancre, parallaxe scale/translate3d GPU et neutralisation data-covered.
+
 ---
 
 ## 📜 8. Journal d'Exécution des Oracles
@@ -201,3 +206,5 @@ EVIDENCE: L'image centrale active déborde sur le titre Charis Nation via --hero
 | 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
 | 2026-11-23 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 12.3s`) |
 | 2026-11-23 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 25/25 gates validées après implémentation `HERO-OVERLAP-NEGATIVE-01`, 0 en échec |
+| 2026-11-23 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `VITRINE-STACK-01` |
+| 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 après implémentation `VITRINE-STACK-01` |

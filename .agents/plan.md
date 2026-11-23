@@ -173,3 +173,18 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 2** : Mise à jour des tokens géométriques du Hero (`--hero-stage-h`, `--hero-strip-top`, `--hero-title-shift-y`, `--hero-title-overlap-offset`, `--hero-intro-*`, `--hero-card-w-active`, `--hero-card-h-active`) dans `src/app/globals.css`.
 - [x] **Étape 3** : Refonte du conteneur de scène (`bg-[#f2f2f2] isolate`), séparation du `<h1>` (`mix-blend-difference`, `text-white`, `z-30`) et du bloc devise/CTA frère (sans fusion négative), continuité de l'image d'intro et ajustement de la frise (`z-20`, `scale-100`) dans `src/components/sections/vitrine/hero/HeroSection.tsx`.
 - [x] **Étape 4** : Ajout de la gate dans `GATES.md`, exécution des oracles (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture documentaire.
+
+---
+
+## 📌 Tâche Active : Système de Sections Empilables sur la Vitrine (`VITRINE-STACK-01`)
+
+- **Identifiant** : `VITRINE-STACK-01`
+- **Statut** : Validé (contrôles statiques & dev chunks ; build prod non relancé afin de préserver `.next/dev`)
+- **Contrainte absolue** : Préserver le fonctionnement des ancres internes (`#vision`, `#equipe`, `#enseignements`, `#cultes`, `#localisation`, `#dons`), gérer les sections plus hautes que `100dvh`, respecter `prefers-reduced-motion`, et ne pas lancer `npm run build` pendant `next dev`.
+- **Référence Gates** : Gate « Empilement Sticky Multi-Sections de la Vitrine » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Extension de `HeroCurtainStage.tsx` pour orchestrer chaque section en panneau sticky avec sentinelle d'ancre, `ResizeObserver` pour `stickyTop`, redirection `scrollIntoView` et progression GPU par `rAF`.
+- [x] **Étape 3** : Mise à jour des règles `.hero-curtain-*` et `.hero-stack-sentinel` (ainsi que `prefers-reduced-motion`) dans `src/app/globals.css`.
+- [x] **Étape 4** : Élévation `z-20` du conteneur de `VitrineFooter` dans `src/app/page.tsx`, ajout de la gate `VITRINE-STACK-01` dans `GATES.md`, exécution de `npx tsc --noEmit` et `npm run lint`, vérification dans `.next/dev` et clôture.
