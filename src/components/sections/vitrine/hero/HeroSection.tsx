@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { RotateCcw, ChevronLeft, ChevronRight, Headphones, ArrowRight, Heart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Headphones, ArrowRight, Heart } from 'lucide-react';
 
 interface HeroSectionProps {
   onAnimationComplete?: () => void;
@@ -217,19 +217,6 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
     }
   };
 
-  // Permettre de rejouer l'animation
-  const replayAnimation = () => {
-    startSequence();
-  };
-
-  const navLinks = [
-    { label: 'Accueil', href: '#hero', active: true },
-    { label: 'Vision', href: '#vision', active: false },
-    { label: 'Équipe', href: '#equipe', active: false },
-    { label: 'Extraits', href: '#enseignements', active: false },
-    { label: 'Informations', href: '#cultes', active: false },
-  ];
-
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     if (href === '#hero') {
@@ -260,64 +247,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
       />
 
       {/* =========================================================================
-          1. BARRE DE NAVIGATION SUPÉRIEURE (Révélée lors de l'Étape 3)
-          ========================================================================= */}
-      <header
-        className={`absolute top-0 left-0 right-0 w-full pt-6 sm:pt-8 pb-4 px-6 md:px-12 z-40 transition-all duration-700 ease-out ${
-          step === 3
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-4 pointer-events-none'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo discret gauche */}
-          <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, '#hero')}
-            className="vitrine-wordmark text-[#1A1A1A] no-underline hover:opacity-80 transition-opacity"
-          >
-            Charis Nation
-          </a>
-
-          {/* Navigation centrale */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
-            {navLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`vitrine-nav-link transition-colors no-underline ${
-                  item.active
-                    ? 'text-[#fc7d42] font-semibold'
-                    : 'text-[#333333] hover:text-[#fc7d42]'
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Contrôle Rejouer */}
-          <div className="flex items-center gap-3">
-            {step === 3 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  replayAnimation();
-                }}
-                className="vitrine-nav-cta inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
-                title="Rejouer l'animation de présentation"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Rejouer</span>
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* =========================================================================
-          2. SCÈNE CENTRALE ABSOLUE (Centrage parfait à 50% X et 50% Y)
+          1. SCÈNE CENTRALE ABSOLUE (Centrage parfait à 50% X et 50% Y)
              - Étape 1 : "CharisNation" au centre exact de l'écran.
              - Étape 2 : L'image centrale s'épanouit au milieu, séparant Charis et Nation.
              - Étape 3 : L'image centrale monte au sommet dans la frise d'images,

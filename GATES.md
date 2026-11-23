@@ -152,10 +152,10 @@ CHECK: grep -q "variable: '--font-jakarta-sans'" src/app/layout.tsx && grep -q "
 EXPECT: FONT_JAKARTA_RESOLUE
 EVIDENCE: layout.tsx injecte --font-jakarta-sans et globals.css l'alimente sans cycle CSS dans --font-jakarta.
 
-### Gate : Alignement Typographique Partagé entre HeroSection et VitrineHeader
-CHECK: grep -q "vitrine-wordmark" src/components/sections/vitrine/hero/HeroSection.tsx && grep -q "vitrine-wordmark" src/components/navigation/VitrineHeader.tsx && grep -q "vitrine-nav-link" src/components/sections/vitrine/hero/HeroSection.tsx && grep -q "vitrine-nav-link" src/components/navigation/VitrineHeader.tsx && echo "HEADERS_TYPO_ALIGNES"
+### Gate : Alignement Typographique des En-Têtes Vitrine (VitrineHeader)
+CHECK: grep -q "vitrine-wordmark" src/components/navigation/VitrineHeader.tsx && grep -q "vitrine-nav-link" src/components/navigation/VitrineHeader.tsx && echo "HEADERS_TYPO_ALIGNES"
 EXPECT: HEADERS_TYPO_ALIGNES
-EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wordmark et .vitrine-nav-link.
+EVIDENCE: VitrineHeader consomme les rôles typographiques partagés .vitrine-wordmark et .vitrine-nav-link (le header interne du Hero étant temporairement retiré).
 
 ---
 
