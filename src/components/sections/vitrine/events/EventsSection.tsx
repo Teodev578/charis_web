@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Calendar, Clock, MapPin, User, Sparkles } from 'lucide-react';
+import { Clock, MapPin, User, Sparkles } from 'lucide-react';
 import { VITRINE_CONFIG, type ChurchEvent } from '@/lib/config/vitrine';
+import { VitrineSectionHeader } from '@/components/sections/vitrine/hero/HeroCurtainStage';
 
 export default function EventsSection() {
   const getBadgeStyle = (type: ChurchEvent['type']) => {
@@ -18,26 +19,22 @@ export default function EventsSection() {
   };
 
   return (
-    <section id="cultes" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#f2f2f2] border-t border-[#111111]/8 overflow-hidden">
+    <section id="cultes" className="relative pt-0 pb-14 sm:pb-20 bg-[#f2f2f2] overflow-x-clip">
       {/* Gradient diffus lavande issu du Hero */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_25%_35%,rgba(235,227,242,0.85),transparent)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#111111]/10 text-[#6C288B] text-xs font-semibold uppercase tracking-widest mb-4">
-            <Calendar className="w-3.5 h-3.5 text-[#fc7d42]" />
-            <span>Rassemblements de Grâce</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#111111] tracking-tight mb-6">
-            Prochains Cultes & Horaires
-          </h2>
-          <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed">
-            Venez vivre des moments inoubliables dans la présence de Dieu. Chaque rencontre est une opportunité d’élévation et de restauration.
-          </p>
-        </div>
+      <VitrineSectionHeader
+        index="04"
+        title="Cultes & Horaires"
+        tag="Rassemblements de Grâce"
+        description="Venez vivre des moments inoubliables dans la présence de Dieu. Chaque rencontre est une opportunité d’élévation et de restauration."
+        sectionId="cultes"
+        theme="paper"
+      />
 
-        {/* Events Cards Grid */}
+      <div className="vitrine-stack-body">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Events Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
           {VITRINE_CONFIG.events.map((evt: ChurchEvent) => (
             <div
@@ -110,6 +107,7 @@ export default function EventsSection() {
           >
             Obtenir l’itinéraire
           </a>
+        </div>
         </div>
       </div>
     </section>

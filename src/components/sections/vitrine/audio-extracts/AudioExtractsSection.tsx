@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Play, Pause, Headphones, ArrowRight, Volume2, Sparkles, Clock } from 'lucide-react';
+import { Play, Pause, Headphones, ArrowRight, Sparkles, Clock } from 'lucide-react';
 import { useAudio, type Track } from '@/contexts/AudioContext';
+import { VitrineSectionHeader } from '@/components/sections/vitrine/hero/HeroCurtainStage';
 
 const DEFAULT_FEATURED: Track[] = [
   {
@@ -76,26 +77,22 @@ export default function AudioExtractsSection() {
   };
 
   return (
-    <section id="enseignements" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#111111] border-t border-white/10 text-[#f2f2f2] overflow-hidden">
+    <section id="enseignements" className="relative pt-0 pb-14 sm:pb-20 bg-[#111111] text-[#f2f2f2] overflow-x-clip">
       {/* Gradient radial diffus ancré sur #6C288B & #fc7d42 */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_35%_45%,rgba(108,40,139,0.20),transparent)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#fc7d42]/30 text-[#fc7d42] text-xs font-semibold uppercase tracking-widest mb-4">
-            <Volume2 className="w-3.5 h-3.5" />
-            <span>Édification Quotidienne</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#f2f2f2] tracking-tight mb-6">
-            Nos Derniers Enseignements
-          </h2>
-          <p className="text-base sm:text-lg text-[#f2f2f2]/75 leading-relaxed">
-            Plongez dans la richesse de la prédication apostolique. Lancez un extrait instantanément sans interrompre votre lecture.
-          </p>
-        </div>
+      <VitrineSectionHeader
+        index="03"
+        title="Enseignements"
+        tag="Édification Quotidienne"
+        description="Plongez dans la richesse de la prédication apostolique. Lancez un extrait instantanément sans interrompre votre lecture."
+        sectionId="enseignements"
+        theme="ink"
+      />
 
-        {/* Tracks Grid */}
+      <div className="vitrine-stack-body">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Tracks Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           {featuredTracks.map((track) => {
             const isThisPlaying = isPlaying && currentTrack?.id === track.id;
@@ -179,6 +176,7 @@ export default function AudioExtractsSection() {
             <span>Explorer tous les enseignements</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
         </div>
       </div>
     </section>

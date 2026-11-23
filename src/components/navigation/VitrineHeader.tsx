@@ -38,9 +38,9 @@ export default function VitrineHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-40 py-3.5 transition-all duration-500 ease-out ${
         scrolled
-          ? 'bg-[#f2f2f2]/92 backdrop-blur-md py-3.5 border-b border-[#111111]/10 shadow-[0_10px_30px_rgba(17,17,17,0.06)] opacity-100 translate-y-0 pointer-events-auto'
+          ? 'bg-[#f2f2f2]/92 backdrop-blur-md border-b border-[#111111]/10 shadow-[0_10px_30px_rgba(17,17,17,0.06)] opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-full pointer-events-none'
       }`}
     >

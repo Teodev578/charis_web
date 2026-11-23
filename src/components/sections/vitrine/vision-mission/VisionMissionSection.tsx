@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Flame, Users, HeartHandshake, BookOpen, ArrowRight, Compass } from 'lucide-react';
+import { Flame, Users, HeartHandshake, BookOpen, ArrowRight } from 'lucide-react';
 import { VITRINE_CONFIG, type ChurchValue } from '@/lib/config/vitrine';
+import { VitrineSectionHeader } from '@/components/sections/vitrine/hero/HeroCurtainStage';
 
 const ICON_MAP = {
   Flame: Flame,
@@ -18,26 +19,22 @@ export default function VisionMissionSection() {
   };
 
   return (
-    <section id="vision" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#f2f2f2] border-t border-[#111111]/8 overflow-hidden">
+    <section id="vision" className="relative pt-0 pb-14 sm:pb-20 bg-[#f2f2f2] overflow-x-clip">
       {/* Lumière d'ambiance diffuse issue du Hero (#ebe3f2 / #f8dfd2) */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_12%_35%,rgba(235,227,242,0.85),transparent)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#111111]/10 text-[#6C288B] text-xs font-semibold uppercase tracking-widest mb-4 shadow-xs">
-            <Compass className="w-3.5 h-3.5 text-[#fc7d42]" />
-            <span>Fondements & Convictions</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#111111] tracking-tight mb-6">
-            Vision & Mission de l’Église
-          </h2>
-          <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed">
-            {VITRINE_CONFIG.missionText}
-          </p>
-        </div>
+      <VitrineSectionHeader
+        index="01"
+        title="Vision & Mission"
+        tag="Fondements & Convictions"
+        description={VITRINE_CONFIG.missionText}
+        sectionId="vision"
+        theme="paper"
+      />
 
-        {/* 4 Pillars Grid */}
+      <div className="vitrine-stack-body">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* 4 Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
           {VITRINE_CONFIG.values.map((val: ChurchValue) => {
             const IconComponent = ICON_MAP[val.iconName] || Flame;
@@ -86,6 +83,7 @@ export default function VisionMissionSection() {
           >
             Découvrir notre équipe pastorale
           </button>
+        </div>
         </div>
       </div>
     </section>

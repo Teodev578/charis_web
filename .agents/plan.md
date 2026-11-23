@@ -188,3 +188,20 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 2** : Extension de `HeroCurtainStage.tsx` pour orchestrer chaque section en panneau sticky avec sentinelle d'ancre, `ResizeObserver` pour `stickyTop`, redirection `scrollIntoView` et progression GPU par `rAF`.
 - [x] **Étape 3** : Mise à jour des règles `.hero-curtain-*` et `.hero-stack-sentinel` (ainsi que `prefers-reduced-motion`) dans `src/app/globals.css`.
 - [x] **Étape 4** : Élévation `z-20` du conteneur de `VitrineFooter` dans `src/app/page.tsx`, ajout de la gate `VITRINE-STACK-01` dans `GATES.md`, exécution de `npx tsc --noEmit` et `npm run lint`, vérification dans `.next/dev` et clôture.
+
+---
+
+## 📌 Tâche Active : Empilement Éditorial en Lames Numérotées 01–06 (`VITRINE-STACK-LAMES-02`)
+
+- **Identifiant** : `VITRINE-STACK-LAMES-02`
+- **Statut** : Validé (contrôles TypeScript, ESLint et gate `VITRINE-STACK-01` au vert ; `npm run build` différé pour préserver `.next/dev/lock`)
+- **Contrainte absolue** : Conserver le contenu interne des 6 sections éditoriales, recouvrir entièrement le Hero, empiler les bandeaux `01` à `06` sous `VitrineHeader` fixe sans régression d'ancrage ni `overflow: hidden` cassant le sticky, respecter `prefers-reduced-motion`, et ne pas lancer `npm run build` si `.next/dev/lock` est présent.
+- **Référence Gates** : Gate « Empilement Sticky Multi-Sections de la Vitrine » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Stabilisation de `py-3.5` permanent sur `<header>` dans `src/components/navigation/VitrineHeader.tsx`.
+- [x] **Étape 3** : Export de `VitrineSectionHeader` et calcul des `pinTops` / `scrollMarginTop` / `.vitrine-stack-body` dans `src/components/sections/vitrine/hero/HeroCurtainStage.tsx`.
+- [x] **Étape 4** : Mise à jour des règles `.hero-curtain-*`, `.hero-stack-card`, `.vitrine-stack-header`, `.vitrine-stack-body` et `prefers-reduced-motion` dans `src/app/globals.css`.
+- [x] **Étape 5** : Intégration de `VitrineSectionHeader` et `.vitrine-stack-body` dans les 6 sections éditoriales (`VisionMissionSection`, `PastoralTeamSection`, `AudioExtractsSection`, `EventsSection`, `LocationHoursSection`, `DonationsSection`).
+- [x] **Étape 6** : Mise à jour de `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, oracle de gate, et clôture dans `plan.md` et `WRITING_IMPROVEMENT.md`.

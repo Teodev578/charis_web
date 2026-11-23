@@ -3,6 +3,7 @@
 import React from 'react';
 import { MapPin, Navigation, Clock, Phone, Mail, MessageCircle, ExternalLink } from 'lucide-react';
 import { VITRINE_CONFIG } from '@/lib/config/vitrine';
+import { VitrineSectionHeader } from '@/components/sections/vitrine/hero/HeroCurtainStage';
 
 export default function LocationHoursSection() {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -10,26 +11,22 @@ export default function LocationHoursSection() {
   )}`;
 
   return (
-    <section id="localisation" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#111111]/8 overflow-hidden">
+    <section id="localisation" className="relative pt-0 pb-14 sm:pb-20 bg-white overflow-x-clip">
       {/* Lumière diffuse issue du Hero */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_75%_85%,rgba(235,227,242,0.6),transparent)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#f2f2f2] border border-[#111111]/10 text-[#6C288B] text-xs font-semibold uppercase tracking-widest mb-4">
-            <MapPin className="w-3.5 h-3.5 text-[#fc7d42]" />
-            <span>Nous Rencontrer</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#111111] tracking-tight mb-6">
-            Localisation & Accès
-          </h2>
-          <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed">
-            Notre sanctuaire est idéalement situé et facilement accessible. Rejoignez-nous ce week-end en toute sérénité.
-          </p>
-        </div>
+      <VitrineSectionHeader
+        index="05"
+        title="Localisation"
+        tag="Nous Rencontrer"
+        description="Notre sanctuaire est idéalement situé et facilement accessible. Rejoignez-nous ce week-end en toute sérénité."
+        sectionId="localisation"
+        theme="white"
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <div className="vitrine-stack-body">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Address & Hours Column (5 cols) */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
             {/* Address Card */}
@@ -130,6 +127,7 @@ export default function LocationHoursSection() {
               <span className="font-bold text-[#f2f2f2]">Sanctuaire Charis Nation</span>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

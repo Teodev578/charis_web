@@ -1,31 +1,28 @@
 'use client';
 
 import React from 'react';
-import { Users, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 import { VITRINE_CONFIG, type Pastor } from '@/lib/config/vitrine';
+import { VitrineSectionHeader } from '@/components/sections/vitrine/hero/HeroCurtainStage';
 
 export default function PastoralTeamSection() {
   return (
-    <section id="equipe" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#111111]/8 overflow-hidden">
+    <section id="equipe" className="relative pt-0 pb-14 sm:pb-20 bg-white overflow-x-clip">
       {/* Lumière diffuse issue de la palette du Hero */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_90%_30%,rgba(248,223,210,0.6),transparent)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#f2f2f2] border border-[#111111]/10 text-[#6C288B] text-xs font-semibold uppercase tracking-widest mb-4">
-            <Users className="w-3.5 h-3.5 text-[#fc7d42]" />
-            <span>Conducteurs Spirituels</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#111111] tracking-tight mb-6">
-            L’Équipe Pastorale
-          </h2>
-          <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed">
-            Des hommes et femmes oints, consacrés au service du troupeau de Dieu, guidés par la sagesse de la Parole et la communion fraternelle.
-          </p>
-        </div>
+      <VitrineSectionHeader
+        index="02"
+        title="Équipe Pastorale"
+        tag="Conducteurs Spirituels"
+        description="Des hommes et femmes oints, consacrés au service du troupeau de Dieu, guidés par la sagesse de la Parole et la communion fraternelle."
+        sectionId="equipe"
+        theme="white"
+      />
 
-        {/* Pastor Cards Grid */}
+      <div className="vitrine-stack-body">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Pastor Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {VITRINE_CONFIG.pastors.map((pastor: Pastor) => (
             <div
@@ -60,6 +57,7 @@ export default function PastoralTeamSection() {
               </p>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </section>

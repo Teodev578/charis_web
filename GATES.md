@@ -172,9 +172,9 @@ EXPECT: HERO_OVERLAP_NEGATIVE_ACTIF
 EVIDENCE: L'image centrale active déborde sur le titre Charis Nation via --hero-title-overlap-offset et --hero-card-w-active (550px desktop) avec fusion négative mix-blend-difference isolée des CTA.
 
 ### Gate : Empilement Sticky Multi-Sections de la Vitrine (VITRINE-STACK-01)
-CHECK: grep -q "hero-stack-panel" src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "hero-stack-sentinel" src/app/globals.css && echo "VITRINE_STACK_ACTIF"
+CHECK: grep -q "hero-stack-panel" src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "VitrineSectionHeader" src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "hero-stack-sentinel" src/app/globals.css && grep -q "vitrine-stack-header" src/app/globals.css && echo "VITRINE_STACK_ACTIF"
 EXPECT: VITRINE_STACK_ACTIF
-EVIDENCE: HeroCurtainStage orchestre chaque section de la Vitrine en panneau sticky empilable avec sentinelle d'ancre, parallaxe scale/translate3d GPU et neutralisation data-covered.
+EVIDENCE: HeroCurtainStage recouvre intégralement le Hero, puis empile les sections éditoriales 01–06 en lames numérotées via VitrineSectionHeader sous VitrineHeader fixe avec sentinelles d'ancre et inertie ciblée sur .vitrine-stack-body.
 
 ---
 
@@ -208,3 +208,6 @@ EVIDENCE: HeroCurtainStage orchestre chaque section de la Vitrine en panneau sti
 | 2026-11-23 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 25/25 gates validées après implémentation `HERO-OVERLAP-NEGATIVE-01`, 0 en échec |
 | 2026-11-23 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `VITRINE-STACK-01` |
 | 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 après implémentation `VITRINE-STACK-01` |
+| 2026-11-23 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `VITRINE-STACK-LAMES-02` |
+| 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 (zéro avertissement) après `VITRINE-STACK-LAMES-02` |
+| 2026-11-23 | `CHECK VITRINE-STACK-01` | `assistant` | **SUCCÈS** | `VITRINE_STACK_ACTIF` confirmé (`VitrineSectionHeader`, `vitrine-stack-header`, orthogonalité validée ; `npm run build` non lancé pour préserver `.next/dev/lock`) |
