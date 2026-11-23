@@ -211,3 +211,29 @@ L'utilisateur souhaite conserver `HeroSection` dans `src/components/sections/vit
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Composant [HeroCurtainStage.tsx](file:///home/fabien/Documents/Projets/Pro/charis_web/src/components/sections/vitrine/hero/HeroCurtainStage.tsx) créé, styles `.hero-curtain-*` et repli `prefers-reduced-motion` ajoutés dans `src/app/globals.css`, intégration réalisée dans `src/app/page.tsx` avec ancrage `z-10` sur `VitrineFooter`, sans aucune modification de `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` ni `package.json`. Validation complète : `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (`Compiled successfully in 15.6s`, 12/12 routes) et `node scripts/verify-gates.mjs` (24/24 gates validées, 0 en échec).
 - **Leçon retenue** : Piloter l'état de recouvrement (`data-covered`, `inert`, `aria-hidden`) et `--hero-curtain-progress` par mutation DOM directe sur `requestAnimationFrame` évite tout re-render React lors du passage du rideau, tout en conjurant les collisions de `z-index` et les pièges de focus clavier.
+
+---
+
+### [2026-11-23] Agrandissement de l'Image Centrale du Hero et Fusion Négative sur le Titre (`HERO-OVERLAP-NEGATIVE-01`)
+
+- **Complexité** : Moyen / Complexe (Niveau 3-4 — couplage géométrique CSS dans `src/app/globals.css`, refonte d'empilement et fusion `mix-blend-difference` dans `src/components/sections/vitrine/hero/HeroSection.tsx`, ajout d'oracle dans `GATES.md`, suivi dans `plan.md` et `WRITING_IMPROVEMENT.md`)
+- **Périmètre** : `src/app/globals.css`, `src/components/sections/vitrine/hero/HeroSection.tsx`, `GATES.md`.
+
+#### 1. Problème Réel & Contrainte Principale
+L'image centrale de la frise du Hero doit être agrandie en largeur et en hauteur afin de déborder sur le titre principal « Charis Nation » (tout en laissant déborder ses extrémités gauche/droite et sa base sur le fond `#f2f2f2`) avec un effet de négatif chromatique à l'intersection texte/image. Deux contraintes techniques majeures conditionnent la fiabilité multi-écrans :
+1. La frise est ancrée depuis le haut (`--hero-strip-top`), tandis que le titre est centré verticalement sur la hauteur de scène (`--hero-stage-h`) puis décalé vers le bas (`--hero-title-shift-y`). Une hauteur fixe en pixels provoquerait soit un vide sur les grands écrans (1080p), soit un écrasement de la devise et des CTA sur les petits écrans (640p–720p).
+2. En CSS Compositing, `mix-blend-mode: difference` ne traverse pas les contextes d'empilement isolés par `transform` ou `z-index`, exige un arrière-plan opaque ($\alpha_b = 1$) pour préserver l'encre noire hors photo, et ne doit en aucun cas affecter la devise ni les boutons CTA situés immédiatement sous le titre.
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Augmenter manuellement `--hero-card-h-active` avec des valeurs fixes en pixels par breakpoint (`540px`, `620px`) et appliquer `mix-blend-difference` directement sur le conteneur englobant à la fois le `<h1>`, la devise et les CTA.
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : Une hauteur fixe en pixels se désynchronise de la position verticale du titre centrée par `100vh`, cassant le recouvrement sur les hauteurs de viewport extrêmes. Par ailleurs, placer `mix-blend-difference` sur le wrapper parent du titre inverserait également les couleurs des boutons CTA et échouerait à traverser un conteneur porteur d'un `transform: translateY(...)` s'il isolait le titre des cartes.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : *(Recommandé)* Encapsuler la géométrie dans des tokens CSS couplés algébriquement et dissocier les plans d'empilement dans `HeroSection.tsx` :
+  1. Calculer `--hero-card-h-active` à partir de `--hero-stage-h / 2 + --hero-title-shift-y - --hero-strip-top + --hero-title-overlap-offset` et élargir `--hero-card-w-active` jusqu'à `550px` sur desktop (`lg`), garantissant un chevauchement constant de ~72–73 % du titre quel que soit le viewport tout en conservant l'intro Step 2 via `--hero-intro-w`/`--hero-intro-h`.
+  2. Munir le conteneur de scène commun d'un fond opaque `bg-[#f2f2f2]` et de `isolation: isolate`, y placer la frise (et l'image d'intro) à `z-20`, le `<h1>` en enfant direct à `z-30` avec `text-white mix-blend-difference`, et la devise/CTA dans un conteneur frère distinct à `z-30` sans `mix-blend-difference` aligné par boîte d'ancrage fantôme.
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : Tokens géométriques couplés (`--hero-stage-h`, `--hero-strip-top`, `--hero-title-shift-y`, `--hero-title-overlap-offset`, `--hero-intro-w/h`, `--hero-card-w-active: 550px` en `lg`, `--hero-card-h-active` dynamique) intégrés dans [globals.css](file:///home/fabien/Documents/Projets/Pro/charis_web/src/app/globals.css) ; scène isolée (`bg-[#f2f2f2] isolate`), `<h1>` porteur de `text-white mix-blend-difference` (`z-30`) dissocié du bloc frère devise/CTA (`z-30` sans fusion négative), continuité de l'image d'intro et frise (`z-20`, `scale-100`) implémentés dans [HeroSection.tsx](file:///home/fabien/Documents/Projets/Pro/charis_web/src/components/sections/vitrine/hero/HeroSection.tsx) ; gate `HERO-OVERLAP-NEGATIVE-01` ajoutée dans [GATES.md](file:///home/fabien/Documents/Projets/Pro/charis_web/GATES.md). Validation complète : `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (`Compiled successfully in 12.3s`, 12/12 routes) et `node scripts/verify-gates.mjs` (`25 passée(s), 0 en échec`).
+- **Leçon retenue** : Coupler algébriquement la hauteur de la carte active aux variables de scène (`--hero-stage-h`, `--hero-title-shift-y`, `--hero-strip-top`) garantit la constance du chevauchement sur le titre sur toute hauteur d'écran, tandis que le fractionnement en frères sous `bg-[#f2f2f2] isolate` préserve intactes les couleurs des CTA hors de `mix-blend-difference`.

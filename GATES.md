@@ -166,6 +166,11 @@ CHECK: test -f src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep
 EXPECT: HERO_CURTAIN_ACTIF
 EVIDENCE: HeroCurtainStage.tsx est monté dans src/app/page.tsx avec contexte sticky isolé (z-0 / z-10), pilotage rAF sans re-render et repli prefers-reduced-motion dans src/app/globals.css.
 
+### Gate : Débordement de l'Image Centrale Hero et Effet Négatif sur le Titre (HERO-OVERLAP-NEGATIVE-01)
+CHECK: grep -q "mix-blend-difference" src/components/sections/vitrine/hero/HeroSection.tsx && grep -q -- "--hero-title-overlap-offset" src/app/globals.css && grep -q -- "--hero-card-w-active: 550px" src/app/globals.css && echo "HERO_OVERLAP_NEGATIVE_ACTIF"
+EXPECT: HERO_OVERLAP_NEGATIVE_ACTIF
+EVIDENCE: L'image centrale active déborde sur le titre Charis Nation via --hero-title-overlap-offset et --hero-card-w-active (550px desktop) avec fusion négative mix-blend-difference isolée des CTA.
+
 ---
 
 ## 📜 8. Journal d'Exécution des Oracles
@@ -192,3 +197,7 @@ EVIDENCE: HeroCurtainStage.tsx est monté dans src/app/page.tsx avec contexte st
 | 2026-11-17 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
 | 2026-11-17 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 15.6s`) |
 | 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 24/24 gates validées après implémentation `HERO-CURTAIN-01`, 0 en échec |
+| 2026-11-23 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `HERO-OVERLAP-NEGATIVE-01` |
+| 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
+| 2026-11-23 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 12.3s`) |
+| 2026-11-23 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 25/25 gates validées après implémentation `HERO-OVERLAP-NEGATIVE-01`, 0 en échec |

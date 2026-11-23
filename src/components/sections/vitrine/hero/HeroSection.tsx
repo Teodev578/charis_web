@@ -252,7 +252,7 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           ========================================================================= */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none z-[1] opacity-15 mix-blend-multiply"
+        className="absolute inset-0 pointer-events-none z-[32] opacity-15 mix-blend-multiply"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.3'/%3E%3C/svg%3E")`,
           backgroundRepeat: 'repeat',
@@ -323,22 +323,30 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
              - Étape 3 : L'image centrale monte au sommet dans la frise d'images,
                          Charis et Nation descendent en bas et restent en noir (#111111).
           ========================================================================= */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 bg-[#f2f2f2] isolate flex items-center justify-center pointer-events-none overflow-hidden">
 
         {/* --- Image pastorale centrale d'intro (monte vers la frise en Étape 3) --- */}
         <div
-          className="absolute flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-30 pointer-events-none"
+          className="absolute flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 pointer-events-none"
           style={{
-            transform: `translateY(${step === 3 ? '-clamp(140px, 23vh, 190px)' : '0px'})`,
+            transform: `translateY(${
+              step === 3
+                ? 'calc(var(--hero-strip-top) + (var(--hero-card-h-active) - var(--hero-stage-h)) / 2)'
+                : '0px'
+            })`,
             opacity: step === 1 ? 0 : step === 2 ? 1 : 0,
           }}
         >
           <div
-            className={`relative overflow-hidden rounded-none transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl w-[220px] sm:w-[300px] md:w-[380px] lg:w-[440px] h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] ${
+            className={`relative overflow-hidden rounded-none transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl ${
               step === 1
                 ? 'scale-75 opacity-0 pointer-events-none'
                 : 'scale-100 opacity-100'
             }`}
+            style={{
+              width: step === 3 ? 'var(--hero-card-w-active)' : 'var(--hero-intro-w)',
+              height: step === 3 ? 'var(--hero-card-h-active)' : 'var(--hero-intro-h)',
+            }}
           >
             <Image
               src="/images/vitrine/hero/preacher_step3.png"
@@ -346,40 +354,49 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
               fill
               priority
               className="object-cover"
-              sizes="(max-width: 768px) 340px, 440px"
+              sizes="(max-width: 640px) 260px, (max-width: 768px) 350px, (max-width: 1024px) 440px, 550px"
             />
           </div>
         </div>
 
-        {/* --- Titre "Charis Nation", Devise & CTA (Acteurs continus des 3 étapes) --- */}
-        <div
-          className="flex flex-col items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 pointer-events-auto"
+        {/* --- Titre "Charis Nation" (fusion négative directe sur l'image et le fond #f2f2f2) --- */}
+        <h1
+          className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[6.75rem] xl:text-[7.5rem] font-bold tracking-tight leading-none flex items-center justify-center text-white mix-blend-difference transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-30 pointer-events-auto"
           style={{
-            transform: `translateY(${step === 3 ? 'clamp(145px, 23vh, 205px)' : '0px'})`,
+            transform: `translateY(${step === 3 ? 'var(--hero-title-shift-y)' : '0px'})`,
           }}
         >
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none flex items-center justify-center text-[#111111]">
-            <span className="inline-block text-[#111111]">
-              Charis
-            </span>
+          <span className="inline-block">
+            Charis
+          </span>
 
-            {/* Espace séparateur dynamique calibré exactement pour l'image centrale en étape 2 */}
-            <span
-              className="inline-block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{
-                width:
-                  step === 1
-                    ? '0px'
-                    : step === 2
-                    ? 'clamp(280px, 33vw, 500px)'
-                    : 'clamp(10px, 1.4vw, 20px)',
-              }}
-            />
+          {/* Espace séparateur dynamique calibré exactement pour l'image centrale en étape 2 */}
+          <span
+            className="inline-block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              width:
+                step === 1
+                  ? '0px'
+                  : step === 2
+                  ? 'clamp(280px, 33vw, 500px)'
+                  : 'clamp(10px, 1.4vw, 20px)',
+            }}
+          />
 
-            <span className="inline-block text-[#111111]">
-              Nation
-            </span>
-          </h1>
+          <span className="inline-block">
+            Nation
+          </span>
+        </h1>
+
+        {/* --- Devise & CTA (conteneur frère hors mix-blend-difference) --- */}
+        <div
+          className="absolute flex flex-col items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-30 pointer-events-none"
+          style={{
+            transform: `translateY(${step === 3 ? 'var(--hero-title-shift-y)' : '0px'})`,
+          }}
+        >
+          {/* Boîte d'ancrage fantôme de hauteur identique au h1 pour aligner top-full */}
+          <div aria-hidden="true" className="h-[3rem] sm:h-[3.75rem] md:h-[4.5rem] lg:h-[6.75rem] xl:h-[7.5rem] w-0" />
 
           {/* Devise et CTA sous le titre en Étape 3 */}
           <div
@@ -420,13 +437,13 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
 
         {/* --- Frise d'images supérieure interactive : HOVER SCROLL & ANNEAU CIRCULAIRE INFINI --- */}
         <div
-          className={`absolute w-full flex flex-col items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-25 overflow-visible ${
+          className={`absolute w-full flex flex-col items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 overflow-visible ${
             step === 3
               ? 'opacity-100 pointer-events-auto'
               : 'opacity-0 pointer-events-none'
           }`}
           style={{
-            top: 'clamp(50px, 7.5vh, 72px)',
+            top: 'var(--hero-strip-top)',
           }}
           onMouseEnter={() => {
             setIsHovering(true);
@@ -440,7 +457,10 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
           }}
         >
           {/* Scène de l'anneau circulaire avec ancrage central et jointure gap-0 absolue */}
-          <div className="relative w-full h-[200px] sm:h-[270px] md:h-[330px] lg:h-[390px] overflow-visible flex items-start justify-center">
+          <div
+            className="relative w-full overflow-visible flex items-start justify-center"
+            style={{ height: 'var(--hero-card-h-active)' }}
+          >
             {visibleCards.map(({ card, virtualIndex, k }) => {
               const isCardActive = k === 0;
               const isDefaultHero = card.id === DEFAULT_CARD_INDEX;
@@ -503,9 +523,9 @@ export default function HeroSection({ onAnimationComplete }: HeroSectionProps) {
                       fill
                       priority={isDefaultHero}
                       className={`object-cover transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                        isCardActive ? 'scale-105' : 'scale-100 group-hover:scale-102'
+                        isCardActive ? 'scale-100' : 'scale-100 group-hover:scale-102'
                       }`}
-                      sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 440px"
+                      sizes="(max-width: 640px) 260px, (max-width: 768px) 350px, (max-width: 1024px) 440px, 550px"
                     />
 
                     {/* Voile d'atténuation sur les cartes inactives */}

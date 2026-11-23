@@ -158,3 +158,18 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 3** : Ajout des classes `.hero-curtain-*` et de leur repli `prefers-reduced-motion` dans `src/app/globals.css`.
 - [x] **Étape 4** : Intégration de `HeroCurtainStage` dans `src/app/page.tsx` avec ancrage `z-10` sur `VitrineFooter`.
 - [x] **Étape 5** : Ajout de la gate dans `GATES.md`, exécution complète des oracles (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture dans `.agents/WRITING_IMPROVEMENT.md`.
+
+---
+
+## 📌 Tâche Active : Agrandissement de l'Image Centrale du Hero et Fusion Négative sur le Titre (`HERO-OVERLAP-NEGATIVE-01`)
+
+- **Identifiant** : `HERO-OVERLAP-NEGATIVE-01`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Ne pas altérer les couleurs des boutons CTA ni de la devise ; préserver `package.json` et le reste du site intact.
+- **Référence Gates** : Gate « Débordement de l'Image Centrale Hero et Effet Négatif sur le Titre » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Mise à jour des tokens géométriques du Hero (`--hero-stage-h`, `--hero-strip-top`, `--hero-title-shift-y`, `--hero-title-overlap-offset`, `--hero-intro-*`, `--hero-card-w-active`, `--hero-card-h-active`) dans `src/app/globals.css`.
+- [x] **Étape 3** : Refonte du conteneur de scène (`bg-[#f2f2f2] isolate`), séparation du `<h1>` (`mix-blend-difference`, `text-white`, `z-30`) et du bloc devise/CTA frère (sans fusion négative), continuité de l'image d'intro et ajustement de la frise (`z-20`, `scale-100`) dans `src/components/sections/vitrine/hero/HeroSection.tsx`.
+- [x] **Étape 4** : Ajout de la gate dans `GATES.md`, exécution des oracles (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture documentaire.

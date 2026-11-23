@@ -30,10 +30,19 @@
   --hero-tint-peach: #f8dfd2;
   --hero-tint-lavender: #ebe3f2;
 
-  /* Dimensions de la galerie Hero (Anneau circulaire virtuel) */
-  --hero-card-w-active: 220px;
+  /* Dimensions et géométrie de la galerie Hero (Anneau circulaire & débordement sur le titre) */
+  --hero-stage-h: clamp(640px, 100vh, 1080px);
+  --hero-strip-top: clamp(50px, 7.5vh, 72px);
+  --hero-title-shift-y: clamp(125px, 20vh, 185px);
+  --hero-title-overlap-offset: 12px;
+  --hero-intro-w: 220px;
+  --hero-intro-h: 200px;
+  --hero-card-w-active: 260px;
   --hero-card-w-side: 80px;
-  --hero-card-h-active: 200px;
+  --hero-card-h-active: calc(
+    var(--hero-stage-h) / 2 + var(--hero-title-shift-y) - var(--hero-strip-top) +
+      var(--hero-title-overlap-offset)
+  );
   --hero-card-h-side: 130px;
 
   /* Timing & Courbes de Physique du Mouvement (Socle cinétique opt-in) */
@@ -65,27 +74,45 @@
 
 @media (min-width: 640px) {
   :root {
-    --hero-card-w-active: 300px;
+    --hero-title-overlap-offset: 15px;
+    --hero-intro-w: 300px;
+    --hero-intro-h: 270px;
+    --hero-card-w-active: 350px;
     --hero-card-w-side: 110px;
-    --hero-card-h-active: 270px;
+    --hero-card-h-active: calc(
+      var(--hero-stage-h) / 2 + var(--hero-title-shift-y) - var(--hero-strip-top) +
+        var(--hero-title-overlap-offset)
+    );
     --hero-card-h-side: 170px;
   }
 }
 
 @media (min-width: 768px) {
   :root {
-    --hero-card-w-active: 380px;
+    --hero-title-overlap-offset: 20px;
+    --hero-intro-w: 380px;
+    --hero-intro-h: 330px;
+    --hero-card-w-active: 440px;
     --hero-card-w-side: 140px;
-    --hero-card-h-active: 330px;
+    --hero-card-h-active: calc(
+      var(--hero-stage-h) / 2 + var(--hero-title-shift-y) - var(--hero-strip-top) +
+        var(--hero-title-overlap-offset)
+    );
     --hero-card-h-side: 210px;
   }
 }
 
 @media (min-width: 1024px) {
   :root {
-    --hero-card-w-active: 440px;
+    --hero-title-overlap-offset: 28px;
+    --hero-intro-w: 440px;
+    --hero-intro-h: 390px;
+    --hero-card-w-active: 550px;
     --hero-card-w-side: 170px;
-    --hero-card-h-active: 390px;
+    --hero-card-h-active: calc(
+      var(--hero-stage-h) / 2 + var(--hero-title-shift-y) - var(--hero-strip-top) +
+        var(--hero-title-overlap-offset)
+    );
     --hero-card-h-side: 250px;
   }
 }
