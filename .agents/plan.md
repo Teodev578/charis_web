@@ -142,3 +142,19 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 3** : Mise à jour des imports dans `src/app/page.tsx`, `src/app/ecouter/page.tsx`, `src/app/explorer/page.tsx` et `src/components/sections/ecouter/announcements/Announcements.tsx`.
 - [x] **Étape 4** : Synchronisation de `AGENTS.md` et `GATES.md`.
 - [x] **Étape 5** : Clôture documentaire et validation finale (`npx tsc --noEmit`, `npm run lint`, `node scripts/verify-gates.mjs`).
+
+---
+
+## 📌 Tâche Active : Scène Rideau Collante pour le Hero de la Vitrine (`HERO-CURTAIN-01`)
+
+- **Identifiant** : `HERO-CURTAIN-01`
+- **Statut** : Validé et clôturé
+- **Contrainte absolue** : Préserver `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` et `package.json` intacts ; isoler les `z-index` et respecter `prefers-reduced-motion`.
+- **Référence Gates** : Section « Scène Rideau Collante Hero » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Création du composant profond `src/components/sections/vitrine/hero/HeroCurtainStage.tsx` (rAF passif sans re-render, gestion `inert`/`aria-hidden`/`data-covered` et `prefers-reduced-motion`).
+- [x] **Étape 3** : Ajout des classes `.hero-curtain-*` et de leur repli `prefers-reduced-motion` dans `src/app/globals.css`.
+- [x] **Étape 4** : Intégration de `HeroCurtainStage` dans `src/app/page.tsx` avec ancrage `z-10` sur `VitrineFooter`.
+- [x] **Étape 5** : Ajout de la gate dans `GATES.md`, exécution complète des oracles (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture dans `.agents/WRITING_IMPROVEMENT.md`.

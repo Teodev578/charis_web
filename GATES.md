@@ -159,7 +159,16 @@ EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wo
 
 ---
 
-## 📜 7. Journal d'Exécution des Oracles
+## 🎭 7. Gates Scène Rideau Collante Hero (HERO-CURTAIN-01)
+
+### Gate : Présence et Isolation de HeroCurtainStage dans vitrine/hero
+CHECK: test -f src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "HeroCurtainStage" src/app/page.tsx && grep -q "isolation: isolate" src/app/globals.css && grep -q "hero-curtain-backdrop" src/app/globals.css && echo "HERO_CURTAIN_ACTIF"
+EXPECT: HERO_CURTAIN_ACTIF
+EVIDENCE: HeroCurtainStage.tsx est monté dans src/app/page.tsx avec contexte sticky isolé (z-0 / z-10), pilotage rAF sans re-render et repli prefers-reduced-motion dans src/app/globals.css.
+
+---
+
+## 📜 8. Journal d'Exécution des Oracles
 
 | Date d'Exécution | Oracle / Commande | Opérateur | Statut | Bilan / Preuve |
 |---|---|---|---|---|
@@ -179,3 +188,7 @@ EVIDENCE: Les deux en-têtes Vitrine consomment les rôles partagés .vitrine-wo
 | 2026-11-17 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 4.0s`) |
 | 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 23/23 gates validées après prefactoring `ARCH-PREFACTOR-02`, 0 en échec |
 | 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 23/23 gates validées après structuration en sous-dossiers `ARCH-SECTIONS-03`, 0 en échec |
+| 2026-11-17 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `HERO-CURTAIN-01` |
+| 2026-11-17 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 |
+| 2026-11-17 | `npm run build` | `assistant` | **SUCCÈS** | 12/12 routes compilées avec Turbopack (`Compiled successfully in 15.6s`) |
+| 2026-11-17 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 24/24 gates validées après implémentation `HERO-CURTAIN-01`, 0 en échec |

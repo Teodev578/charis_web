@@ -2,6 +2,7 @@
 
 import React from 'react';
 import VitrineHeader from '@/components/navigation/VitrineHeader';
+import HeroCurtainStage from '@/components/sections/vitrine/hero/HeroCurtainStage';
 import HeroSection from '@/components/sections/vitrine/hero/HeroSection';
 import VisionMissionSection from '@/components/sections/vitrine/vision-mission/VisionMissionSection';
 import PastoralTeamSection from '@/components/sections/vitrine/pastoral-team/PastoralTeamSection';
@@ -23,30 +24,32 @@ export default function VitrinePage() {
 
       {/* 2. Main OnePage Content Sections */}
       <main className="flex flex-col">
-        {/* Section 1: Hero */}
-        <HeroSection />
+        {/* Section 1 (Hero sticky) -> Rideau des sections suivantes */}
+        <HeroCurtainStage hero={<HeroSection />}>
+          {/* Section 2: Vision & Mission */}
+          <VisionMissionSection />
 
-        {/* Section 2: Vision & Mission */}
-        <VisionMissionSection />
+          {/* Section 3: Pastoral Team */}
+          <PastoralTeamSection />
 
-        {/* Section 3: Pastoral Team */}
-        <PastoralTeamSection />
+          {/* Section 4: Audio Extracts & Mini-Player */}
+          <AudioExtractsSection />
 
-        {/* Section 4: Audio Extracts & Mini-Player */}
-        <AudioExtractsSection />
+          {/* Section 5: Upcoming Cultes & Events */}
+          <EventsSection />
 
-        {/* Section 5: Upcoming Cultes & Events */}
-        <EventsSection />
+          {/* Section 6: Location & Operating Hours */}
+          <LocationHoursSection />
 
-        {/* Section 6: Location & Operating Hours */}
-        <LocationHoursSection />
-
-        {/* Section 7: Donations & Support */}
-        <DonationsSection />
+          {/* Section 7: Donations & Support */}
+          <DonationsSection />
+        </HeroCurtainStage>
       </main>
 
       {/* 3. Extended Footer */}
-      <VitrineFooter />
+      <div className="relative z-10">
+        <VitrineFooter />
+      </div>
 
       {/* 4. Sticky Floating Player (Active whenever audio is loaded/playing) */}
       {currentTrack && (

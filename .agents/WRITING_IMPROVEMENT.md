@@ -182,3 +182,32 @@ Suite au déplacement manuel de `hero/` dans `src/components/sections/vitrine/he
 #### 4. Clôture à Chaud Post-Implémentation
 - **Résultat observable** : Les 6 sections restantes de `src/components/sections/vitrine/` et les 3 fichiers de `src/components/sections/ecouter/` ont été encapsulés dans leurs sous-dossiers respectifs (`audio-extracts/`, `donations/`, `events/`, `location-hours/`, `pastoral-team/`, `vision-mission/`, `announcements/`, `track-card/`), avec zéro fichier `.tsx` à plat dans `vitrine/` ou `ecouter/`. Les 4 consommateurs (`page.tsx`, `ecouter/page.tsx`, `explorer/page.tsx`, `Announcements.tsx`), `AGENTS.md` et `GATES.md` ont été synchronisés sans modifier `HeroSection.tsx`, `HeroGrainSurface.tsx` ni `package.json`, et la racine du dépôt `/` est restée inchangée selon le choix utilisateur. Validation : `npx tsc --noEmit` (code 0), `npm run lint` (code 0) et `node scripts/verify-gates.mjs` (23/23 gates passées, 0 en échec).
 - **Leçon retenue** : Aligner la granularité des dossiers frères (`vitrine/hero/` et l'ensemble des autres sections de `vitrine/` et `ecouter/`) par une gate vérifiant l'absence de `.tsx` libres à leur racine garantit la symétrie durable de l'arborescence.
+
+---
+
+### [2026-11-17] Scène Rideau Collante pour le Hero de la Vitrine (`HERO-CURTAIN-01`)
+
+- **Complexité** : Complexe (Niveau 4 — création de `src/components/sections/vitrine/hero/HeroCurtainStage.tsx`, ajout des règles `.hero-curtain-*` dans `src/app/globals.css`, intégration dans `src/app/page.tsx`, mise à jour de `GATES.md`, `.agents/plan.md` et `.agents/WRITING_IMPROVEMENT.md`)
+- **Périmètre** : `src/components/sections/vitrine/hero/HeroCurtainStage.tsx`, `src/app/globals.css`, `src/app/page.tsx`, `GATES.md` (en préservant strictement `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` et `package.json`).
+
+#### 1. Problème Réel & Contrainte Principale
+L'utilisateur souhaite conserver `HeroSection` dans `src/components/sections/vitrine/hero/` tout en le maintenant figé à l'écran lors du défilement de la Vitrine selon un effet rideau (*Sticky Curtain Reveal*) où les sections suivantes glissent par-dessus jusqu'à le recouvrir. Quatre contraintes techniques critiques se présentent :
+1. Préserver `HeroSection.tsx` et `HeroGrainSurface.tsx` intacts (`DESIGN.md`) sans ajouter de dépendance externe.
+2. Isoler le contexte d'empilement (`isolation: isolate`) du Hero, dont les couches internes montent jusqu'à `z-40`, afin qu'aucune d'elles ne passe devant le rideau (`z-10`) ou `VitrineHeader` (`z-40`).
+3. Éviter l'écrasement visuel entre deux plans successifs de même teinte `#f2f2f2` (`HeroSection` et `VisionMissionSection`), sans rogner les bords latéraux full-bleed de la frise d'images du Hero.
+4. Éviter tout piège de focus clavier (`Tab`) et de peinture GPU inutile lorsque le Hero est intégralement recouvert sous les sections suivantes, tout en respectant `prefers-reduced-motion: reduce`.
+
+#### 2. Alternative Technique Examinée et Rejetée
+- **Piste examinée** : Déplacer `HeroSection` vers `src/components/layout/` ou poser simplement `sticky top-0` en classes Tailwind directement dans `src/app/page.tsx` avec un `scale()` sur tout le Hero.
+- **Statut** : *(Déconseillé)*
+- **Motif dialectique du rejet** : Déplacer le Hero hors de `sections/vitrine/hero/` rompt l'orthogonalité par domaine vérifiée par `GATES.md`. Par ailleurs, un simple `sticky top-0` sans `isolation: isolate`, voile d'assombrissement ni bascule `inert`/`visibility: hidden` laisserait les `z-40` internes du Hero interférer, confondrait les deux plans `#f2f2f2`, maintiendrait des liens focusables sous un rideau opaque et rognerait les bords full-bleed de la frise en cas de `scale()`.
+
+#### 3. Solution Retenue & Justification
+- **Piste retenue** : *(Recommandé)* Créer un module profond `HeroCurtainStage.tsx` dans `src/components/sections/vitrine/hero/` à interface minimale (`hero`, `children`), combiné à des règles dédiées dans `src/app/globals.css` :
+  1. Conteneur sticky isolé (`.hero-curtain-backdrop` à `z-index: 0; isolation: isolate`) et rideau supérieur (`.hero-curtain-sheet` à `z-index: 10` avec ombre d'élévation supérieure).
+  2. Parallaxe verticale GPU-only légère (`translate3d` sur `--hero-curtain-progress`) et voile progressif `.hero-curtain-scrim` (`#111111` jusqu'à `0.26`), préservant l'intégrité bord-à-bord de la frise photographique.
+  3. Pilotage par `requestAnimationFrame` passif sans aucun `useState` ni re-render React, basculant `data-covered="true"` (`visibility: hidden`), `inert` et `aria-hidden="true"` dès recouvrement complet (`curtainTop <= 1`), avec neutralisation complète sous `@media (prefers-reduced-motion: reduce)`.
+
+#### 4. Clôture à Chaud Post-Implémentation
+- **Résultat observable** : Composant [HeroCurtainStage.tsx](file:///home/fabien/Documents/Projets/Pro/charis_web/src/components/sections/vitrine/hero/HeroCurtainStage.tsx) créé, styles `.hero-curtain-*` et repli `prefers-reduced-motion` ajoutés dans `src/app/globals.css`, intégration réalisée dans `src/app/page.tsx` avec ancrage `z-10` sur `VitrineFooter`, sans aucune modification de `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*` ni `package.json`. Validation complète : `npx tsc --noEmit` (code 0), `npm run lint` (code 0), `npm run build` (`Compiled successfully in 15.6s`, 12/12 routes) et `node scripts/verify-gates.mjs` (24/24 gates validées, 0 en échec).
+- **Leçon retenue** : Piloter l'état de recouvrement (`data-covered`, `inert`, `aria-hidden`) et `--hero-curtain-progress` par mutation DOM directe sur `requestAnimationFrame` évite tout re-render React lors du passage du rideau, tout en conjurant les collisions de `z-index` et les pièges de focus clavier.

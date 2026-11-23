@@ -331,6 +331,53 @@ body {
   }
 }
 
+/* Primitive 4 : Scène rideau collante du Hero Vitrine (Sticky Curtain Reveal GPU-only) */
+.hero-curtain-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  --hero-curtain-progress: 0;
+}
+
+.hero-curtain-backdrop {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  isolation: isolate;
+  background-color: var(--color-hero-cream, #f2f2f2);
+}
+
+.hero-curtain-backdrop[data-covered="true"] {
+  visibility: hidden;
+}
+
+.hero-curtain-media {
+  transform: translate3d(0, calc(var(--hero-curtain-progress, 0) * -24px), 0);
+  will-change: transform;
+}
+
+.hero-curtain-backdrop[data-covered="true"] .hero-curtain-media {
+  will-change: auto;
+}
+
+.hero-curtain-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background-color: var(--color-hero-ink, #111111);
+  opacity: calc(var(--hero-curtain-progress, 0) * 0.26);
+}
+
+.hero-curtain-sheet {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-hero-cream, #f2f2f2);
+  box-shadow: 0 -24px 60px rgba(17, 17, 17, 0.14);
+}
+
 /* Transitions de page natives (View Transitions API) */
 @keyframes vtFadeIn {
   from {
@@ -384,6 +431,24 @@ body {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+  }
+
+  .hero-curtain-backdrop {
+    position: relative;
+    visibility: visible !important;
+  }
+
+  .hero-curtain-media {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .hero-curtain-scrim {
+    opacity: 0 !important;
+  }
+
+  .hero-curtain-sheet {
+    box-shadow: none;
   }
 }
 
