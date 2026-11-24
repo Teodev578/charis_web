@@ -74,4 +74,8 @@ Ce fichier consigne la mémoire persistante des pages vitrine, catalogue d'écou
   - Recalibrage de la formule de centrage automatique `translateX(calc(... * clamp(80px, 11.8vw, 170px)))` pour un alignement optique subpixel rigoureux.
 - *Refonte des fondations esthétiques* : Mise en place de `aesthetic_standards.md`, enrichissement de `ui_forbidden.md` (anti-patterns 11 à 14), standardisation du smooth scrolling Lenis et du Text Reveal dans `ui_motion.md`, et instauration d'une porte de validation visuelle (Visual QA Gate).
 - *Initialisation de la mémoire* : Refonte moderne du layout avec barre latérale rétractable (`NavigationDrawer`), header unifié et intégration des cartes d'annonces.
+- *Footer Éditorial Atmosphérique & Logo Provisoire (`VITRINE-FOOTER-01`)* :
+  - Création du logo vectoriel provisoire [CharisLogo.tsx](file:///home/fabien/Documents/Projets/Pro/charis_web/src/components/ui/CharisLogo.tsx) (sceau circulaire, méridiens et croix en losange, point unique de remplacement).
+  - Refonte en deux étages de [VitrineFooter.tsx](file:///home/fabien/Documents/Projets/Pro/charis_web/src/components/layout/VitrineFooter.tsx) et [globals.css](file:///home/fabien/Documents/Projets/Pro/charis_web/src/app/globals.css) : bandeau utilitaire clair (`#ffffff`) à 3 zones (navigation, 4 encarts issus de `VITRINE_CONFIG`, CTA `/ecouter`) suivi d'une scène claire-vers-atmosphérique (`.vitrine-footer__aura` en multi-dégradés CSS purs Hero `#f2f2f2` / `#ebe3f2` / `#f8dfd2` / `#fc7d42` / `#893FB0` / `#6C288B` / `#111111`, sans `blur-[140px]`), mot-symbole monumental « Charis Nation » + `©` cerclé et barre légale ancrée sur `#111111` pour garantir le contraste WCAG.
+
 

@@ -2,211 +2,260 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, MessageCircle, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import CharisLogo from '@/components/ui/CharisLogo';
+import { useAudio } from '@/contexts/AudioContext';
 import { VITRINE_CONFIG } from '@/lib/config/vitrine';
 
 export default function VitrineFooter() {
+  const { currentTrack } = useAudio();
+  const currentYear = new Date().getFullYear();
+  const sundayService = VITRINE_CONFIG.events[0];
+
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
-    const el = document.querySelector(hash);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    const target = document.querySelector(hash);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
+  const navLinks = [
+    { href: '#hero', label: 'Accueil', isPrimary: true },
+    { href: '#eglise', label: 'L’Église', isPrimary: false },
+    { href: '#enseignements', label: 'Enseignements', isPrimary: false },
+    { href: '#rejoindre', label: 'Nous Rejoindre', isPrimary: false },
+    { href: '#dons', label: 'Soutenir', isPrimary: false },
+  ];
+
+  const socialLinks = [
+    { label: 'YouTube', href: VITRINE_CONFIG.socials.youtube },
+    { label: 'Facebook', href: VITRINE_CONFIG.socials.facebook },
+    { label: 'Instagram', href: VITRINE_CONFIG.socials.instagram },
+    { label: 'WhatsApp', href: VITRINE_CONFIG.socials.whatsapp },
+  ].filter((item): item is { label: string; href: string } => Boolean(item.href));
+
   return (
-    <footer className="relative bg-[#111111] border-t border-white/10 pt-20 pb-12 px-4 sm:px-6 lg:px-8 text-[#f2f2f2]">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Brand Info (2 cols) */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-3 mb-6 no-underline">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#6C288B] to-[#fc7d42] p-[1.5px] shadow-lg">
-                <div className="w-full h-full bg-[#111111] rounded-[14px] flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-[#fc7d42]" />
-                </div>
-              </div>
-              <span className="font-serif font-bold text-xl tracking-wide text-[#f2f2f2]">
-                {VITRINE_CONFIG.churchName}
-              </span>
-            </Link>
+    <footer className={`vitrine-footer ${currentTrack ? 'vitrine-footer--with-player' : ''}`}>
+      {/* Étage 1 : Bandeau éditorial supérieur clair */}
+      <div className="vitrine-footer__top">
+        <div className="vitrine-footer__container vitrine-footer__top-inner">
+          <div className="vitrine-footer__top-grid">
+            {/* Colonne gauche : Marque & Navigation verticale */}
+            <div>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2.5 no-underline group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6C288B] rounded-sm"
+              >
+                <CharisLogo
+                  size={28}
+                  className="text-[#111111] transition-transform duration-200 group-hover:scale-105"
+                  accentClassName="text-[#6C288B]"
+                />
+                <span className="font-serif text-[1.2rem] font-semibold tracking-[-0.02em] text-[#111111]">
+                  {VITRINE_CONFIG.churchName}
+                </span>
+              </Link>
 
-            <p className="text-sm text-[#f2f2f2]/70 leading-relaxed max-w-sm mb-6">
-              {VITRINE_CONFIG.tagline}
-            </p>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-3">
-              {VITRINE_CONFIG.socials.youtube && (
-                <a
-                  href={VITRINE_CONFIG.socials.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
-                  aria-label="YouTube"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                  </svg>
-                </a>
-              )}
-              {VITRINE_CONFIG.socials.facebook && (
-                <a
-                  href={VITRINE_CONFIG.socials.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
-                  aria-label="Facebook"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </a>
-              )}
-              {VITRINE_CONFIG.socials.whatsapp && (
-                <a
-                  href={VITRINE_CONFIG.socials.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
-                  aria-label="WhatsApp"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </a>
-              )}
-              {VITRINE_CONFIG.socials.instagram && (
-                <a
-                  href={VITRINE_CONFIG.socials.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#6C288B] border border-white/10 flex items-center justify-center text-[#f2f2f2] hover:text-[#fc7d42] transition-all"
-                  aria-label="Instagram"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                </a>
-              )}
+              <nav aria-label="Navigation principale du pied de page" className="vitrine-footer__nav">
+                <ul className="vitrine-footer__nav-list text-[13px] list-none">
+                  {navLinks.map((item) => (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        onClick={(e) => handleScrollTo(e, item.href)}
+                        className={`inline-block no-underline transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C288B] rounded-xs ${
+                          item.isPrimary
+                            ? 'font-medium text-[#111111] hover:text-[#6C288B]'
+                            : 'text-[#525252] hover:text-[#6C288B]'
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
-          </div>
 
-          {/* Navigation Links */}
-          <div>
-            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
-              L’Église
-            </h4>
-            <ul className="space-y-3 text-sm list-none p-0 m-0">
-              <li>
-                <a
-                  href="#eglise"
-                  onClick={(e) => handleScrollTo(e, '#eglise')}
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
-                >
-                  L’Église &amp; Vision
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#enseignements"
-                  onClick={(e) => handleScrollTo(e, '#enseignements')}
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
-                >
-                  Enseignements
-                </a>
-              </li>
-              <li>
+            {/* Zone centrale : 4 repères éditoriaux ancrés dans la configuration réelle */}
+            <div className="vitrine-footer__highlights">
+              <div>
+                <p className="text-[13px] leading-[1.55] text-[#525252]">
+                  {sundayService
+                    ? `${sundayService.title} chaque ${sundayService.day.toLowerCase()}, ${sundayService.time} — ${sundayService.location}.`
+                    : 'Cultes hebdomadaires de célébration, d’adoration et d’enseignement biblique.'}
+                </p>
                 <a
                   href="#rejoindre"
                   onClick={(e) => handleScrollTo(e, '#rejoindre')}
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
+                  className="vitrine-footer__highlight-link inline-block text-[13px] font-medium text-[#111111] underline underline-offset-4 decoration-[#111111]/40 hover:text-[#6C288B] hover:decoration-[#6C288B] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C288B]"
                 >
-                  Nous Rejoindre
+                  Voir les horaires
                 </a>
-              </li>
-              <li>
-                <a
-                  href="#dons"
-                  onClick={(e) => handleScrollTo(e, '#dons')}
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
-                >
-                  Soutenir
-                </a>
-              </li>
-            </ul>
-          </div>
+              </div>
 
-          {/* Spiritual Media Links */}
-          <div>
-            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
-              Plateforme Audio
-            </h4>
-            <ul className="space-y-3 text-sm list-none p-0 m-0">
-              <li>
+              <div>
+                <p className="text-[13px] leading-[1.55] text-[#525252]">
+                  Réécoutez nos prédications audio avec prise de notes horodatées et reprise automatique.
+                </p>
                 <Link
                   href="/ecouter"
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
+                  className="vitrine-footer__highlight-link inline-block text-[13px] font-medium text-[#111111] underline underline-offset-4 decoration-[#111111]/40 hover:text-[#6C288B] hover:decoration-[#6C288B] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C288B]"
                 >
-                  Espace Écoute & Notes
+                  Ouvrir l’écoute
                 </Link>
-              </li>
-              <li>
+              </div>
+
+              <div>
+                <p className="text-[13px] leading-[1.55] text-[#525252]">
+                  Parcourez les enseignements par catégories et séries thématiques pour approfondir la Parole.
+                </p>
                 <Link
                   href="/explorer"
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
+                  className="vitrine-footer__highlight-link inline-block text-[13px] font-medium text-[#111111] underline underline-offset-4 decoration-[#111111]/40 hover:text-[#6C288B] hover:decoration-[#6C288B] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C288B]"
                 >
-                  Catalogue des Enseignements
+                  Explorer le catalogue
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="/auth/login"
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
-                >
-                  Connexion Membre
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/dashboard"
-                  className="text-[#f2f2f2]/40 hover:text-[#fc7d42] transition-colors no-underline text-xs"
-                >
-                  Administration
-                </Link>
-              </li>
-            </ul>
-          </div>
+              </div>
 
-          {/* Contact Details */}
-          <div>
-            <h4 className="font-serif font-bold text-sm text-[#fc7d42] uppercase tracking-wider mb-5">
-              Nous Joindre
-            </h4>
-            <div className="space-y-3 text-xs text-[#f2f2f2]/70">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#fc7d42] shrink-0 mt-0.5" />
-                <span>{VITRINE_CONFIG.address.street}, {VITRINE_CONFIG.address.city}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#fc7d42] shrink-0" />
-                <a href={`tel:${VITRINE_CONFIG.contact.phone}`} className="hover:text-[#fc7d42] transition-colors no-underline text-inherit">
-                  {VITRINE_CONFIG.contact.phone}
-                </a>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#fc7d42] shrink-0" />
-                <a href={`mailto:${VITRINE_CONFIG.contact.email}`} className="hover:text-[#fc7d42] transition-colors no-underline text-inherit">
-                  {VITRINE_CONFIG.contact.email}
+              <div>
+                <p className="text-[13px] leading-[1.55] text-[#525252]">
+                  {VITRINE_CONFIG.address.street}, {VITRINE_CONFIG.address.city} — {VITRINE_CONFIG.contact.phone}.
+                </p>
+                <a
+                  href={`mailto:${VITRINE_CONFIG.contact.email}`}
+                  className="vitrine-footer__highlight-link inline-block text-[13px] font-medium text-[#111111] underline underline-offset-4 decoration-[#111111]/40 hover:text-[#6C288B] hover:decoration-[#6C288B] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C288B]"
+                >
+                  Nous écrire
                 </a>
               </div>
             </div>
+
+            {/* Colonne droite : Action compacte */}
+            <div className="lg:justify-self-end">
+              <Link
+                href="/ecouter"
+                className="vitrine-footer__cta inline-flex items-center justify-center rounded-[5px] bg-[#111111] hover:bg-[#6C288B] text-[#f2f2f2] text-xs font-semibold tracking-[0.01em] whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#6C288B] no-underline"
+              >
+                Écouter un message
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Bar & Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#f2f2f2]/55">
-          <p>© {new Date().getFullYear()} {VITRINE_CONFIG.churchName}. Tous droits réservés.</p>
-          <div className="flex items-center gap-1">
-            <span>Bâti avec grâce et foi</span>
-            <Heart className="w-3.5 h-3.5 text-[#fc7d42] fill-[#fc7d42]" />
-            <span>pour l’Église de Christ</span>
+      {/* Étage 2 : Scène atmosphérique & signature monumentale */}
+      <div className="vitrine-footer__stage">
+        <div className="vitrine-footer__aura" aria-hidden="true" />
+
+        <div className="vitrine-footer__container vitrine-footer__stage-inner">
+          {/* Ligne médiane haute : repères d'horizon */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <span className="text-xs font-medium tracking-[0.03em] text-[#525252]">
+              Sanctuaire de grâce · {VITRINE_CONFIG.address.city}
+            </span>
+            <a
+              href="#hero"
+              onClick={(e) => handleScrollTo(e, '#hero')}
+              className="text-xs sm:text-[13px] font-medium tracking-[0.08em] uppercase text-[#111111] underline underline-offset-4 decoration-[#111111]/55 hover:text-[#6C288B] hover:decoration-[#6C288B] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#6C288B]"
+            >
+              CHARISNATION.ORG
+            </a>
+          </div>
+
+          {/* Zone basse : Mot-symbole monumental + Bloc d'identité & mentions */}
+          <div className="vitrine-footer__bottom-grid">
+            {/* Gauche : Mot-symbole monumental + © cerclé fin */}
+            <div className="inline-flex items-start gap-1.5 sm:gap-2 min-w-0">
+              <span className="vitrine-footer__wordmark">
+                {VITRINE_CONFIG.churchName}
+              </span>
+              <svg
+                viewBox="0 0 32 32"
+                fill="none"
+                aria-hidden="true"
+                className="vitrine-footer__copyright-mark"
+              >
+                <circle
+                  cx="16"
+                  cy="16"
+                  r="14.25"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                />
+                <path
+                  d="M20.3 12.1 A5.7 5.7 0 1 0 20.3 19.9"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            {/* Droite : Signature secondaire au-dessus du filet + Barre légale contraste garanti */}
+            <div className="flex flex-col justify-end min-w-0">
+              <div className="vitrine-footer__signature flex items-center gap-3 lg:justify-end text-[#f2f2f2] lg:text-[#111111]">
+                <CharisLogo
+                  size={34}
+                  className="shrink-0 opacity-90"
+                  accentClassName="text-[#fc7d42] lg:text-[#6C288B]"
+                />
+                <div className="font-serif text-sm sm:text-[15px] leading-[1.25]">
+                  <div className="font-medium">Église {VITRINE_CONFIG.churchName}</div>
+                  <div className="text-[#f2f2f2]/80 lg:text-[#525252]">
+                    {VITRINE_CONFIG.address.country} · {VITRINE_CONFIG.address.city}
+                  </div>
+                </div>
+              </div>
+
+              <div className="vitrine-footer__legal flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-xs text-[#f2f2f2]/85">
+                <p className="text-[#f2f2f2]/75 max-w-[14rem] sm:max-w-none leading-snug">
+                  © {currentYear} {VITRINE_CONFIG.churchName}. Tous droits réservés.
+                </p>
+
+                <nav
+                  aria-label="Réseaux sociaux et accès membre"
+                  className="flex flex-wrap items-start gap-x-6 gap-y-2 shrink-0"
+                >
+                  {socialLinks.length > 0 && (
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                      {socialLinks.map((social) => (
+                        <a
+                          key={social.label}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#f2f2f2]/85 hover:text-[#fc7d42] no-underline hover:underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fc7d42]"
+                        >
+                          {social.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <Link
+                      href="/auth/login"
+                      className="text-[#f2f2f2]/85 hover:text-[#fc7d42] no-underline hover:underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fc7d42]"
+                    >
+                      Connexion
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      className="text-[#f2f2f2]/85 hover:text-[#fc7d42] no-underline hover:underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fc7d42]"
+                    >
+                      Administration
+                    </Link>
+                    <a
+                      href={`mailto:${VITRINE_CONFIG.contact.email}`}
+                      className="text-[#f2f2f2]/85 hover:text-[#fc7d42] no-underline hover:underline underline-offset-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fc7d42]"
+                    >
+                      Contact
+                    </a>
+                  </div>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
       </div>

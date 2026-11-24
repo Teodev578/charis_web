@@ -181,6 +181,11 @@ CHECK: grep -q "vitrine-deck-track" src/components/sections/vitrine/hero/HeroCur
 EXPECT: VITRINE_HSTACK_ACTIF
 EVIDENCE: Section 01 recouvre le Hero verticalement puis les sections 02–04 s'empilent horizontalement en lames numérotées sur >= 768px (avec maintien vertical sur < 768px et repli prefers-reduced-motion).
 
+### Gate : Footer Éditorial Atmosphérique & Logo Provisoire (VITRINE-FOOTER-01)
+CHECK: test -f src/components/ui/CharisLogo.tsx && grep -q "CharisLogo" src/components/layout/VitrineFooter.tsx && grep -q "vitrine-footer__aura" src/app/globals.css && grep -q "vitrine-footer__wordmark" src/app/globals.css && echo "VITRINE_FOOTER_ACTIF"
+EXPECT: VITRINE_FOOTER_ACTIF
+EVIDENCE: CharisLogo.tsx créé, VitrineFooter.tsx refondu en 2 étages, aura diagonale Hero et socle bas contrasté implémentés dans globals.css, et rendu vérifié sans débordement sur 375px, 768px et 1280px.
+
 ---
 
 ## 📜 8. Journal d'Exécution des Oracles
@@ -223,3 +228,7 @@ EVIDENCE: Section 01 recouvre le Hero verticalement puis les sections 02–04 s'
 | 2026-11-24 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 après `VITRINE-HSTACK-04` |
 | 2026-11-24 | `npm run build` | `assistant` | **SUCCÈS** | `Compiled successfully in 13.4s`, 12/12 routes générées (`BypassSandbox` requis pour Google Fonts) |
 | 2026-11-24 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 27/27 gates validées après implémentation `VITRINE-HSTACK-04` |
+| 2026-11-24 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après refonte footer `VITRINE-FOOTER-01` |
+| 2026-11-24 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 après `VITRINE-FOOTER-01` |
+| 2026-11-24 | `npm run build` | `assistant` | **SUCCÈS** | `Compiled successfully in 10.5s`, 12/12 routes générées (`BypassSandbox` requis pour Google Fonts) |
+| 2026-11-24 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 28/28 gates validées après `VITRINE-FOOTER-01` (0 en échec) |

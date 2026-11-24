@@ -39,7 +39,7 @@ export default function VitrinePage() {
       </main>
 
       {/* 3. Extended Footer */}
-      <div className="relative z-20 shadow-[0_-24px_60px_rgba(17,17,17,0.24)]">
+      <div className="relative z-20 shadow-[0_-16px_44px_rgba(17,17,17,0.08)]">
         <VitrineFooter />
       </div>
 

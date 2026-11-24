@@ -706,6 +706,285 @@ body {
   }
 }
 
+/* Footer Éditorial Vitrine — VITRINE-FOOTER-01 */
+.vitrine-footer {
+  position: relative;
+  background-color: #f2f2f2;
+  color: #111111;
+  overflow-x: clip;
+}
+
+.vitrine-footer--with-player {
+  padding-bottom: 5.5rem;
+  background-color: #111111;
+}
+
+.vitrine-footer__container {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .vitrine-footer__container {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__container {
+    padding-inline: 3rem;
+  }
+}
+
+.vitrine-footer__top {
+  background-color: #ffffff;
+  border-top: 1px solid rgba(17, 17, 17, 0.09);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+}
+
+.vitrine-footer__top-inner {
+  padding-block: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .vitrine-footer__top-inner {
+    padding-block: 3rem;
+  }
+}
+
+.vitrine-footer__top-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__top-grid {
+    grid-template-columns: minmax(0, 11.5rem) minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 3rem;
+  }
+}
+
+.vitrine-footer__nav {
+  margin-top: 1.25rem;
+}
+
+.vitrine-footer__nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.vitrine-footer__highlights {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .vitrine-footer__highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    row-gap: 1.75rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .vitrine-footer__highlights {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 2.25rem;
+  }
+}
+
+.vitrine-footer__highlight-link {
+  margin-top: 0.75rem;
+}
+
+.vitrine-footer__cta {
+  padding: 0.625rem 1rem;
+}
+
+.vitrine-footer__stage {
+  position: relative;
+  isolation: isolate;
+  overflow: clip; /* clip intentionnel des dégradés atmosphériques */
+  background-color: #f2f2f2;
+  min-height: 29rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__stage {
+    min-height: clamp(32rem, 44vw, 40rem);
+  }
+}
+
+.vitrine-footer__stage-inner {
+  position: relative;
+  z-index: 10;
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 2.5rem;
+  padding-bottom: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .vitrine-footer__stage-inner {
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.vitrine-footer__aura {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #f2f2f2;
+  background-image:
+    linear-gradient(
+      to top,
+      #111111 0px,
+      #111111 175px,
+      rgba(17, 17, 17, 0.92) 220px,
+      rgba(108, 40, 139, 0.88) 295px,
+      rgba(137, 63, 176, 0.45) 338px,
+      rgba(252, 125, 66, 0.18) 368px,
+      rgba(248, 223, 210, 0) 405px
+    ),
+    radial-gradient(
+      ellipse 110% 62% at 18% 82%,
+      rgba(17, 17, 17, 0.92) 0%,
+      rgba(108, 40, 139, 0.9) 38%,
+      rgba(137, 63, 176, 0.45) 62%,
+      transparent 88%
+    ),
+    radial-gradient(
+      ellipse 95% 48% at 32% 50%,
+      rgba(252, 125, 66, 0.34) 0%,
+      rgba(248, 223, 210, 0.72) 48%,
+      transparent 82%
+    ),
+    radial-gradient(
+      ellipse 90% 48% at 16% 34%,
+      rgba(235, 227, 242, 0.88) 0%,
+      transparent 78%
+    );
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__aura {
+    background-image:
+      linear-gradient(
+        to top,
+        #111111 0px,
+        #111111 60px,
+        rgba(17, 17, 17, 0.88) 84px,
+        rgba(17, 17, 17, 0.28) 102px,
+        rgba(17, 17, 17, 0) 118px
+      ),
+      radial-gradient(
+        ellipse 66% 74% at 14% 92%,
+        rgba(17, 17, 17, 0.98) 0%,
+        rgba(17, 17, 17, 0.88) 28%,
+        rgba(108, 40, 139, 0.92) 52%,
+        rgba(137, 63, 176, 0.48) 72%,
+        transparent 92%
+      ),
+      radial-gradient(
+        ellipse 80% 42% at 54% 106%,
+        rgba(17, 17, 17, 0.94) 0%,
+        rgba(108, 40, 139, 0.58) 46%,
+        transparent 82%
+      ),
+      linear-gradient(
+        204deg,
+        rgba(242, 242, 242, 0) 44%,
+        rgba(235, 227, 242, 0.78) 54%,
+        rgba(248, 223, 210, 0.92) 64%,
+        rgba(252, 125, 66, 0.3) 72%,
+        rgba(137, 63, 176, 0.52) 82%,
+        rgba(108, 40, 139, 0.88) 91%,
+        #111111 98%
+      ),
+      radial-gradient(
+        ellipse 72% 48% at 18% 42%,
+        rgba(248, 223, 210, 0.9) 0%,
+        rgba(252, 125, 66, 0.32) 38%,
+        rgba(235, 227, 242, 0.65) 64%,
+        transparent 88%
+      ),
+      radial-gradient(
+        ellipse 58% 42% at 80% 74%,
+        rgba(248, 223, 210, 0.72) 0%,
+        rgba(242, 242, 242, 0.4) 55%,
+        transparent 84%
+      );
+  }
+}
+
+.vitrine-footer__bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+@media (min-width: 640px) {
+  .vitrine-footer__bottom-grid {
+    margin-top: 5.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__bottom-grid {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: end;
+    column-gap: clamp(2rem, 4vw, 5rem);
+    margin-top: 7.5rem;
+  }
+}
+
+.vitrine-footer__signature {
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .vitrine-footer__signature {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.vitrine-footer__legal {
+  border-top: 1px solid rgba(242, 242, 242, 0.24);
+  padding-top: 1rem;
+}
+
+.vitrine-footer__wordmark {
+  font-family: var(--font-serif);
+  font-size: clamp(2.35rem, 6vw, 5.75rem);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.vitrine-footer__copyright-mark {
+  width: clamp(1.3rem, 2.35vw, 2.25rem);
+  height: clamp(1.3rem, 2.35vw, 2.25rem);
+  color: rgba(255, 255, 255, 0.88);
+  flex-shrink: 0;
+}
+
 /* Transitions de page natives (View Transitions API) */
 @keyframes vtFadeIn {
   from {
