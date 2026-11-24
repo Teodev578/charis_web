@@ -4,11 +4,9 @@ import React from 'react';
 import VitrineHeader from '@/components/navigation/VitrineHeader';
 import HeroCurtainStage from '@/components/sections/vitrine/hero/HeroCurtainStage';
 import HeroSection from '@/components/sections/vitrine/hero/HeroSection';
-import VisionMissionSection from '@/components/sections/vitrine/vision-mission/VisionMissionSection';
-import PastoralTeamSection from '@/components/sections/vitrine/pastoral-team/PastoralTeamSection';
+import ChurchSection from '@/components/sections/vitrine/church/ChurchSection';
 import AudioExtractsSection from '@/components/sections/vitrine/audio-extracts/AudioExtractsSection';
-import EventsSection from '@/components/sections/vitrine/events/EventsSection';
-import LocationHoursSection from '@/components/sections/vitrine/location-hours/LocationHoursSection';
+import VisitSection from '@/components/sections/vitrine/visit/VisitSection';
 import DonationsSection from '@/components/sections/vitrine/donations/DonationsSection';
 import VitrineFooter from '@/components/layout/VitrineFooter';
 import StickyAudioPlayer from '@/components/player/StickyAudioPlayer';
@@ -24,24 +22,18 @@ export default function VitrinePage() {
 
       {/* 2. Main OnePage Content Sections */}
       <main className="flex flex-col">
-        {/* Section 1 (Hero sticky) -> Rideau des sections suivantes */}
+        {/* Section Hero sticky -> 4 piliers empilés (01 à 04) */}
         <HeroCurtainStage hero={<HeroSection />}>
-          {/* Section 2: Vision & Mission */}
-          <VisionMissionSection />
+          {/* 01 : L’Église (Vision & Valeurs / Équipe Pastorale) */}
+          <ChurchSection />
 
-          {/* Section 3: Pastoral Team */}
-          <PastoralTeamSection />
-
-          {/* Section 4: Audio Extracts & Mini-Player */}
+          {/* 02 : Enseignements & Extraits Audio */}
           <AudioExtractsSection />
 
-          {/* Section 5: Upcoming Cultes & Events */}
-          <EventsSection />
+          {/* 03 : Nous Rejoindre (Cultes & Horaires / Plan & Accès) */}
+          <VisitSection />
 
-          {/* Section 6: Location & Operating Hours */}
-          <LocationHoursSection />
-
-          {/* Section 7: Donations & Support */}
+          {/* 04 : Soutenir la Mission */}
           <DonationsSection />
         </HeroCurtainStage>
       </main>

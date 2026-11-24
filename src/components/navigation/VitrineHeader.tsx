@@ -19,12 +19,10 @@ export default function VitrineHeader() {
   }, []);
 
   const navLinks = [
-    { href: '#vision', label: 'Vision & Valeurs' },
-    { href: '#equipe', label: 'Équipe Pastorale' },
+    { href: '#eglise', label: 'L’Église' },
     { href: '#enseignements', label: 'Enseignements' },
-    { href: '#cultes', label: 'Cultes & Horaires' },
-    { href: '#localisation', label: 'Accès' },
-    { href: '#dons', label: 'Dons' },
+    { href: '#rejoindre', label: 'Nous Rejoindre' },
+    { href: '#dons', label: 'Soutenir' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

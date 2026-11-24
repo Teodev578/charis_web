@@ -5,7 +5,7 @@ import React, { Children, useEffect, useRef, type ReactNode } from 'react';
 export interface HeroCurtainStageProps {
   /** Contenu du Hero figé en premier plan de la pile (ex: <HeroSection />). */
   hero: ReactNode;
-  /** Sections suivantes qui s'empilent successivement par-dessus au défilement. */
+  /** Piliers suivants qui s'empilent successivement par-dessus au défilement. */
   children: ReactNode;
 }
 
@@ -14,49 +14,32 @@ export interface VitrineSectionHeaderProps {
   index: string;
   /** Titre principal de la section affiché en capitales condensées. */
   title: string;
-  /** Sous-étiquette éditoriale affichée entre crochets sous le bandeau. */
-  tag: string;
-  /** Courte accroche placée dans la colonne droite du bandeau. */
-  description: string;
   /** Identifiant HTML de la section cible pour le défilement au clic. */
   sectionId: string;
-  /** Palette de surface alignée sur la section parente. */
-  theme?: 'paper' | 'white' | 'ink';
+  /** Palette de surface claire alternée de la lame. */
+  theme?: 'paper' | 'white';
 }
 
 const HEADER_THEMES = {
   paper: {
     surface: 'bg-[#f2f2f2]',
+    border: 'border-t border-[#111111]/20',
     text: 'text-[#111111]',
-    description: 'text-[#111111]/75',
-    border: 'border-t border-[#111111]/25',
-    tag: 'text-[#6C288B]',
   },
   white: {
     surface: 'bg-white',
+    border: 'border-t border-[#111111]/20',
     text: 'text-[#111111]',
-    description: 'text-[#111111]/75',
-    border: 'border-t border-[#111111]/25',
-    tag: 'text-[#6C288B]',
-  },
-  ink: {
-    surface: 'bg-[#111111]',
-    text: 'text-[#f2f2f2]',
-    description: 'text-[#f2f2f2]/75',
-    border: 'border-t border-white/25',
-    tag: 'text-[#fc7d42]',
   },
 } as const;
 
 /**
- * Bandeau éditorial numéroté (01–06) collant en tête de section Vitrine.
+ * Bandeau éditorial numéroté (01–04) en tête de chaque pilier de la Vitrine.
  * Reste visible en lame empilée sous VitrineHeader et ramène à la section au clic.
  */
 export function VitrineSectionHeader({
   index,
   title,
-  tag,
-  description,
   sectionId,
   theme = 'paper',
 }: VitrineSectionHeaderProps) {
@@ -74,39 +57,26 @@ export function VitrineSectionHeader({
   };
 
   return (
-    <>
-      <div
-        data-stack-header="true"
-        role="button"
-        tabIndex={0}
-        onClick={scrollToSection}
-        onKeyDown={handleKeyDown}
-        aria-label={`Aller à la section ${index} ${title}`}
-        className={`vitrine-stack-header ${palette.surface} ${palette.border} ${palette.text}`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-3.5 lg:pt-4 pb-4 sm:pb-6">
-          <div className="grid grid-cols-12 items-start gap-x-4 sm:gap-x-6 gap-y-2">
-            <div className="col-span-2 font-jakarta font-extrabold text-[2.1rem] sm:text-[3rem] lg:text-[4.1rem] leading-[0.86] tracking-[-0.04em] tabular-nums select-none">
-              {index}
-            </div>
-            <h2 className="col-span-10 sm:col-span-6 font-jakarta font-extrabold uppercase text-[2.1rem] sm:text-[3rem] lg:text-[4.1rem] leading-[0.86] tracking-[-0.04em] m-0">
-              {title}
-            </h2>
-            <p className={`col-span-12 sm:col-span-4 text-xs sm:text-[13px] leading-[1.35] sm:pt-0.5 m-0 ${palette.description}`}>
-              {description}
-            </p>
+    <div
+      data-stack-header="true"
+      role="button"
+      tabIndex={0}
+      onClick={scrollToSection}
+      onKeyDown={handleKeyDown}
+      aria-label={`Aller à la section ${index} ${title}`}
+      className={`vitrine-stack-header ${palette.surface} ${palette.border} ${palette.text}`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-3.5 pb-3 sm:pb-4">
+        <div className="grid grid-cols-12 items-baseline gap-x-4 sm:gap-x-6">
+          <div className="col-span-2 font-jakarta font-extrabold text-[1.85rem] sm:text-[2.5rem] lg:text-[3.1rem] leading-[0.9] tracking-[-0.035em] tabular-nums select-none">
+            {index}
           </div>
+          <h2 className="col-span-10 font-jakarta font-extrabold uppercase text-[1.85rem] sm:text-[2.5rem] lg:text-[3.1rem] leading-[0.9] tracking-[-0.035em] m-0 whitespace-nowrap truncate">
+            {title}
+          </h2>
         </div>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 mb-8 sm:mb-10 w-full relative z-10">
-        <div className="grid grid-cols-12 gap-x-4 sm:gap-x-6">
-          <div className={`col-span-12 sm:col-start-3 sm:col-span-10 font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] ${palette.tag}`}>
-            [ {tag} ]
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
 
@@ -119,14 +89,15 @@ function clamp01(value: number): number {
 /**
  * HeroCurtainStage — Scène d'orchestration « Stacking Website Sections » de la Vitrine.
  *
- * Recouvre intégralement le Hero en sortie, puis empile les sections éditoriales 01–06
- * en lames numérotées sous le VitrineHeader fixe via `--panel-pin-top` et ResizeObserver,
- * tout en préservant la navigation par ancres (#id) grâce aux sentinelles hors sticky.
+ * Recouvre intégralement le Hero en sortie, puis verrouille chaque pilier (01–04) exactement
+ * à son `pinTop` sous `VitrineHeader` grâce à `.vitrine-stack-viewport` et `.hero-stack-runway`,
+ * éliminant tout chevauchement même sur petits écrans tout en préservant les ancres (#id).
  */
 export default function HeroCurtainStage({ hero, children }: HeroCurtainStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const sentinelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const runwayRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const panels = [hero, ...Children.toArray(children)];
   const panelCount = panels.length;
@@ -142,6 +113,8 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
 
     let rafId: number | null = null;
     const pinTops = new Array<number>(panelCount).fill(0);
+    const overflows = new Array<number>(panelCount).fill(0);
+    const lastBodyShift = new Array<number>(panelCount).fill(0);
     const lastProgress = new Array<number>(panelCount).fill(-1);
     const lastCovered = new Array<boolean | null>(panelCount).fill(null);
 
@@ -186,15 +159,34 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
       const vh = Math.max(window.innerHeight, 1);
       const reduced = Boolean(motionQuery?.matches);
       const headerEl = document.querySelector<HTMLElement>('header');
-      const headerOffset = headerEl ? headerEl.offsetHeight : 65;
-      const rawStep = window.innerWidth < 640 ? 34 : window.innerWidth < 1024 ? 45 : 56;
-      const maxStackBudget = Math.floor((vh * 0.38) / Math.max(panelCount - 2, 1));
+      const headerOffset = headerEl?.offsetHeight || 64;
+      const rawStep = window.innerWidth < 640 ? 34 : window.innerWidth < 1024 ? 42 : 46;
+      const maxStackBudget = Math.floor((vh * 0.30) / Math.max(panelCount - 2, 1));
       const stripStep = Math.max(28, Math.min(rawStep, maxStackBudget));
 
       for (let i = 0; i < panelCount; i++) {
         const panel = panelRefs.current[i];
         const sentinel = sentinelRefs.current[i];
-        const pinTop = i === 0 ? 0 : headerOffset + (i - 1) * stripStep;
+        const runway = runwayRefs.current[i];
+
+        if (i === 0) {
+          pinTops[0] = 0;
+          overflows[0] = 0;
+          if (sentinel) sentinel.style.scrollMarginTop = '0px';
+          if (panel) {
+            panel.style.setProperty('--panel-pin-top', '0px');
+            panel.style.height = '';
+            if (reduced) {
+              panel.style.top = '0px';
+            } else {
+              const stickyTop = panel.offsetHeight > vh ? vh - panel.offsetHeight : 0;
+              panel.style.top = `${stickyTop}px`;
+            }
+          }
+          continue;
+        }
+
+        const pinTop = headerOffset + (i - 1) * stripStep;
         pinTops[i] = reduced ? 0 : pinTop;
 
         if (sentinel) {
@@ -203,15 +195,29 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
         if (!panel) continue;
 
         panel.style.setProperty('--panel-pin-top', `${pinTops[i]}px`);
+        const bodyEl = panel.querySelector<HTMLElement>('.vitrine-stack-body');
 
         if (reduced) {
           panel.style.top = '0px';
+          panel.style.height = '';
+          overflows[i] = 0;
+          lastBodyShift[i] = 0;
+          if (runway) runway.style.height = '0px';
+          if (bodyEl) bodyEl.style.transform = '';
           continue;
         }
 
-        const availableHeight = Math.max(vh - pinTop, 1);
-        const stickyTop = panel.offsetHeight > availableHeight ? vh - panel.offsetHeight : pinTop;
-        panel.style.top = `${stickyTop}px`;
+        const availableHeight = Math.max(vh - pinTop, 240);
+        panel.style.top = `${pinTop}px`;
+        panel.style.height = `${availableHeight}px`;
+
+        const headerBand = panel.querySelector<HTMLElement>('.vitrine-stack-header');
+        const viewportHeight = Math.max(availableHeight - (headerBand?.offsetHeight ?? 0), 1);
+        const overflow = bodyEl ? Math.max(0, Math.ceil(bodyEl.scrollHeight - viewportHeight)) : 0;
+        overflows[i] = overflow;
+        if (runway) {
+          runway.style.height = `${overflow}px`;
+        }
       }
     };
 
@@ -243,6 +249,26 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
       }
 
       const vh = Math.max(window.innerHeight, 1);
+
+      for (let i = 1; i < panelCount; i++) {
+        const panel = panelRefs.current[i];
+        const sentinel = sentinelRefs.current[i];
+        if (!panel || !sentinel) continue;
+        const bodyEl = panel.querySelector<HTMLElement>('.vitrine-stack-body');
+        if (!bodyEl) continue;
+
+        if (overflows[i] > 0) {
+          const sentinelTop = sentinel.getBoundingClientRect().top;
+          const shift = Math.min(overflows[i], Math.max(0, pinTops[i] - sentinelTop));
+          if (Math.abs(shift - lastBodyShift[i]) > 0.25) {
+            lastBodyShift[i] = shift;
+            bodyEl.style.transform = `translate3d(0, ${-shift.toFixed(2)}px, 0)`;
+          }
+        } else if (lastBodyShift[i] !== 0) {
+          lastBodyShift[i] = 0;
+          bodyEl.style.transform = '';
+        }
+      }
 
       for (let i = 0; i < panelCount - 1; i++) {
         const panel = panelRefs.current[i];
@@ -331,7 +357,10 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
       });
       for (let i = 0; i < panelCount; i++) {
         const panel = panelRefs.current[i];
-        if (panel) resizeObserver.observe(panel);
+        if (!panel) continue;
+        resizeObserver.observe(panel);
+        const bodyEl = panel.querySelector<HTMLElement>('.vitrine-stack-body');
+        if (bodyEl) resizeObserver.observe(bodyEl);
       }
     }
 
@@ -353,6 +382,7 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
       } else {
         lastProgress.fill(-1);
         lastCovered.fill(null);
+        lastBodyShift.fill(0);
         syncStickyOffsets();
         schedule();
       }
@@ -401,6 +431,15 @@ export default function HeroCurtainStage({ hero, children }: HeroCurtainStagePro
               <div className="hero-curtain-scrim hero-stack-scrim" aria-hidden="true" />
             )}
           </div>
+          {index > 0 && (
+            <div
+              ref={(el) => {
+                runwayRefs.current[index] = el;
+              }}
+              className="hero-stack-runway"
+              aria-hidden="true"
+            />
+          )}
         </React.Fragment>
       ))}
     </div>

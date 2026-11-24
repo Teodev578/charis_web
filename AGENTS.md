@@ -119,7 +119,7 @@ src/
 │   ├── player/                 # Lecteurs et partage (AudioPlayer.tsx, StickyAudioPlayer.tsx, ShareMenu.tsx)
 │   ├── sections/               # Sections de pages découplées par sous-domaine
 │   │   ├── ecouter/            # Sections de l'espace d'écoute (announcements/, track-card/)
-│   │   └── vitrine/            # Sections éditoriales de la vitrine (hero/, vision-mission/, pastoral-team/, audio-extracts/, events/, location-hours/, donations/)
+│   │   └── vitrine/            # Piliers éditoriaux de la vitrine (hero/, church/, audio-extracts/, visit/, donations/)
 │   └── ui/                     # Primitives UI génériques (SkeletonLoader.tsx)
 ├── contexts/                   # Contextes React globaux
 │   ├── ThemeContext.tsx        # Thème light/dark, localStorage, classe .dark sur <html>

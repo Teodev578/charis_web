@@ -96,38 +96,29 @@ export default function VitrineFooter() {
             <ul className="space-y-3 text-sm list-none p-0 m-0">
               <li>
                 <a
-                  href="#vision"
-                  onClick={(e) => handleScrollTo(e, '#vision')}
+                  href="#eglise"
+                  onClick={(e) => handleScrollTo(e, '#eglise')}
                   className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
-                  Vision & Valeurs
+                  L’Église &amp; Vision
                 </a>
               </li>
               <li>
                 <a
-                  href="#equipe"
-                  onClick={(e) => handleScrollTo(e, '#equipe')}
+                  href="#enseignements"
+                  onClick={(e) => handleScrollTo(e, '#enseignements')}
                   className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
-                  Équipe Pastorale
+                  Enseignements
                 </a>
               </li>
               <li>
                 <a
-                  href="#cultes"
-                  onClick={(e) => handleScrollTo(e, '#cultes')}
+                  href="#rejoindre"
+                  onClick={(e) => handleScrollTo(e, '#rejoindre')}
                   className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
-                  Cultes & Rendez-vous
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#localisation"
-                  onClick={(e) => handleScrollTo(e, '#localisation')}
-                  className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
-                >
-                  Plan d’accès & Contact
+                  Nous Rejoindre
                 </a>
               </li>
               <li>
@@ -136,7 +127,7 @@ export default function VitrineFooter() {
                   onClick={(e) => handleScrollTo(e, '#dons')}
                   className="text-[#f2f2f2]/70 hover:text-[#fc7d42] transition-colors no-underline"
                 >
-                  Faire un don
+                  Soutenir
                 </a>
               </li>
             </ul>

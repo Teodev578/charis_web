@@ -205,3 +205,20 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 4** : Mise à jour des règles `.hero-curtain-*`, `.hero-stack-card`, `.vitrine-stack-header`, `.vitrine-stack-body` et `prefers-reduced-motion` dans `src/app/globals.css`.
 - [x] **Étape 5** : Intégration de `VitrineSectionHeader` et `.vitrine-stack-body` dans les 6 sections éditoriales (`VisionMissionSection`, `PastoralTeamSection`, `AudioExtractsSection`, `EventsSection`, `LocationHoursSection`, `DonationsSection`).
 - [x] **Étape 6** : Mise à jour de `GATES.md`, exécution de `npx tsc --noEmit`, `npm run lint`, oracle de gate, et clôture dans `plan.md` et `WRITING_IMPROVEMENT.md`.
+
+---
+
+## 📌 Tâche Active : Consolidation de la Vitrine en 4 Piliers Clairs & Empilement Strict (`VITRINE-CONSOLIDATION-03`)
+
+- **Identifiant** : `VITRINE-CONSOLIDATION-03`
+- **Statut** : Validé (contrôles TypeScript, ESLint et gates statiques au vert ; `npm run build` différé pour préserver `.next/dev/lock`)
+- **Contrainte absolue** : Consolider en 4 piliers (`01` à `04`) en tons clairs sans description face aux titres, verrouiller `top: pinTop` via `.vitrine-stack-viewport` + `.hero-stack-runway`, purger les 4 dossiers obsolètes sans casser `AGENTS.md` / `GATES.md`, et préserver `.next/dev/lock`.
+- **Référence Gates** : Gate « Empilement Sticky Multi-Sections de la Vitrine » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Refonte de `VitrineSectionHeader` (titres seuls sans description) et du moteur `.vitrine-stack-viewport` / `.hero-stack-runway` dans `src/components/sections/vitrine/hero/HeroCurtainStage.tsx`.
+- [x] **Étape 3** : Mise à jour des règles `.hero-stack-card`, `.vitrine-stack-header`, `.vitrine-stack-viewport`, `.vitrine-stack-body`, `.hero-stack-runway` et `prefers-reduced-motion` dans `src/app/globals.css`.
+- [x] **Étape 4** : Création de `ChurchSection.tsx` et `VisitSection.tsx`, refonte claire de `AudioExtractsSection.tsx` et `DonationsSection.tsx`, puis purge des 4 dossiers obsolètes (`vision-mission`, `pastoral-team`, `events`, `location-hours`).
+- [x] **Étape 5** : Mise à jour de `src/app/page.tsx`, `src/components/navigation/VitrineHeader.tsx` et `src/components/layout/VitrineFooter.tsx`.
+- [x] **Étape 6** : Synchronisation de `AGENTS.md` et `GATES.md`, vérification (`tsc --noEmit`, `npm run lint`, gates statiques) et clôture.
