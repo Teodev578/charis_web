@@ -44,6 +44,9 @@ Ce fichier consigne la mémoire persistante des pages vitrine, catalogue d'écou
 10. **Frise d'images interactive & Full-Bleed (Hover Push) :**
     - Pour créer un ruban interactif qui dépasse les marges de l'écran, utiliser `transform: translateX(...)` calculé dynamiquement (`getRibbonTranslateX()`) avec une courbe `cubic-bezier(0.16, 1, 0.3, 1)`.
     - La carte survolée s'élargit et s'allonge vers le bas avec une ombre profonde (`shadow-2xl`), tout en repoussant les cartes adjacentes.
+11. **Empilement hybride vertical/horizontal sans démontage React (`HeroCurtainStage`) :**
+    - Envelopper les piliers (`01`–`04`) dans `.vitrine-deck-track > .vitrine-deck-stage` avec `display: contents` sous `768px` (conservant l'empilement vertical mobile) et `position: sticky` + tranches verticales gauches (`--vitrine-spine-w`) dès `768px`.
+    - Ne jamais lire `deckTrack.getBoundingClientRect()` hors du mode `'horizontal'` car un élément en `display: contents` retourne un rectangle nul, et nettoyer systématiquement tous les styles inline lors d'un changement de mode (`reduced` / `vertical` / `horizontal`).
 
 ---
 

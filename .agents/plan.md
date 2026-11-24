@@ -222,3 +222,19 @@ Ce document consigne l'ordonnancement linéaire des tâches complexes ou fastidi
 - [x] **Étape 4** : Création de `ChurchSection.tsx` et `VisitSection.tsx`, refonte claire de `AudioExtractsSection.tsx` et `DonationsSection.tsx`, puis purge des 4 dossiers obsolètes (`vision-mission`, `pastoral-team`, `events`, `location-hours`).
 - [x] **Étape 5** : Mise à jour de `src/app/page.tsx`, `src/components/navigation/VitrineHeader.tsx` et `src/components/layout/VitrineFooter.tsx`.
 - [x] **Étape 6** : Synchronisation de `AGENTS.md` et `GATES.md`, vérification (`tsc --noEmit`, `npm run lint`, gates statiques) et clôture.
+
+---
+
+## 📌 Tâche Active : Empilement Horizontal en Lames après la Section 01 (`VITRINE-HSTACK-04`)
+
+- **Identifiant** : `VITRINE-HSTACK-04`
+- **Statut** : En cours
+- **Contrainte absolue** : Ne jamais modifier `package.json`, `HeroSection.tsx`, `HeroGrainSurface.tsx`, `src/hooks/*`, `src/lib/supabase/database.types.ts` ; ne jamais écrire `@tailwind` dans `src/app/globals.css` ; préserver toutes les gates existantes et l'empilement vertical mobile (`< 768px`).
+- **Référence Gates** : Gate « Empilement Horizontal en Lames après la Section 01 (`VITRINE-HSTACK-04`) » dans `GATES.md`.
+
+### Étapes Séquentielles :
+- [x] **Étape 1** : Gouvernance préalable dans `.agents/WRITING_IMPROVEMENT.md` et `.agents/plan.md`.
+- [x] **Étape 2** : Architecture CSS dual-mode (tokens `--vitrine-spine-w`, `.vitrine-deck-track`, `.vitrine-deck-stage`, `.vitrine-stack-header__*`, `.hero-stack-body-scrim`, `prefers-reduced-motion`) dans `src/app/globals.css`.
+- [x] **Étape 3** : Refonte hybride du module profond `src/components/sections/vitrine/hero/HeroCurtainStage.tsx` (machine à états `'reduced' | 'vertical' | 'horizontal'`, `VitrineSectionHeader` unique, navigation par ancres et contrôle `npx tsc --noEmit`).
+- [x] **Étape 4** : Ajustements responsives des grilles internes dans `AudioExtractsSection.tsx`, `VisitSection.tsx` et `DonationsSection.tsx`.
+- [x] **Étape 5** : Mise à jour de `GATES.md`, exécution des oracles (`npx tsc --noEmit`, `npm run lint`, `npm run build`, `node scripts/verify-gates.mjs`) et clôture documentaire (`WRITING_IMPROVEMENT.md`, `plan.md`, `GATES.md`, `.agents/memory/frontend_public.md`). Note : l'inspection visuelle `browser` via `chrome-devtools-mcp` a été bloquée par l'absence de `DevToolsActivePort` sur l'hôte.

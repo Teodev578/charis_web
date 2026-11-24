@@ -176,6 +176,11 @@ CHECK: grep -q "hero-stack-panel" src/components/sections/vitrine/hero/HeroCurta
 EXPECT: VITRINE_STACK_ACTIF
 EVIDENCE: HeroCurtainStage recouvre intégralement le Hero, puis verrouille les 4 piliers clairs 01–04 exactement à leur pinTop via VitrineSectionHeader, .vitrine-stack-viewport et .hero-stack-runway sans chevauchement ni description en face des titres.
 
+### Gate : Empilement Horizontal en Lames après la Section 01 (VITRINE-HSTACK-04)
+CHECK: grep -q "vitrine-deck-track" src/components/sections/vitrine/hero/HeroCurtainStage.tsx && grep -q "vitrine-deck-stage" src/app/globals.css && grep -q -- "--vitrine-spine-w" src/app/globals.css && grep -q "writing-mode: vertical-rl" src/app/globals.css && echo "VITRINE_HSTACK_ACTIF"
+EXPECT: VITRINE_HSTACK_ACTIF
+EVIDENCE: Section 01 recouvre le Hero verticalement puis les sections 02–04 s'empilent horizontalement en lames numérotées sur >= 768px (avec maintien vertical sur < 768px et repli prefers-reduced-motion).
+
 ---
 
 ## 📜 8. Journal d'Exécution des Oracles
@@ -214,3 +219,7 @@ EVIDENCE: HeroCurtainStage recouvre intégralement le Hero, puis verrouille les 
 | 2026-11-23 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après consolidation `VITRINE-CONSOLIDATION-03` (4 piliers) |
 | 2026-11-23 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 (zéro avertissement) après consolidation `VITRINE-CONSOLIDATION-03` |
 | 2026-11-23 | `CHECK VITRINE-STACK-01 & gates statiques` | `assistant` | **SUCCÈS** | `VITRINE_STACK_ACTIF` (`.vitrine-stack-viewport` + `.hero-stack-runway`), orthogonalité `src/components/sections/` et zéro divergence palette validés ; `npm run build` non lancé pour préserver `.next/dev/lock` |
+| 2026-11-24 | `npx tsc --noEmit` | `assistant` | **SUCCÈS** | Zéro erreur TypeScript après implémentation `VITRINE-HSTACK-04` |
+| 2026-11-24 | `npm run lint` | `assistant` | **SUCCÈS** | ESLint validé à code 0 après `VITRINE-HSTACK-04` |
+| 2026-11-24 | `npm run build` | `assistant` | **SUCCÈS** | `Compiled successfully in 13.4s`, 12/12 routes générées (`BypassSandbox` requis pour Google Fonts) |
+| 2026-11-24 | `node scripts/verify-gates.mjs` | `assistant` | **SUCCÈS** | 27/27 gates validées après implémentation `VITRINE-HSTACK-04` |

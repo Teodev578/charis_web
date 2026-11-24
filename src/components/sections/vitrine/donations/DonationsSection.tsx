@@ -46,7 +46,7 @@ export default function DonationsSection() {
             </div>
 
             {/* Donation Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6 mb-8">
               {VITRINE_CONFIG.donations.methods.map((method: DonationMethod) => {
                 const isCopied = copiedId === method.id;
                 const isBank = method.category === 'bank_transfer';
